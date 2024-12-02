@@ -29,7 +29,6 @@ return require("packer").startup(function(use)
 	use 'neovim/nvim-lspconfig'
 
 	-- theme
-	use { "catppuccin/nvim", as = "catppuccin" }
 	use {
 		'rebelot/kanagawa.nvim', }
 	use { 'morhetz/gruvbox', config = function()

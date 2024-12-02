@@ -1,8 +1,9 @@
 local M = {}
 
 function M.setup()
-	local icon = require("icons")
+	local icon = require("packages.icons")
 	local lualine = require("lualine")
+
 
 	local mode = "mode"
 	local filetype = { "filetype", icon_only = true }
@@ -43,9 +44,14 @@ function M.setup()
 		always_visible = false,
 	}
 
+	local breadcrumb = function()
+		return vim.fn.expand("%:p:h")
+	end
+
+
 	lualine.setup({
 		options = {
-			theme = "auto",
+			theme = "gruvbox",
 			globalstatus = true,
 			section_separators = "",
 			component_separators = "",
@@ -54,7 +60,7 @@ function M.setup()
 		sections = {
 			lualine_a = { mode },
 			lualine_b = {},
-			lualine_c = { "filename" },
+			lualine_c = { breadcrumb },
 			lualine_x = { diff, diagnostics, filetype },
 			lualine_y = { 'progress' },
 			lualine_z = { 'location' },
