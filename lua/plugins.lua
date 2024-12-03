@@ -67,15 +67,6 @@ return require("packer").startup(function(use)
 
 	--git
 	use {
-		'NeogitOrg/neogit',
-		requires = {
-			'nvim-lua/plenary.nvim',
-		},
-		config = function()
-			require('neogit').setup()
-		end
-	}
-	use {
 		'lewis6991/gitsigns.nvim',
 		requires = { 'nvim-lua/plenary.nvim' },
 		config = function()
@@ -106,4 +97,5 @@ return require("packer").startup(function(use)
 	use { "hrsh7th/cmp-path" }
 	use { "saadparwaiz1/cmp_luasnip" }
 	use { "L3MON4D3/LuaSnip" }
+	use { 'axkirillov/hbac.nvim' }
 end)
