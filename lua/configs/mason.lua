@@ -26,6 +26,17 @@ local handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
+-- Cấu hình hover handler với viền
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = border,
+	focusable = true, -- Cho phép focus cửa sổ hover
+})
+
+-- Signature Help handler (tương tự như hover)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+	border = border,
+	focusable = false,
+})
 local win = require('lspconfig.ui.windows')
 local _default_opts = win.default_opts
 
@@ -88,13 +99,8 @@ lspconfig.ts_ls.setup({
 		local map = vim.api.nvim_set_keymap
 
 		-- Keybindings for LSP actions
-		map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
-		-- Go to declaration of symbol under cursor.
-
-		map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
-		-- Go to the definition of the symbol under cursor.
-
-		map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+		-- map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { noremap = true, silent = true, buffer = bufnr })
 		-- Show hover information (documentation) for the symbol under cursor.
 
 		map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
