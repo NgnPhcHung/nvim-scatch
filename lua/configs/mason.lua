@@ -1,6 +1,6 @@
 require('mason').setup()
 require('mason-lspconfig').setup({
-	ensure_installed = { "ts_ls", "lua_ls", "html", "cssls", "eslint" },
+	ensure_installed = { "ts_ls", "lua_ls", "html", "cssls", "eslint", "clangd" },
 })
 
 local lspconfig = require('lspconfig')
@@ -26,13 +26,11 @@ local handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
--- Cấu hình hover handler với viền
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = border,
-	focusable = true, -- Cho phép focus cửa sổ hover
+	focusable = true,
 })
 
--- Signature Help handler (tương tự như hover)
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 	border = border,
 	focusable = false,
@@ -89,6 +87,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 			buffer_autoformat(event.buf)
 		end
 	end
+})
+
+lspconfig.clangd.setup({
+	on_attach = function(client, bufnr)
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, opts) -- Format nhanh với <leader>cf
+	end,
+	init_options = {
+		clangdFileStatus = true,
+	},
 })
 
 lspconfig.ts_ls.setup({

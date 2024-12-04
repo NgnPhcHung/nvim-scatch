@@ -75,9 +75,13 @@ vim.api.nvim_set_keymap('n', '<C-j>', '', {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "cpp",
-	callback = function()
-		vim.keymap.set("n", "<F5>", "<cmd>!g++ -std=c++21 % -o %< && ./%<<CR>", { desc = "Compile and run C++ file" })
-	end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = "cpp",
+-- 	callback = function()
+-- 		vim.keymap.set("n", "<F5>", function()
+-- 				vim.cmd("<C-\>")
+-- 				vim.cmd("<cmd>!g++ -std=c++17 % -o %< && ./%<<CR>")
+-- 			end,
+-- 			{ desc = "Compile and run C++ file" })
+-- 	end,
+-- })

@@ -100,5 +100,17 @@ return require("packer").startup(function(use)
 	use { "saadparwaiz1/cmp_luasnip" }
 	use { "L3MON4D3/LuaSnip" }
 
-	--lsp
+	--terminal
+	use {
+		'akinsho/toggleterm.nvim',
+		tag = '*',
+		config = function()
+			require('toggleterm').setup({
+				size = 25,
+				open_mapping = [[<C-\>]],
+				direction = 'horizontal', -- Các hướng: 'vertical', 'horizontal', 'float', 'tab'
+				start_in_insert = true,
+			})
+		end
+	}
 end)
