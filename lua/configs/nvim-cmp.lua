@@ -4,47 +4,46 @@ cmp.setup({
 
 	snippet = {
 		expand = function(args)
-			require('luasnip').lsp_expand(args.body) -- Tích hợp LuaSnip cho snippet
+			require('luasnip').lsp_expand(args.body)
 		end,
 	},
 
-	-- Sources for autocompletion
 	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' }, -- Gợi ý từ LSP
-		{ name = 'luasnip' }, -- Gợi ý từ snippet
+		{ name = 'nvim_lsp' },
+		{ name = 'luasnip' },
 	}, {
-		{ name = 'buffer' }, -- Gợi ý từ buffer hiện tại
-		{ name = 'path' },   -- Gợi ý từ đường dẫn
+		{ name = 'buffer' },
+		{ name = 'path' },
 	}),
 
-	-- Key bindings for navigation and confirmation
 	mapping = {
-		['<C-k>'] = cmp.mapping.select_prev_item(),      -- Move to previous completion item
-		['<C-j>'] = cmp.mapping.select_next_item(),      -- Move to next completion item
-		['<C-<up>>'] = cmp.mapping.scroll_docs(-4),      -- Scroll up documentation
-		['<C-<down>>'] = cmp.mapping.scroll_docs(4),     -- Scroll down documentation
-		['<C-e>'] = cmp.mapping.close(),                 -- Close completion
+		['<C-k>'] = cmp.mapping.select_prev_item(),
+		['<C-j>'] = cmp.mapping.select_next_item(),
+		['<C-<up>>'] = cmp.mapping.scroll_docs(-4),
+		['<C-<down>>'] = cmp.mapping.scroll_docs(4),
+		['<C-e>'] = cmp.mapping.close(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Confirm the selected completion
+		['<C-.>'] = cmp.mapping.complete(),
 	},
 
-	-- Display formatting
 	formatting = {
 		format = function(entry, vim_item)
-			vim_item.kind = string.format('%s', vim_item.kind) -- Show kind of completion item (e.g., function, variable)
+			vim_item.kind = string.format('%s', vim_item.kind)
 			return vim_item
 		end,
 	},
+
 	--hover
 	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-		-- completion = {
-		-- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, -- Set border to custom characters
-		-- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine', -- Highlight group for the popup
-		-- },
-		-- documentation = {
-		-- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, -- Set border for documentation popup
-		-- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
-		-- },
+		-- completion = cmp.config.window.bordered(),
+		-- documentation = cmp.config.window.bordered(),
+		completion = {
+			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
+		},
+		documentation = {
+			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
+		},
 	},
 })

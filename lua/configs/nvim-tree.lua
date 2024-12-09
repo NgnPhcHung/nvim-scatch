@@ -25,4 +25,9 @@ require('nvim-tree').setup {
 		enable = true,
 		update_root = true,
 	},
+	filters = {
+		dotfiles = false, -- Show dotfiles like .env, .gitignore,
+		-- hidden = true
+		--
+	},
 }

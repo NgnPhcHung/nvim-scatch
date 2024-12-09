@@ -3,7 +3,7 @@ local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.n
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 	vim.api.nvim_command("!git clone --depth 1 https://github.com/wbthomason/packer.nvim " .. install_path)
 	vim.cmd("packadd packer.nvim")
-	print("Packer đã được cài đặt. Vui lòng khởi động lại Neovim.")
+	print("Packer has been installed, please restart vim to apply!")
 end
 
 return require("packer").startup(function(use)
@@ -69,6 +69,9 @@ return require("packer").startup(function(use)
 
 	--git
 	use {
+		'tpope/vim-fugitive'
+	}
+	use {
 		'lewis6991/gitsigns.nvim',
 		requires = { 'nvim-lua/plenary.nvim' },
 		config = function()
@@ -87,12 +90,6 @@ return require("packer").startup(function(use)
 			require('configs/noice-nvim')
 		end,
 	}
-	use {
-		"folke/flash.nvim",
-		config = function()
-			require('configs/folke-flash')
-		end,
-	}
 	use { "hrsh7th/nvim-cmp" }
 	use { "hrsh7th/cmp-nvim-lsp" }
 	use { "hrsh7th/cmp-buffer" }
@@ -108,9 +105,15 @@ return require("packer").startup(function(use)
 			require('toggleterm').setup({
 				size = 25,
 				open_mapping = [[<C-\>]],
-				direction = 'horizontal', -- Các hướng: 'vertical', 'horizontal', 'float', 'tab'
+				direction = 'horizontal',
 				start_in_insert = true,
 			})
+		end
+	}
+
+	use {
+		"lewis6991/hover.nvim",
+		config = function()
 		end
 	}
 end)

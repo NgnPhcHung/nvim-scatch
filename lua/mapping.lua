@@ -49,39 +49,36 @@ map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
 map('n', '<A-k>w', ':BufferCloseAllButCurrent<CR>', opts)
 
 map('n', '<C-a>', 'gg<S-v>G', opts)
-map('n', 'te', 'tabedit', opts)
+map('n', 'te', ':tabedit', opts)
 
 --window
 map('n', 'sw', ':split<Return>', opts)
 map('n', 'sv', ':vsplit<Return>', opts)
+
 --swich window
 map('n', '<C-h>', '<C-w>h', opts)
 map('n', '<C-j>', '<C-w>j', opts)
 map('n', '<C-k>', '<C-w>k', opts)
 map('n', '<C-l>', '<C-w>l', opts)
+
 --resize window
 map('n', '<A-<right>>', '<C-w>>', opts)
 map('n', '<A-<left>>', '<C-w><', opts)
 map('n', '<A-<up>>', '<C-w>+', opts)
 map('n', '<A-<down>>', '<C-w>-', opts)
---code actions
-map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
---diagnostic
-vim.api.nvim_set_keymap('n', '<C-j>', '', {
-	noremap = true,
-	silent = true,
+
+--gitactions
+map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
+-- cpp compiler
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "cpp",
 	callback = function()
-		vim.diagnostic.goto_next()
+		vim.keymap.set("n", "<F5>", function()
+				vim.cmd([["<C-\>"]])
+				vim.cmd("<cmd>!g++ -std=c++17 % -o %< && ./%<<CR>")
+			end,
+			{ desc = "Compile and run C++ file" })
 	end,
 })
 
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = "cpp",
--- 	callback = function()
--- 		vim.keymap.set("n", "<F5>", function()
--- 				vim.cmd("<C-\>")
--- 				vim.cmd("<cmd>!g++ -std=c++17 % -o %< && ./%<<CR>")
--- 			end,
--- 			{ desc = "Compile and run C++ file" })
--- 	end,
--- })
+map('n', 'tgt', ':Telescope git_status<CR>', opts)
