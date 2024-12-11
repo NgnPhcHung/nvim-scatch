@@ -30,10 +30,15 @@ return require("packer").startup(function(use)
 
 	-- theme
 	use {
-		'rebelot/kanagawa.nvim', }
-	use { 'morhetz/gruvbox', config = function()
-		vim.cmd.colorscheme("gruvbox")
-	end }
+		'rebelot/kanagawa.nvim', config = function()
+		vim.cmd.colorscheme("kanagawa")
+	end
+	}
+	use {
+		'rebelot/kanagawa.nvim', config = function()
+		vim.cmd.colorscheme("kanagawa-dragon")
+	end
+	}
 	use { 'nvim-lualine/lualine.nvim',
 		requires = { 'nvim-tree/nvim-web-devicons', opt = true },
 		config = function()
@@ -101,19 +106,32 @@ return require("packer").startup(function(use)
 	use {
 		'akinsho/toggleterm.nvim',
 		tag = '*',
-		config = function()
-			require('toggleterm').setup({
-				size = 25,
-				open_mapping = [[<C-\>]],
-				direction = 'horizontal',
-				start_in_insert = true,
-			})
-		end
 	}
 
 	use {
 		"lewis6991/hover.nvim",
 		config = function()
 		end
+	}
+	use {
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = function()
+			require("nvim-autopairs").setup {}
+		end
+	}
+
+	use {
+		'TimUntersberger/neogit',
+		requires = {
+			'nvim-lua/plenary.nvim',
+			'sindrets/diffview.nvim',
+			'lewis6991/gitsigns.nvim'
+		},
+	}
+
+	use {
+		'sindrets/diffview.nvim',
+		requires = 'nvim-lua/plenary.nvim'
 	}
 end)

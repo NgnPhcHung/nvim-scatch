@@ -1,11 +1,10 @@
 return {
-	"ellisonleao/gruvbox.nvim",
+	"rebelot/kanagawa.nvim",
 	lazy = false,
 	priority = 1000,
-	opts = require("ui.theme-config").config,
 	config = function(_, opts)
-		require("gruvbox").setup(opts)
+		require("kanagawa").setup(opts)
 		vim.opt.background = "dark"
-		vim.cmd.colorscheme("gruvbox")
+		vim.cmd.colorscheme("kanagawa-dragon")
 	end,
 }

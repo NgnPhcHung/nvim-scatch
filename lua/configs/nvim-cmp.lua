@@ -22,8 +22,11 @@ cmp.setup({
 		['<C-<up>>'] = cmp.mapping.scroll_docs(-4),
 		['<C-<down>>'] = cmp.mapping.scroll_docs(4),
 		['<C-e>'] = cmp.mapping.close(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Confirm the selected completion
+		['<CR>'] = cmp.mapping.confirm({ select = true }),
 		['<C-.>'] = cmp.mapping.complete(),
+		['<C-,>'] = function()
+			vim.lsp.buf.code_action()
+		end,
 	},
 
 	formatting = {
@@ -35,15 +38,13 @@ cmp.setup({
 
 	--hover
 	window = {
-		-- completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
-		completion = {
-			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
-		},
-		documentation = {
-			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
-		},
+		-- completion = {
+		-- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+		-- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
+		-- },
+		-- documentation = {
+		-- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+		-- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
+		-- },
 	},
 })

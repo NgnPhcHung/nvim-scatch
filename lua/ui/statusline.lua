@@ -8,6 +8,12 @@ function M.setup()
 	local mode = "mode"
 	local filetype = { "filetype", icon_only = true }
 
+	local branch = {
+		"branch",
+		icons_enabled = true,
+		icon = require("packages.icons").git.Branch,
+	}
+
 	local diagnostics = {
 		"diagnostics",
 		sources = { "nvim_diagnostic" },
@@ -51,7 +57,7 @@ function M.setup()
 
 	lualine.setup({
 		options = {
-			theme = "gruvbox",
+			theme = "kanagawa",
 			globalstatus = true,
 			section_separators = "",
 			component_separators = "",
@@ -59,8 +65,8 @@ function M.setup()
 		},
 		sections = {
 			lualine_a = { mode },
-			lualine_b = {},
-			lualine_c = { breadcrumb },
+			lualine_b = { branch },
+			lualine_c = { breadcrumb, "filename" },
 			lualine_x = { diff, diagnostics, filetype },
 			lualine_y = { 'progress' },
 			lualine_z = { 'location' },

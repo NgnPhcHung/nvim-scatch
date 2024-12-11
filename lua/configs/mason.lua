@@ -46,7 +46,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 lspconfig.clangd.setup({
 	on_attach = function(client, bufnr)
 		local opts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
 	end,
 	init_options = {
 		clangdFileStatus = true,
@@ -57,6 +56,7 @@ lspconfig.ts_ls.setup({
 	on_attach = function(client, bufnr)
 		local opts = { noremap = true, silent = true }
 		local map = vim.api.nvim_set_keymap
+
 
 		map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
 		-- Show all references to the symbol under cursor in the project.

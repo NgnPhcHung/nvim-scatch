@@ -67,18 +67,34 @@ map('n', '<A-<left>>', '<C-w><', opts)
 map('n', '<A-<up>>', '<C-w>+', opts)
 map('n', '<A-<down>>', '<C-w>-', opts)
 
+vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })  -- Di chuyển sang trái
+vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true }) -- Di chuyển sang phải
+vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })    -- Di chuyển lên
+vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })  -- Di chuyển xuống
+
 --gitactions
 map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
+
 -- cpp compiler
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "cpp",
 	callback = function()
 		vim.keymap.set("n", "<F5>", function()
-				vim.cmd([["<C-\>"]])
-				vim.cmd("<cmd>!g++ -std=c++17 % -o %< && ./%<<CR>")
+				local filepath = vim.fn.expand("%")
+				local file_without_ext = vim.fn.expand("%:r")
+
+				require("toggleterm").exec(
+					"g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
+					1,
+					nil,
+					"horizontal"
+				)
 			end,
 			{ desc = "Compile and run C++ file" })
 	end,
 })
 
-map('n', 'tgt', ':Telescope git_status<CR>', opts)
+
+vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
+
+vim.keymap.set('n', '<leader>ng', ':Neogit<CR>', { noremap = true, silent = true, desc = "Open Neogit" })
