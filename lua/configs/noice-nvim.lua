@@ -1,11 +1,16 @@
 require("noice").setup({
+	notify = {
+		enabled = true,
+		view = "mini",
+		position = "middle,right",
+	},
 	cmdline = {
 		enabled = true,
 		format = {
 			default = {
 				position = {
-					row = 40, -- Hàng (tính bằng số, để giữa màn hình theo ý muốn)
-					col = "50%", -- Cột (giữa màn hình theo chiều ngang)
+					row = 40,
+					col = "50%",
 				},
 				size = {
 					width = "40%",
@@ -35,7 +40,7 @@ require("noice").setup({
 	presets = {
 		bottom_search = false,
 		command_palette = false,
-		long_message_to_split = true,
+		long_message_to_split = false,
 		inc_rename = true,
 		lsp_doc_border = true,
 	},

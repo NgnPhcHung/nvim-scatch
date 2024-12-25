@@ -1,6 +1,15 @@
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+vim.opt.relativenumber = true
+vim.opt.number = true
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+vim.opt.wrap = true
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -49,7 +58,7 @@ map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
 map('n', '<A-k>w', ':BufferCloseAllButCurrent<CR>', opts)
 
 map('n', '<C-a>', 'gg<S-v>G', opts)
-map('n', 'te', ':tabedit', opts)
+map('n', 'te<CR>', ':tabedit', opts)
 
 --window
 map('n', 'sw', ':split<Return>', opts)
@@ -67,34 +76,48 @@ map('n', '<A-<left>>', '<C-w><', opts)
 map('n', '<A-<up>>', '<C-w>+', opts)
 map('n', '<A-<down>>', '<C-w>-', opts)
 
-vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })  -- Di chuyển sang trái
-vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true }) -- Di chuyển sang phải
-vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })    -- Di chuyển lên
-vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })  -- Di chuyển xuống
+vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
+vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
+vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
+vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
+map('i', '<C-z>', '<C-o>u', opts)
+map('i', '<C-s>', '<C-o>:w<CR>', opts)
 
---gitactions
-map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
+-- Visual mode editing
+vim.keymap.set("v", "N", ":m '>+1<CR>gv=gv") -- Move selection up
+vim.keymap.set("v", "M", ":m '<-2<CR>gv=gv") -- Move selection down
+vim.keymap.set('v', "<C-n>", "y'>pgv")       -- Duplicate selection
+
+-- Delete word in insert mode
+vim.keymap.set('i', '<C-BS>', '<C-W>', { noremap = true, silent = true })
 
 -- cpp compiler
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "cpp",
-	callback = function()
-		vim.keymap.set("n", "<F5>", function()
-				local filepath = vim.fn.expand("%")
-				local file_without_ext = vim.fn.expand("%:r")
+  pattern = "cpp",
+  callback = function()
+    vim.keymap.set("n", "<F5>", function()
+        local filepath = vim.fn.expand("%")
+        local file_without_ext = vim.fn.expand("%:r")
 
-				require("toggleterm").exec(
-					"g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
-					1,
-					nil,
-					"horizontal"
-				)
-			end,
-			{ desc = "Compile and run C++ file" })
-	end,
+        require("toggleterm").exec(
+          "g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
+          1,
+          nil,
+          "horizontal"
+        )
+      end,
+      { desc = "Compile and run C++ file" })
+  end,
 })
 
 
 vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
 
+--gitactions
+map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
 vim.keymap.set('n', '<leader>ng', ':Neogit<CR>', { noremap = true, silent = true, desc = "Open Neogit" })
+
+
+map("n", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })
+map("o", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })
+map("x", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })
