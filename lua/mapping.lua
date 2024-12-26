@@ -20,9 +20,6 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.nu = true
 vim.opt.rnu = true
 
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-
 vim.opt.ai = true
 vim.opt.si = true
 
