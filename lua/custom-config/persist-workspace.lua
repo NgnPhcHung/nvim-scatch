@@ -54,6 +54,13 @@ local function setup_workspace()
     if vim.fn.isdirectory(session_dir) == 0 then
       vim.fn.mkdir(session_dir, "p")
     end
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      local bufname = vim.api.nvim_buf_get_name(buf)
+      if bufname:match("NvimTree_") then
+        vim.cmd("bdelete " .. buf)
+      end
+    end
     vim.cmd("mksession! " .. vim.g.session_file)
   end
 end

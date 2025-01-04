@@ -1,55 +1,25 @@
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-
-vim.opt.relativenumber = true
-vim.opt.number = true
-
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-
-vim.opt.wrap = true
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.scriptencoding = 'utf-8'
-vim.opt.encoding = 'utf-8'
-vim.opt.fileencoding = 'utf-8'
-
-vim.opt.nu = true
-vim.opt.rnu = true
-
-vim.opt.ai = true
-vim.opt.si = true
-
-vim.opt.wrap = true
-
-vim.opt.cursorline = true
-vim.opt.termguicolors = true
-
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
-vim.cmd("syntax on")
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 
 map('n', '<C-f>f', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
 map('n', '<C-f>w', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
 map('n', '<C-f>b', '<cmd>Telescope buffers<CR>', { noremap = true, silent = true })
 map('n', '<C-b>', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
 
+vim.keymap.set('n', '<C-s>', ':w<CR>', opts)       -- Lưu file trong Normal mode
+vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>a', opts) -- Lưu file trong Insert mode
+vim.keymap.set('i', 'jk', '<Esc>', opts)
+
+
 --tab/buffers actions
 map('n', '<A-,>', ':BufferPrevious<CR>', opts)
 map('n', '<A-.>', ':BufferNext<CR>', opts)
-map('n', '<A-1>', ':BufferGoto 1<CR>', opts)
-map('n', '<A-2>', ':BufferGoto 2<CR>', opts)
-map('n', '<A-3>', ':BufferGoto 3<CR>', opts)
-map('n', '<A-4>', ':BufferGoto 4<CR>', opts)
-map('n', '<A-5>', ':BufferGoto 5<CR>', opts)
-map('n', '<A-6>', ':BufferGoto 6<CR>', opts)
-map('n', '<A-7>', ':BufferGoto 7<CR>', opts)
-map('n', '<A-8>', ':BufferGoto 8<CR>', opts)
-map('n', '<A-9>', ':BufferGoto 9<CR>', opts)
+for i = 1, 9 do
+  map('n', '<A-' .. i .. '>', ':BufferGoto ' .. i .. '<CR>', opts)
+end
 map('n', '<A-0>', ':BufferLast<CR>', opts)
 map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
 map('n', '<A-k>w', ':BufferCloseAllButCurrent<CR>', opts)
@@ -58,8 +28,8 @@ map('n', '<C-a>', 'gg<S-v>G', opts)
 map('n', 'te<CR>', ':tabedit', opts)
 
 --window
-map('n', 'sw', ':split<Return>', opts)
-map('n', 'sv', ':vsplit<Return>', opts)
+map('n', '|', ':split<Return>', opts)
+map('n', '-', ':vsplit<Return>', opts)
 
 --swich window
 map('n', '<C-h>', '<C-w>h', opts)
@@ -68,15 +38,16 @@ map('n', '<C-k>', '<C-w>k', opts)
 map('n', '<C-l>', '<C-w>l', opts)
 
 --resize window
-map('n', '<A-<right>>', '<C-w>>', opts)
-map('n', '<A-<left>>', '<C-w><', opts)
-map('n', '<A-<up>>', '<C-w>+', opts)
-map('n', '<A-<down>>', '<C-w>-', opts)
+map('n', '<A-Right>', ':vertical resize +2<CR>', opts)
+map('n', '<A-Left>', ':vertical resize -2<CR>', opts)
+map('n', '<A-Up>', ':resize +2<CR>', opts)
+map('n', '<A-Down>', ':resize -2<CR>', opts)
 
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
 vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
 vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
+
 map('i', '<C-z>', '<C-o>u', opts)
 map('i', '<C-s>', '<C-o>:w<CR>', opts)
 
@@ -107,14 +78,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.keymap.set("n", "<leader>fm", function()
+  vim.lsp.buf.format({ async = true })
+end, opts)
 
-vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
 
 --gitactions
 map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
 vim.keymap.set('n', '<leader>ng', ':Neogit<CR>', { noremap = true, silent = true, desc = "Open Neogit" })
-
-
-map("n", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })
-map("o", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })
-map("x", "s", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true })

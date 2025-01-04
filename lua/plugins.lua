@@ -28,6 +28,7 @@ return require("packer").startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
 
+  -- theme
   use {
     'rebelot/kanagawa.nvim', config = function()
     vim.cmd.colorscheme("kanagawa-dragon")
@@ -89,9 +90,6 @@ return require("packer").startup(function(use)
       require('configs/noice-nvim')
     end,
   }
-
-  use { 'rcarriga/nvim-notify' }
-
   use { "hrsh7th/nvim-cmp" }
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" }
@@ -132,10 +130,28 @@ return require("packer").startup(function(use)
     requires = 'nvim-lua/plenary.nvim'
   }
 
-  use { 'folke/flash.nvim' }
+  use({
+    "nvimtools/none-ls.nvim",
+    config = function()
+      require("null-ls").setup()
+    end,
+    requires = { "nvim-lua/plenary.nvim",
+      "nvimtools/none-ls-extras.nvim" },
+  })
 
+  use { "folke/flash.nvim", config = function()
+    -- config = function()
+    local flash = require("flash")
+  end }
   use {
-    "jose-elias-alvarez/null-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim" }
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.animate').setup()
+    end
+  }
+  use {
+    'mg979/vim-visual-multi',
+    config = function()
+    end
   }
 end)
