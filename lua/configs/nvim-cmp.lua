@@ -38,13 +38,5 @@ cmp.setup({
 
   --hover
   window = {
-    -- completion = {
-    -- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-    -- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
-    -- },
-    -- documentation = {
-    -- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-    -- 	winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine',
-    -- },
   },
 })

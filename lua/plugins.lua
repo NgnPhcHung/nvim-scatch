@@ -149,9 +149,11 @@ return require("packer").startup(function(use)
       require('mini.animate').setup()
     end
   }
+
   use {
     'mg979/vim-visual-multi',
     config = function()
     end
   }
+  use { "lukas-reineke/indent-blankline.nvim" }
 end)

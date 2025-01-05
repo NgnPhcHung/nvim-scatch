@@ -25,11 +25,12 @@ map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
 map('n', '<A-k>w', ':BufferCloseAllButCurrent<CR>', opts)
 
 map('n', '<C-a>', 'gg<S-v>G', opts)
-map('n', 'te<CR>', ':tabedit', opts)
+map('n', 'te', ':tabedit<CR>', opts)
+map('n', 'tc', ':close<CR>', opts)
 
 --window
-map('n', '|', ':split<Return>', opts)
-map('n', '-', ':vsplit<Return>', opts)
+map('n', '|', ':vsplit<Return>', opts)
+map('n', '-', ':split<Return>', opts)
 
 --swich window
 map('n', '<C-h>', '<C-w>h', opts)
