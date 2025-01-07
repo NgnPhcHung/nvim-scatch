@@ -9,11 +9,12 @@ require('mini.animate').setup({
     duration = 100,
     easing = 'cubic_in_out',
   },
-  -- Thêm hiệu ứng cho cửa sổ chia
-  split = {
+  split  = {
     enable = true,
     duration = 150,
     easing = 'ease_in_out',
   },
+  open   = {
+    enable = true
+  }
 })
-

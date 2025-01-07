@@ -51,36 +51,3 @@ lspconfig.clangd.setup({
     clangdFileStatus = true,
   },
 })
-
-lspconfig.ts_ls.setup({
-  on_attach = function(client, bufnr)
-    local opts = { noremap = true, silent = true }
-    local map = vim.api.nvim_set_keymap
-
-
-    map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
-    -- Show all references to the symbol under cursor in the project.
-
-    map('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
-    -- Show signature help (function/method signature) for the symbol under cursor.
-
-    map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
-    -- Go to the implementation of the symbol under cursor.
-
-    map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', { noremap = true, silent = true })
-    -- Go to the type definition of the symbol under cursor.
-
-    map('n', '<leader>gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { noremap = true, silent = true })
-    -- Show the document symbols (functions, classes, variables) in the current file.
-
-    map('n', '<leader>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', { noremap = true, silent = true })
-    -- Show the workspace symbols (search symbols across the entire project).
-
-    map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
-    -- Show available code actions (fixes, refactors) for the symbol under cursor.
-
-    map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
-    -- Rename the symbol under the cursor throughout the project.
-    map('n', '<leader>bf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', { noremap = true, silent = true })
-  end
-})

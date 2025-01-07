@@ -1,6 +1,6 @@
 require("hbac").setup({
   autoclose                  = true,
-  threshold                  = 10,
+  threshold                  = 8,
   close_command              = function(bufnr)
     vim.api.nvim_buf_delete(bufnr, {})
   end,

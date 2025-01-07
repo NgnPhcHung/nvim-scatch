@@ -106,6 +106,7 @@ return require("packer").startup(function(use)
   use {
     "lewis6991/hover.nvim",
     config = function()
+      require("configs.hover")
     end
   }
   use {
@@ -156,4 +157,9 @@ return require("packer").startup(function(use)
     end
   }
   use { "lukas-reineke/indent-blankline.nvim" }
+
+  use {
+    'numToStr/Comment.nvim',
+  }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
 end)
