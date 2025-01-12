@@ -21,8 +21,9 @@ for i = 1, 9 do
   map('n', '<A-' .. i .. '>', ':BufferGoto ' .. i .. '<CR>', opts)
 end
 map('n', '<A-0>', ':BufferLast<CR>', opts)
+
 map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
-map('n', '<A-k>w', ':BufferCloseAllButCurrent<CR>', opts)
+map('n', '<A-k>w', ':BufferCloseAllButPinned<CR>', opts)
 
 map('n', '<C-a>', 'gg<S-v>G', opts)
 map('n', 'te', ':tabedit<CR>', opts)

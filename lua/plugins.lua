@@ -11,11 +11,13 @@ return require("packer").startup(function(use)
     'williamboman/mason.nvim',
     config = function()
       require('mason').setup()
-    end
+    end,
+
   }
 
   use {
     'nvim-treesitter/nvim-treesitter',
+    requires = { "windwp/nvim-ts-autotag" },
     run = function()
       local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
       ts_update()
@@ -27,6 +29,13 @@ return require("packer").startup(function(use)
   use("wbthomason/packer.nvim")
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
+  use({
+    'nvimdev/lspsaga.nvim',
+    after = 'nvim-lspconfig',
+    config = function()
+      require('lspsaga').setup({})
+    end,
+  })
 
   -- theme
   use {
@@ -90,12 +99,21 @@ return require("packer").startup(function(use)
       require('configs/noice-nvim')
     end,
   }
-  use { "hrsh7th/nvim-cmp" }
+
+  use { 'onsails/lspkind.nvim' }
+  use { "hrsh7th/nvim-cmp",
+    config = function()
+      require('configs.nvim-cmp')
+      require("luasnip.loaders.from_vscode").lazy_load()
+    end }
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
-  use { "saadparwaiz1/cmp_luasnip" }
-  use { "L3MON4D3/LuaSnip" }
+  use {}
+  use { "L3MON4D3/LuaSnip", requires = {
+    "saadparwaiz1/cmp_luasnip",
+    "rafamadriz/friendly-snippets"
+  } }
 
   --terminal
   use {
@@ -104,19 +122,13 @@ return require("packer").startup(function(use)
   }
 
   use {
-    "lewis6991/hover.nvim",
-    config = function()
-      require("configs.hover")
-    end
-  }
-  use {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = function()
       require("nvim-autopairs").setup {}
     end
   }
-
+  use { "windwp/nvim-ts-autotag" }
   use {
     'TimUntersberger/neogit',
     requires = {
@@ -141,9 +153,9 @@ return require("packer").startup(function(use)
   })
 
   use { "folke/flash.nvim", config = function()
-    -- config = function()
     local flash = require("flash")
   end }
+
   use {
     'echasnovski/mini.nvim',
     config = function()

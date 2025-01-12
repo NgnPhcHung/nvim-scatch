@@ -6,14 +6,6 @@ require('mason-lspconfig').setup({
 local lspconfig = require('lspconfig')
 local mason_lspconfig = require('mason-lspconfig')
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    lspconfig[server_name].setup {
-      capabilities = vim.lsp.protocol.make_client_capabilities(),
-    }
-  end,
-})
-
 local buffer_autoformat = function(bufnr)
   local group = 'lsp_autoformat'
   vim.api.nvim_create_augroup(group, { clear = false })
@@ -28,6 +20,28 @@ local buffer_autoformat = function(bufnr)
     end,
   })
 end
+
+
+local on_attach = function(client, bufnr)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
+
+  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+  -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+
+  if client.supports_method('textDocument/formatting') then
+    buffer_autoformat(bufnr)
+  end
+end
+
+mason_lspconfig.setup_handlers({
+  function(server_name)
+    lspconfig[server_name].setup {
+      on_attach = on_attach,
+    }
+  end,
+})
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
@@ -44,9 +58,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 lspconfig.clangd.setup({
-  on_attach = function(client, bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-  end,
   init_options = {
     clangdFileStatus = true,
   },
