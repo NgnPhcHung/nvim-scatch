@@ -16,23 +16,28 @@ end
 lspconfig.lua_ls.setup({
   capabilities = capabilities
 })
-
-lspconfig.ts_ls.setup({
-  handlers = {
-    ["textDocument/signatureHelp"] = function(...)
-      vim.lsp.handlers["textDocument/signatureHelp"](...)
-    end,
-  },
-  init_options = {
-    preferences = {
-      includeCompletionsForModuleExports = true,
-      includeCompletionsWithInsertText = true,
-      includeCompletionsForImportStatements = true,
-      includeInlayVariableTypeHints = true,
-      includeInlayFunctionParameterTypeHints = true,
-      includeOptionalCompletions = true,
+require("typescript-tools").setup({
+  on_attach = on_attach,
+  settings = {
+    separate_diagnostic_server = true,
+    -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+    publish_diagnostic_on = "insert_leave",
+    expose_as_code_action = {
+      "fix_all", "add_missing_imports", "remove_unused_imports"
+    },
+    tsserver_path = nil,
+    tsserver_plugins = {},
+    tsserver_max_memory = "auto",
+    tsserver_format_options = {},
+    tsserver_file_preferences = {},
+    tsserver_locale = "en",
+    complete_function_calls = false,
+    include_completions_with_insert_text = true,
+    code_lens = "off",
+    disable_member_code_lens = true,
+    jsx_close_tag = {
+      enable = false,
+      filetypes = { "javascriptreact", "typescriptreact" },
     }
   },
-  capabilities = capabilities,
-  on_attach = on_attach
 })

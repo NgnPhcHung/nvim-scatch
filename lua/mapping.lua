@@ -4,26 +4,25 @@ vim.g.maplocalleader = ' '
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-map('n', '<C-f>f', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
-map('n', '<C-f>w', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
+map('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
+map('n', '<leader>fw', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
 map('n', '<C-f>b', '<cmd>Telescope buffers<CR>', { noremap = true, silent = true })
-map('n', '<C-b>', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
+map('n', 'ls', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<C-s>', ':w<CR>', opts)       -- Lưu file trong Normal mode
 vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>a', opts) -- Lưu file trong Insert mode
 vim.keymap.set('i', 'jk', '<Esc>', opts)
 
-
 --tab/buffers actions
 map('n', '<A-,>', ':BufferPrevious<CR>', opts)
 map('n', '<A-.>', ':BufferNext<CR>', opts)
 for i = 1, 9 do
-  map('n', '<A-' .. i .. '>', ':BufferGoto ' .. i .. '<CR>', opts)
+  map('n', 'b' .. i, ':BufferGoto ' .. i .. '<CR>', opts)
 end
 map('n', '<A-0>', ':BufferLast<CR>', opts)
 
-map('n', '<A-w>w', '<Cmd>BufferClose<CR>', opts)
-map('n', '<A-k>w', ':BufferCloseAllButPinned<CR>', opts)
+map('n', 'bc', '<Cmd>BufferClose<CR>', opts)
+map('n', 'ba', ':BufferCloseAllButPinned<CR>', opts)
 
 map('n', '<C-a>', 'gg<S-v>G', opts)
 map('n', 'te', ':tabedit<CR>', opts)
@@ -88,3 +87,13 @@ end, opts)
 --gitactions
 map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
 vim.keymap.set('n', '<leader>ng', ':Neogit<CR>', { noremap = true, silent = true, desc = "Open Neogit" })
+
+--rename
+vim.keymap.set("n", "<leader>rn", ":IncRename ")
+
+map(
+  "n",
+  "<leader>ca",
+  "<cmd>lua vim.lsp.buf.code_action()<CR>",
+  opts
+)

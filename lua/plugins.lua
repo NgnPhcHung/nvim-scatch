@@ -29,20 +29,9 @@ return require("packer").startup(function(use)
   use("wbthomason/packer.nvim")
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
-  use({
-    'nvimdev/lspsaga.nvim',
-    after = 'nvim-lspconfig',
-    config = function()
-      require('lspsaga').setup({})
-    end,
-  })
 
   -- theme
-  use {
-    'rebelot/kanagawa.nvim', config = function()
-    vim.cmd.colorscheme("kanagawa-dragon")
-  end
-  }
+  use { "catppuccin/nvim", as = "catppuccin" }
   use { 'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true },
     config = function()
@@ -65,7 +54,7 @@ return require("packer").startup(function(use)
       'nvim-tree/nvim-web-devicons',
     }
   }
-
+  use { 'nvim-telescope/telescope-ui-select.nvim' }
   --tab
   use {
     'romgrk/barbar.nvim',
@@ -157,13 +146,6 @@ return require("packer").startup(function(use)
   end }
 
   use {
-    'echasnovski/mini.nvim',
-    config = function()
-      require('mini.animate').setup()
-    end
-  }
-
-  use {
     'mg979/vim-visual-multi',
     config = function()
     end
@@ -174,4 +156,30 @@ return require("packer").startup(function(use)
     'numToStr/Comment.nvim',
   }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
+
+  use {
+    "pmizio/typescript-tools.nvim",
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      require("typescript-tools").setup {}
+    end,
+  }
+
+  use {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+    end,
+  }
+
+  use { "SmiteshP/nvim-navic", requires = { "LunarVim/breadcrumbs.nvim" } }
+
+  use { use 'karb94/neoscroll.nvim' }
+
+  --debug
+  use { 'mfussenegger/nvim-dap', requires = {
+ "rcarriga/nvim-dap-ui",
+"nvim-neotest/nvim-nio" ,
+ "mxsdev/nvim-dap-vscode-js"
+  }}
 end)

@@ -28,18 +28,18 @@ vim.o.smartcase = true
 vim.g.loaded_matchparen = true
 vim.cmd("syntax on")
 
--- vim.opt.list = true
--- vim.opt.listchars = {
---   tab = "→ ",
---   space = "",
---   trail = "•",
---   eol = "↴",
--- }
--- vim.api.nvim_set_hl(0, "Whitespace", { fg = "#2f3030", blend = 20 })
--- vim.api.nvim_set_hl(0, "NonText", { fg = "#2f3030", blend = 50 })
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "→ ",
+  space = "·",
+  trail = "•",
+  eol = "↴",
+}
+vim.api.nvim_set_hl(0, "Whitespace", { fg = "#2f3030", blend = 20 })
+vim.api.nvim_set_hl(0, "NonText", { fg = "#2f3030", blend = 50 })
 
--- vim.g.indent_blankline_char = '▏'
--- vim.g.indent_blankline_show_current_context = true
+vim.g.indent_blankline_char = '▏'
+vim.g.indent_blankline_show_current_context = true
 -- vim.g.indent_blankline_context_patterns = {
 --   "abstract_class_declaration", "abstract_method_signature",
 --   "accessibility_modifier", "ambient_declaration", "arguments", "array",

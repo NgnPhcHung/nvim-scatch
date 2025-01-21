@@ -11,26 +11,34 @@ local buffer_autoformat = function(bufnr)
   vim.api.nvim_create_augroup(group, { clear = false })
   vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
 
-  vim.api.nvim_create_autocmd('BufWritePre', {
+  vim.api.nvim_create_autocmd('BufWritePost', {
     buffer = bufnr,
     group = group,
     desc = 'LSP format on save',
     callback = function()
+      if not vim.api.nvim_buf_is_valid(bufnr) then
+        return
+      end
+
       vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
     end,
   })
 end
 
-
 local on_attach = function(client, bufnr)
-  local opts = { noremap = true, silent = true, buffer = bufnr }
+  if client.supports_method("textDocument/formatting") then
+    local group = "null_ls_autoformat"
+    vim.api.nvim_create_augroup(group, { clear = false })
+    vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
 
-  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-
-  if client.supports_method('textDocument/formatting') then
-    buffer_autoformat(bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = group,
+      buffer = bufnr,
+      desc = "Auto format on save with null-ls",
+      callback = function()
+        vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
+      end,
+    })
   end
 end
 

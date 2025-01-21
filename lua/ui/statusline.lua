@@ -50,11 +50,6 @@ function M.setup()
     always_visible = false,
   }
 
-  local breadcrumb = function()
-    return vim.fn.expand("%:p:h")
-  end
-
-
   lualine.setup({
     options = {
       theme = "kanagawa",
@@ -66,7 +61,18 @@ function M.setup()
     sections = {
       lualine_a = { mode },
       lualine_b = { branch },
-      lualine_c = {},
+      lualine_c = {
+        { 'filename', path = 1 }, -- Hiển thị đường dẫn tệp
+        {
+          function()
+            local navic = require("nvim-navic")
+            return navic.is_available() and navic.get_location() or ""
+          end,
+          cond = function()
+            return require("nvim-navic").is_available()
+          end,
+        },
+      },
       lualine_x = { diff, diagnostics, filetype },
       lualine_y = { 'progress' },
       lualine_z = { 'location' },

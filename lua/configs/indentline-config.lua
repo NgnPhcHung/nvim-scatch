@@ -34,7 +34,7 @@ end)
 
 vim.g.rainbow_delimiters = { highlight = highlight }
 require("ibl").setup { whitespace = {
-  highlight = whitespace,
+  -- highlight = whitespace,
   remove_blankline_trail = true
 }, scope = { highlight = highlight } }
 

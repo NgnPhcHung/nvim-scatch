@@ -30,8 +30,8 @@ require("noice").setup({
     override = {
       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
       ["vim.lsp.util.stylize_markdown"] = true,
-      ["vim.lsp.buf.code_action"] = false,
-      ['cmp.entry.get_documentation'] = true,
+      ["vim.lsp.buf.code_action"] = true,
+      ['cmp.entry.get_documentation'] = true
     },
     signature = {
       enabled = true,
