@@ -79,11 +79,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.keymap.set("n", "<leader>fm", function()
-  vim.lsp.buf.format({ async = true })
-end, opts)
-
-
 --gitactions
 map('n', '<leader>gh', ':Gitsigns preview_hunk<CR>', opts)
 vim.keymap.set('n', '<leader>ng', ':Neogit<CR>', { noremap = true, silent = true, desc = "Open Neogit" })
@@ -97,3 +92,9 @@ map(
   "<cmd>lua vim.lsp.buf.code_action()<CR>",
   opts
 )
+
+vim.keymap.set('n', 'E', function()
+  vim.diagnostic.open_float(nil, { scope = "cursor" }) -- Hiển thị lỗi tại vị trí con trỏ
+end, { noremap = true, silent = true })
+
+--outline

@@ -178,8 +178,16 @@ return require("packer").startup(function(use)
 
   --debug
   use { 'mfussenegger/nvim-dap', requires = {
- "rcarriga/nvim-dap-ui",
-"nvim-neotest/nvim-nio" ,
- "mxsdev/nvim-dap-vscode-js"
-  }}
+    "rcarriga/nvim-dap-ui",
+    "nvim-neotest/nvim-nio",
+    "mxsdev/nvim-dap-vscode-js"
+  } }
+
+  --outline
+  use {
+    'stevearc/aerial.nvim',
+    config = function()
+      require('configs.aerial').setup()
+    end
+  }
 end)

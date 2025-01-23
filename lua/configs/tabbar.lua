@@ -6,7 +6,7 @@ require('barbar').setup({
 	icons = {
 		buffer_index = true,
 		filetype = { enabled = true },
-		separator = { left = '▎', right = '' },
+		separator = { left = '▎', right = '|' },
 	},
 
 	padding = 2,

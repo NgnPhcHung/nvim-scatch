@@ -27,7 +27,7 @@ cmp.setup({
     { name = "lazydev",    group_index = 0, priority = 10 }, -- Improved lua_ls
     { name = "nvim_lua",   priority = 9 },                   -- Nvim lua api
     { name = "dap",        priority = 8 },                   -- Extra debugger info
-    { name = "buffer",     priority = 7 },                   -- Text within current buffer
+    -- { name = "buffer",     priority = 7 },                   -- Text within current buffer
     { name = "async_path", priority = 7 },                   -- Path
   }),
 
@@ -35,7 +35,7 @@ cmp.setup({
 
   formatting = {
     format = function(entry, vim_item)
-      vim_item.kind = string.format("%s %s", require("lspkind").presets.default[vim_item.kind] or "", vim_item.kind)
+      vim_item.kind = string.format("%s %s", lspkind.presets.default[vim_item.kind] or "", vim_item.kind)
       vim_item.menu = ({
         nvim_lsp = "[LSP]",
         luasnip = "[Snip]",
@@ -44,15 +44,16 @@ cmp.setup({
       return vim_item
     end,
   },
-
+  --
   performance = {
-    debounce = 6,
+    debounce = 1500,
     throttle = 10,
-    fetching_timeout = 200,
-    confirm_resolve_timeout = 60,
-    async_budget = 1,
-    max_view_entries = 200,
+    fetching_timeout = 2000,
+    confirm_resolve_timeout = 3000,
+    async_budget = 5,
+    max_view_entries = 2000,
   },
+
   window = {
     completion = {
       border = {

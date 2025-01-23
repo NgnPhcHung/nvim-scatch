@@ -52,7 +52,7 @@ function M.setup()
 
   lualine.setup({
     options = {
-      theme = "kanagawa",
+      theme = "catppuccin-macchiato",
       globalstatus = true,
       section_separators = "",
       component_separators = "",
