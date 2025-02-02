@@ -92,9 +92,4 @@ map(
   "<cmd>lua vim.lsp.buf.code_action()<CR>",
   opts
 )
-
-vim.keymap.set('n', 'E', function()
-  vim.diagnostic.open_float(nil, { scope = "cursor" }) -- Hiển thị lỗi tại vị trí con trỏ
-end, { noremap = true, silent = true })
-
 --outline

@@ -1,3 +1,5 @@
+local icon = require("packages.icons")
+
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 local lspkind = require 'lspkind'
@@ -27,7 +29,7 @@ cmp.setup({
     { name = "lazydev",    group_index = 0, priority = 10 }, -- Improved lua_ls
     { name = "nvim_lua",   priority = 9 },                   -- Nvim lua api
     { name = "dap",        priority = 8 },                   -- Extra debugger info
-    -- { name = "buffer",     priority = 7 },                   -- Text within current buffer
+    { name = "buffer",     priority = 7 },                   -- Text within current buffer
     { name = "async_path", priority = 7 },                   -- Path
   }),
 
@@ -43,45 +45,63 @@ cmp.setup({
       })[entry.source.name]
       return vim_item
     end,
-  },
-  --
-  performance = {
-    debounce = 1500,
-    throttle = 10,
-    fetching_timeout = 2000,
-    confirm_resolve_timeout = 3000,
-    async_budget = 5,
-    max_view_entries = 2000,
-  },
 
-  window = {
-    completion = {
-      border = {
-        { "󱐋", "WarningMsg" },
-        { "─", "Comment" },
-        { "╮", "Comment" },
-        { "│", "Comment" },
-        { "╯", "Comment" },
-        { "─", "Comment" },
-        { "╰", "Comment" },
-        { "│", "Comment" },
+    --
+    performance = {
+      debounce = 1500,
+      throttle = 10,
+      fetching_timeout = 2000,
+      confirm_resolve_timeout = 3000,
+      async_budget = 5,
+      max_view_entries = 2000,
+    },
+
+    window = {
+      completion = {
+        border = {
+          { "󱐋", "WarningMsg" },
+          { "─", "Comment" },
+          { "╮", "Comment" },
+          { "│", "Comment" },
+          { "╯", "Comment" },
+          { "─", "Comment" },
+          { "╰", "Comment" },
+          { "│", "Comment" },
+        },
+      },
+      documentation = {
+        border = {
+          { "󰙎", "DiagnosticHint" },
+          { "─", "Comment" },
+          { "╮", "Comment" },
+          { "│", "Comment" },
+          { "╯", "Comment" },
+          { "─", "Comment" },
+          { "╰", "Comment" },
+          { "│", "Comment" },
+        },
       },
     },
-    documentation = {
-      border = {
-        { "󰙎", "DiagnosticHint" },
-        { "─", "Comment" },
-        { "╮", "Comment" },
-        { "│", "Comment" },
-        { "╯", "Comment" },
-        { "─", "Comment" },
-        { "╰", "Comment" },
-        { "│", "Comment" },
-      },
-    },
-  },
-
+  }
 })
+
+vim.keymap.set('n', 'E', function()
+  vim.diagnostic.open_float(nil, {
+    scope = "cursor",
+    border = {
+      { "╭", "FloatBorder" }, -- Góc trên trái
+      { "─", "FloatBorder" }, -- Đường ngang trên
+      { "╮", "FloatBorder" }, -- Góc trên phải
+      { "│", "FloatBorder" }, -- Đường dọc bên phải
+      { "╯", "FloatBorder" }, -- Góc dưới phải
+      { "─", "FloatBorder" }, -- Đường ngang dưới
+      { "╰", "FloatBorder" }, -- Góc dưới trái
+      { "│", "FloatBorder" }, -- Đường dọc bên trái
+    },
+  })
+end, { noremap = true, silent = true })
+
+
 
 vim.cmd [[
   set completeopt=menuone,noinsert,noselect

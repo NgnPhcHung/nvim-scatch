@@ -1,3 +1,5 @@
+local icon = require("packages.icons")
+
 vim.opt.relativenumber = true
 vim.opt.number = true
 
@@ -43,11 +45,10 @@ vim.g.indent_blankline_show_current_context = true
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●', -- Biểu tượng trước lỗi (tuỳ chọn)
+    prefix = icon.task.Failure, 
     format = function(diagnostic)
-      -- Cắt hoặc wrap nội dung lỗi nếu quá dài
       local message = diagnostic.message
-      local max_width = 50 -- Độ dài tối đa cho một dòng
+      local max_width = 50 
       if #message > max_width then
         return message:sub(1, max_width) .. "..."
       end

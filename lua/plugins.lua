@@ -76,6 +76,19 @@ return require("packer").startup(function(use)
       require('gitsigns').setup()
     end
   }
+  use {
+    'TimUntersberger/neogit',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+      'lewis6991/gitsigns.nvim'
+    },
+  }
+
+  use {
+    'sindrets/diffview.nvim',
+    requires = 'nvim-lua/plenary.nvim'
+  }
 
   use {
     'folke/noice.nvim',
@@ -98,11 +111,20 @@ return require("packer").startup(function(use)
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
-  use {}
-  use { "L3MON4D3/LuaSnip", requires = {
+  use { "L3MON4D3/LuaSnip", 
+  requires = {
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets"
-  } }
+    }
+  }
+  use({
+    "nvimtools/none-ls.nvim",
+    config = function()
+      require("null-ls").setup()
+    end,
+    requires = { "nvim-lua/plenary.nvim",
+      "nvimtools/none-ls-extras.nvim" },
+  })
 
   --terminal
   use {
@@ -118,31 +140,8 @@ return require("packer").startup(function(use)
     end
   }
   use { "windwp/nvim-ts-autotag" }
-  use {
-    'TimUntersberger/neogit',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-      'lewis6991/gitsigns.nvim'
-    },
-  }
-
-  use {
-    'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim'
-  }
-
-  use({
-    "nvimtools/none-ls.nvim",
-    config = function()
-      require("null-ls").setup()
-    end,
-    requires = { "nvim-lua/plenary.nvim",
-      "nvimtools/none-ls-extras.nvim" },
-  })
 
   use { "folke/flash.nvim", config = function()
-    local flash = require("flash")
   end }
 
   use {

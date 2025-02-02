@@ -20,16 +20,23 @@ require("typescript-tools").setup({
   on_attach = on_attach,
   settings = {
     separate_diagnostic_server = true,
-    -- "change"|"insert_leave" determine when the client asks the server about diagnostic
     publish_diagnostic_on = "insert_leave",
     expose_as_code_action = {
-      "fix_all", "add_missing_imports", "remove_unused_imports"
+      -- "fix_all", "add_missing_imports", "remove_unused_imports"
+      "all"
     },
     tsserver_path = nil,
     tsserver_plugins = {},
     tsserver_max_memory = "auto",
-    tsserver_format_options = {},
-    tsserver_file_preferences = {},
+    tsserver_format_options = {
+      allowIncompleteCompletions = false,
+      allowRenameOfImportPath = false,
+    },
+    tsserver_file_preferences = {
+      includeInlayParameterNameHints = "all",
+      includeCompletionsForModuleExports = true,
+      quotePreference = "auto",
+    },
     tsserver_locale = "en",
     complete_function_calls = false,
     include_completions_with_insert_text = true,
