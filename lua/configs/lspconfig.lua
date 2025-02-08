@@ -1,23 +1,40 @@
 local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-
-local on_attach = function(client, bufnr)
-  if client.server_capabilities.documentFormattingProvider then
-    -- vim.api.nvim_create_autocmd("BufWritePre", {
-    --   group = vim.api.nvim_create_augroup("Format", { clear = true }),
-    --   buffer = bufnr,
-    --   callback = function() vim.lsp.buf.formatting_seq_sync() end
-    -- })
-  end
-end
-
-
+-- Lua
 lspconfig.lua_ls.setup({
-  capabilities = capabilities
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+    },
+  },
 })
+
+lspconfig.ts_ls.setup({
+  capabilities = capabilities,
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "none",
+        includeInlayEnumMemberValueHints = false,
+      }
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "none",
+        includeInlayEnumMemberValueHints = false,
+      }
+    }
+  }
+})
+
 require("typescript-tools").setup({
-  on_attach = on_attach,
   settings = {
     separate_diagnostic_server = true,
     publish_diagnostic_on = "insert_leave",
@@ -26,19 +43,19 @@ require("typescript-tools").setup({
       "all"
     },
     tsserver_path = nil,
-    tsserver_plugins = {},
+    tsserver_plugins = {  },
     tsserver_max_memory = "auto",
     tsserver_format_options = {
       allowIncompleteCompletions = false,
       allowRenameOfImportPath = false,
     },
     tsserver_file_preferences = {
-      includeInlayParameterNameHints = "all",
+      includeInlayParameterNameHints = "none",
       includeCompletionsForModuleExports = true,
       quotePreference = "auto",
     },
     tsserver_locale = "en",
-    complete_function_calls = false,
+    complete_function_calls = true,
     include_completions_with_insert_text = true,
     code_lens = "off",
     disable_member_code_lens = true,

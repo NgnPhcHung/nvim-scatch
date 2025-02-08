@@ -1,10 +1,14 @@
+local actions = require("telescope.actions")
+
 require("telescope").setup {
   defaults = {
+    path_display = { "smart" },
     mapping = {
       i = {
         ["<C-u>"] = false,
-        ["<C-d>"] = false
-      },
+        ["<C-d>"] = false,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-j>"] = actions.move_selection_next, },
     },
   },
   pickers = {
@@ -15,15 +19,20 @@ require("telescope").setup {
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {
-        -- even more opts
       }
 
     }
-  }
+  },
+  config = function()
+    require("telescope").load_extension("ui-select")
+    require("telescope").load_extension("fzf")
+  end,
 }
 
-require('telescope').load_extension('fzf')
-require("telescope").load_extension("ui-select")
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 
-vim.api.nvim_set_keymap('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true })
+map('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', opts)
+map('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
+map("n", "gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)

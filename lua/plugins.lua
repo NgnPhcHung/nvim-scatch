@@ -55,6 +55,8 @@ return require("packer").startup(function(use)
     }
   }
   use { 'nvim-telescope/telescope-ui-select.nvim' }
+
+  use { 'mbbill/undotree' }
   --tab
   use {
     'romgrk/barbar.nvim',
@@ -111,10 +113,10 @@ return require("packer").startup(function(use)
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
-  use { "L3MON4D3/LuaSnip", 
-  requires = {
-    "saadparwaiz1/cmp_luasnip",
-    "rafamadriz/friendly-snippets"
+  use { "L3MON4D3/LuaSnip",
+    requires = {
+      "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets"
     }
   }
   use({
@@ -189,4 +191,7 @@ return require("packer").startup(function(use)
       require('configs.aerial').setup()
     end
   }
+
+  --postman
+  use { 'mistweaverco/kulala.nvim', opts = {} }
 end)

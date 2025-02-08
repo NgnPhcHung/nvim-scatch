@@ -1,5 +1,3 @@
-local icon = require("packages.icons")
-
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 local lspkind = require 'lspkind'
@@ -24,13 +22,11 @@ cmp.setup({
   }),
 
   sources = cmp.config.sources({
-    { name = "nvim_lsp",   priority = 1000 },                -- LSP
-    { name = "snippets",   priority = 11 },                  -- Custom snippets
-    { name = "lazydev",    group_index = 0, priority = 10 }, -- Improved lua_ls
-    { name = "nvim_lua",   priority = 9 },                   -- Nvim lua api
-    { name = "dap",        priority = 8 },                   -- Extra debugger info
-    { name = "buffer",     priority = 7 },                   -- Text within current buffer
-    { name = "async_path", priority = 7 },                   -- Path
+    { name = "nvim_lsp", entry_filter = function(entry, ctx)
+      return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
+    end}, -- LSP
+    { name = "dap",       }, -- Extra debugger info
+    { name = "luasnip",  }, -- Path
   }),
 
   preselect = cmp.PreselectMode.None,
@@ -46,14 +42,13 @@ cmp.setup({
       return vim_item
     end,
 
-    --
     performance = {
-      debounce = 1500,
+      debounce = 6,
       throttle = 10,
-      fetching_timeout = 2000,
-      confirm_resolve_timeout = 3000,
-      async_budget = 5,
-      max_view_entries = 2000,
+      fetching_timeout = 200,
+      confirm_resolve_timeout = 60,
+      async_budget = 1,
+      max_view_entries = 200,
     },
 
     window = {

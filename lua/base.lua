@@ -45,10 +45,10 @@ vim.g.indent_blankline_show_current_context = true
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = icon.task.Failure, 
+    prefix = icon.task.Failure,
     format = function(diagnostic)
       local message = diagnostic.message
-      local max_width = 50 
+      local max_width = 50
       if #message > max_width then
         return message:sub(1, max_width) .. "..."
       end
