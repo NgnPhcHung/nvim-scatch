@@ -1,12 +1,12 @@
-require('barbar').setup({
+require("barbar").setup({
 	animation = true,
-	auto_hide = false,
+	auto_hide = 0,
 	tabpages = true,
 	clickable = false,
 	icons = {
 		buffer_index = true,
 		filetype = { enabled = true },
-		separator = { left = '▎', right = '|' },
+		separator = { left = "▎", right = "|" },
 	},
 
 	padding = 2,
