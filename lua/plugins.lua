@@ -202,10 +202,17 @@ return require("packer").startup(function(use)
 	--postman
 	use({ "mistweaverco/kulala.nvim", opts = {} })
 
-  use {
-  'glepnir/dashboard-nvim',
-  config = function()
-  end
-}
+	-- use({
+	-- 	"glepnir/dashboard-nvim",
+	-- 	config = function() end,
+	-- })
 
+	use({
+		"goolord/alpha-nvim",
+		requires = {
+			"nvim-tree/nvim-web-devicons",
+		},
+	})
+
+	use("famiu/bufdelete.nvim")
 end)

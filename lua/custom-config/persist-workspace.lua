@@ -4,7 +4,7 @@ local function setup_workspace()
     local git_root = handle:read("*a")
     handle:close()
     if git_root and #git_root > 0 then
-      return git_root:gsub("\n", "") -- Remove trailing newline
+      return git_root:gsub("\n", "")
     end
     return nil
   end
