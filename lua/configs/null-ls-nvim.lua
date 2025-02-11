@@ -8,9 +8,9 @@ local lua_sources = {
 local ts_js_sources = {
   null_ls.builtins.formatting.prettier,
   null_ls.builtins.completion.spell,
-  require("none-ls.code_actions.eslint").with({
-      diagnostics_format = "[eslint] #{m}",
-    }),
+  -- require("none-ls.code_actions.eslint").with({
+  --     diagnostics_format = "[eslint] #{m}",
+  --   }),
 }
 
 null_ls.setup({

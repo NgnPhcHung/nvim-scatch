@@ -22,23 +22,33 @@ cmp.setup({
   }),
 
   sources = cmp.config.sources({
-    { name = "nvim_lsp", entry_filter = function(entry, ctx)
-      return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
-    end}, -- LSP
-    { name = "dap",       }, -- Extra debugger info
-    { name = "luasnip",  }, -- Path
+    {
+      name = "nvim_lsp",
+      entry_filter = function(entry, ctx)
+        return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
+      end
+    },
+    { name = "dap" },
+    { name = "luasnip" },
+    { name = "path" }
   }),
 
   preselect = cmp.PreselectMode.None,
 
   formatting = {
     format = function(entry, vim_item)
+      if entry.source.name == "nvim_lsp" and vim_item.kind == "Module" then
+        vim_item.abbr = 'require("' .. vim_item.abbr .. '")'
+      end
+
       vim_item.kind = string.format("%s %s", lspkind.presets.default[vim_item.kind] or "", vim_item.kind)
       vim_item.menu = ({
         nvim_lsp = "[LSP]",
         luasnip = "[Snip]",
         buffer = "[Buffer]",
+        path = "[Path]"
       })[entry.source.name]
+
       return vim_item
     end,
 

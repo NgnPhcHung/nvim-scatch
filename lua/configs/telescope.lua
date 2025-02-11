@@ -19,15 +19,20 @@ require("telescope").setup {
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {
+
+      },
+      specifc_opts = {
+        codeactions = true
       }
 
     }
   },
   config = function()
-    require("telescope").load_extension("ui-select")
-    require("telescope").load_extension("fzf")
   end,
 }
+
+require("telescope").load_extension("ui-select")
+require("telescope").load_extension("fzf")
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }

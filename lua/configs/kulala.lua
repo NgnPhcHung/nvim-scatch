@@ -1,20 +1,34 @@
 require("kulala").setup({
-  colorscheme = "tokyonight",
-  lsp = {
-    enable = true,
-    servers = { "tsserver", "eslint" }
-  },
-  treesitter = {
-    ensure_installed = { "lua", "javascript", "typescript" },
-    highlight = { enable = true },
-  },
+	colorscheme = "catppuccin",
+	lsp = {
+		enable = true,
+		servers = { "ts_ls", "eslint" },
+	},
+	treesitter = {
+		ensure_installed = { "lua", "javascript", "typescript" },
+		highlight = { enable = true },
+	},
+	opts = {
+		display_mode = "split",
+		formatters = {
+			json = { "jq", "." },
+			xml = { "xmllint", "--format", "-" },
+			html = { "xmllint", "--format", "--html", "-" },
+		},
+		icons = {
+			inlay = {
+				loading = "󰔟",
+				done = " ",
+				error = " ",
+			},
+			lualine = " ",
+		},
+	},
 })
 
-
-vim.api.nvim_buf_set_keymap(
-  0,
-  "n",
-  "<CR>",
-  "<cmd>lua require('kulala').run()<cr>",
-  { noremap = true, silent = true, desc = "Execute the request" }
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>r",
+	"<cmd>lua require('kulala').run()<CR>",
+	{ noremap = true, silent = true, desc = "Execute the request" }
 )
