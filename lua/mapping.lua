@@ -21,8 +21,11 @@ for i = 1, 9 do
 end
 map("n", "<A-0>", ":BufferLast<CR>", opts)
 
-map("n", "<A-w>", "<Cmd>BufferClose<CR>", opts)
+-- map("n", "<A-w>", "<Cmd>BufferClose<CR>", opts)
 map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
+
+map("n", "<A-w>", "<Cmd>Bdelete<CR>", opts)
+-- map("n", "<A-a>", "<Cmd>lua CloseAllBuffers()<CR>", opts)
 
 map("n", "<C-a>", "gg<S-v>G", opts)
 map("n", "te", ":tabedit<CR>", opts)

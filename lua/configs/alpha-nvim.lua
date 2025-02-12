@@ -24,7 +24,6 @@ dashboard.section.header.val =
 dashboard.section.header.opts.hl = "Question"
 dashboard.section.buttons.val = {
 	dashboard.button("f", " Find file", ":Telescope find_files<CR>"),
-	dashboard.button("e", " New file", ":enew<CR>"),
 	dashboard.button("p", " Update plugins", ":Packer sync<CR>"),
 	dashboard.button("q", " Exit", ":qa!<CR>"),
 }

@@ -2,6 +2,7 @@ require("plugins")
 require("mapping")
 require("theme")
 require("base")
+
 -- persist current working workspace
 require('custom-config.persist-workspace')
 
@@ -23,9 +24,3 @@ vim.opt.termguicolors = true
 
 vim.o.wrapscan = true
 
--- Thêm LuaRocks paths vào package.path
-package.path = package.path ..
-";/Users/nguyenphuchung/.luarocks/share/lua/5.1/?.lua;/Users/nguyenphuchung/.luarocks/share/lua/5.1/?/init.lua"
-
--- Thêm LuaRocks paths vào package.cpath (cho thư viện C nếu cần)
-package.cpath = package.cpath .. ";/Users/nguyenphuchung/.luarocks/lib/lua/5.1/?.so"
