@@ -57,14 +57,8 @@ return require("packer").startup(function(use)
 	use({ "nvim-telescope/telescope-ui-select.nvim" })
 
 	use({ "mbbill/undotree" })
-	--tab
-	use({
-		"romgrk/barbar.nvim",
-		requires = {
-			"DaikyXendo/nvim-material-icon",
-		},
-	})
 
+	--buffers
 	use({ "axkirillov/hbac.nvim" })
 
 	--git
@@ -86,12 +80,21 @@ return require("packer").startup(function(use)
 			"lewis6991/gitsigns.nvim",
 		},
 	})
-
 	use({
 		"sindrets/diffview.nvim",
 		requires = "nvim-lua/plenary.nvim",
 	})
+	use({
+		"isakbm/gitgraph.nvim",
+		requires = {
+			"sindrets/diffview.nvim",
+		},
+		config = function()
+			require("configs.gitgraph")
+		end,
+	})
 
+	--ui
 	use({
 		"folke/noice.nvim",
 		requires = {
@@ -173,8 +176,6 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	use({ "SmiteshP/nvim-navic", requires = { "LunarVim/breadcrumbs.nvim" } })
-
 	use({ "karb94/neoscroll.nvim" })
 
 	--debug
@@ -195,17 +196,8 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	-- use({
-	-- 	"j-hui/fidget.nvim",
-	-- 	tag = "legacy",
-	-- })
 	--postman
 	use({ "mistweaverco/kulala.nvim", opts = {} })
-
-	-- use({
-	-- 	"glepnir/dashboard-nvim",
-	-- 	config = function() end,
-	-- })
 
 	use({
 		"goolord/alpha-nvim",
@@ -215,4 +207,13 @@ return require("packer").startup(function(use)
 	})
 
 	use("famiu/bufdelete.nvim")
+
+	use({
+		"MeanderingProgrammer/render-markdown.nvim",
+		after = { "nvim-treesitter" },
+		requires = { "nvim-tree/nvim-web-devicons", opt = true }, -- if you prefer nvim-web-devicons
+		config = function()
+			require("render-markdown").setup({})
+		end,
+	})
 end)

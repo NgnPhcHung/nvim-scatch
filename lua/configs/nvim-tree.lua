@@ -4,10 +4,25 @@ require("nvim-tree").setup({
 		adaptive_size = true,
 	},
 	renderer = {
+		highlight_git = true,
 		icons = {
+			show = {
+				file = true,
+				folder = true,
+				git = true,
+			},
 			glyphs = {
 				default = "",
 				symlink = "",
+				git = {
+					unstaged = " ✗",
+					staged = " ✓",
+					unmerged = " ",
+					renamed = " ➜",
+					untracked = " ★",
+					deleted = " ",
+					ignored = " ◌",
+				},
 			},
 		},
 	},
@@ -25,13 +40,15 @@ require("nvim-tree").setup({
 		enable = true,
 		-- update_root = false,
 	},
+	modified = {
+		enable = false,
+	},
 	filters = {
-		dotfiles = false, -- Show dotfiles like .env, .gitignore,
-		-- hidden = true
+		dotfiles = false,
 	},
 	git = {
 		enable = true,
-		ignore = false,
+		ignore = true,
 		timeout = 1000,
 	},
 })

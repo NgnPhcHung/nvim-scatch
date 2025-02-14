@@ -4,10 +4,21 @@ vim.g.maplocalleader = " "
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { noremap = true, silent = true })
-map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { noremap = true, silent = true })
-map("n", "<C-f>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })
+--Telescope
+map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal<CR>", { noremap = true, silent = true })
+map("n", "<leader>fw", "<cmd>Telescope live_grep inital_mode=normal<CR>", { noremap = true, silent = true })
 map("n", "ls", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
+map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
+map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
+map("n", "gD", "<cmd>Telescope lsp_type_definitions initial_mode=normal<CR>", opts)
+map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<CR>", opts)
+vim.keymap.set(
+	"n",
+	"<S-h>",
+	"<cmd>Telescope buffers initial_mode=normal <CR>",
+	opts,
+	{ desc = "Open telescope buffers list" }
+)
 
 vim.keymap.set("n", "<C-s>", ":w<CR>", opts) -- Lưu file trong Normal mode
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Lưu file trong Insert mode
@@ -21,13 +32,9 @@ for i = 1, 9 do
 end
 map("n", "<A-0>", ":BufferLast<CR>", opts)
 
--- map("n", "<A-w>", "<Cmd>BufferClose<CR>", opts)
 map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
-
 map("n", "<A-w>", "<Cmd>Bdelete<CR>", opts)
--- map("n", "<A-a>", "<Cmd>lua CloseAllBuffers()<CR>", opts)
 
-map("n", "<C-a>", "gg<S-v>G", opts)
 map("n", "te", ":tabedit<CR>", opts)
 map("n", "tc", ":close<CR>", opts)
 
@@ -52,8 +59,10 @@ vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
 vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
 vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
 
+--file actions
 map("i", "<C-z>", "<C-o>u", opts)
 map("i", "<C-s>", "<C-o>:w<CR>", opts)
+map("n", "<C-a>", "gg<S-v>G", opts)
 
 -- Visual mode editing
 vim.keymap.set("v", "N", ":m '>+1<CR>gv=gv") -- Move selection up
@@ -88,6 +97,5 @@ vim.keymap.set("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true
 --rename
 vim.keymap.set("n", "rn", ":IncRename ")
 
+--coding
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-
---outline
