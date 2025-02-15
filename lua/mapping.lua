@@ -12,15 +12,19 @@ map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opt
 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
 map("n", "gD", "<cmd>Telescope lsp_type_definitions initial_mode=normal<CR>", opts)
 map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<CR>", opts)
-vim.keymap.set(
-	"n",
-	"<S-h>",
-	"<cmd>Telescope buffers initial_mode=normal <CR>",
-	opts,
-	{ desc = "Open telescope buffers list" }
-)
+vim.keymap.set("n", "<S-h>", function()
+  require("telescope.builtin").buffers({
+    initial_mode = "normal",
+    previewer = false,
+    layout_strategy = "center",
+    layout_config = {
+      width = 0.4,
+      height = 0.4,
+    },
+  })
+end, opts, { desc = "Open telescope buffers list" })
 
-vim.keymap.set("n", "<C-s>", ":w<CR>", opts) -- Lưu file trong Normal mode
+vim.keymap.set("n", "<C-s>", ":w<CR>", opts)       -- Lưu file trong Normal mode
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Lưu file trong Insert mode
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
@@ -28,7 +32,7 @@ vim.keymap.set("i", "jk", "<Esc>", opts)
 map("n", "<A-,>", ":BufferPrevious<CR>", opts)
 map("n", "<A-.>", ":BufferNext<CR>", opts)
 for i = 1, 9 do
-	map("n", "b" .. i, ":BufferGoto " .. i .. "<CR>", opts)
+  map("n", "b" .. i, ":BufferGoto " .. i .. "<CR>", opts)
 end
 map("n", "<A-0>", ":BufferLast<CR>", opts)
 
@@ -67,27 +71,27 @@ map("n", "<C-a>", "gg<S-v>G", opts)
 -- Visual mode editing
 vim.keymap.set("v", "N", ":m '>+1<CR>gv=gv") -- Move selection up
 vim.keymap.set("v", "M", ":m '<-2<CR>gv=gv") -- Move selection down
-vim.keymap.set("v", "<C-n>", "y'>pgv") -- Duplicate selection
+vim.keymap.set("v", "<C-n>", "y'>pgv")       -- Duplicate selection
 
 -- Delete word in insert mode
 vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
 
 -- cpp compiler
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "cpp",
-	callback = function()
-		vim.keymap.set("n", "<F5>", function()
-			local filepath = vim.fn.expand("%")
-			local file_without_ext = vim.fn.expand("%:r")
+  pattern = "cpp",
+  callback = function()
+    vim.keymap.set("n", "<F5>", function()
+      local filepath = vim.fn.expand("%")
+      local file_without_ext = vim.fn.expand("%:r")
 
-			require("toggleterm").exec(
-				"g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
-				1,
-				nil,
-				"horizontal"
-			)
-		end, { desc = "Compile and run C++ file" })
-	end,
+      require("toggleterm").exec(
+        "g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
+        1,
+        nil,
+        "horizontal"
+      )
+    end, { desc = "Compile and run C++ file" })
+  end,
 })
 
 --gitactions
@@ -98,4 +102,4 @@ vim.keymap.set("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true
 vim.keymap.set("n", "rn", ":IncRename ")
 
 --coding
-map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)

@@ -1,23 +1,28 @@
 local status, cmp = pcall(require, "cmp")
-if (not status) then return end
-local lspkind = require 'lspkind'
+if not status then
+  return
+end
+local lspkind = require("lspkind")
 
 cmp.setup({
+  completion = {
+    autocomplte = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+  },
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body)
     end,
   },
 
   mapping = cmp.mapping.preset.insert({
     ["<C-j>"] = cmp.mapping.select_next_item(),
     ["<C-k>"] = cmp.mapping.select_prev_item(),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-.>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-.>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
-      select = true
+      select = true,
     }),
   }),
 
@@ -26,11 +31,11 @@ cmp.setup({
       name = "nvim_lsp",
       entry_filter = function(entry, ctx)
         return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
-      end
+      end,
     },
     { name = "dap" },
     { name = "luasnip" },
-    { name = "path" }
+    { name = "path" },
   }),
 
   preselect = cmp.PreselectMode.None,
@@ -46,7 +51,7 @@ cmp.setup({
         nvim_lsp = "[LSP]",
         luasnip = "[Snip]",
         buffer = "[Buffer]",
-        path = "[Path]"
+        path = "[Path]",
       })[entry.source.name]
 
       return vim_item
@@ -87,10 +92,10 @@ cmp.setup({
         },
       },
     },
-  }
+  },
 })
 
-vim.keymap.set('n', 'E', function()
+vim.keymap.set("n", "E", function()
   vim.diagnostic.open_float(nil, {
     scope = "cursor",
     border = {
@@ -106,9 +111,7 @@ vim.keymap.set('n', 'E', function()
   })
 end, { noremap = true, silent = true })
 
-
-
-vim.cmd [[
+vim.cmd([[
   set completeopt=menuone,noinsert,noselect
   highlight! default link CmpItemKind CmpItemMenuDefault
-]]
+]])

@@ -9,8 +9,8 @@ require("telescope").setup({
 				["<C-d>"] = false,
 			},
 			n = {
-				["d"] = require("telescope.actions").delete_buffer,
-				["q"] = require("telescope.actions").close,
+				["d"] = actions.delete_buffer,
+				["q"] = actions.close,
 			},
 		},
 	},
@@ -27,8 +27,8 @@ require("telescope").setup({
 			},
 		},
 	},
-	config = function()
-		require("telescope").load_extension("ui-select")
-		-- require("telescope").load_extension("fzf")
-	end,
+	config = function() end,
 })
+
+require("telescope").load_extension("ui-select")
+require("telescope").load_extension("fzf")
