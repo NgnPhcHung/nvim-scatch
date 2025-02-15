@@ -1,9 +1,9 @@
-require('mason').setup()
-require('mason-lspconfig').setup({
+require("mason").setup()
+require("mason-lspconfig").setup({
   ensure_installed = { "lua_ls", "html", "cssls", "clangd" },
 })
 
-local lspconfig = require('lspconfig')
+local lspconfig = require("lspconfig")
 -- local mason_lspconfig = require('mason-lspconfig')
 
 -- mason_lspconfig.setup_handlers({

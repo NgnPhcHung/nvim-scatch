@@ -22,7 +22,7 @@ vim.keymap.set("n", "<S-h>", function()
       height = 0.4,
     },
   })
-end, opts, { desc = "Open telescope buffers list" })
+end, { desc = "Open telescope buffers list" })
 
 vim.keymap.set("n", "<C-s>", ":w<CR>", opts)       -- Lưu file trong Normal mode
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Lưu file trong Insert mode
