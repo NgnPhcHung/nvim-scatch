@@ -9,6 +9,7 @@ require("nvim-treesitter.configs").setup({
   autopairs = {
     enable = true,
   },
+  fold = { enable = true },
   textobjects = {
     select = {
       enable = true,

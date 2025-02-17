@@ -9,9 +9,9 @@ vim.opt.expandtab = true
 
 vim.opt.wrap = true
 
-vim.scriptencoding = 'utf-8'
-vim.opt.encoding = 'utf-8'
-vim.opt.fileencoding = 'utf-8'
+vim.scriptencoding = "utf-8"
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
 
 vim.opt.nu = true
 vim.opt.rnu = true
@@ -40,7 +40,7 @@ vim.opt.listchars = {
 vim.api.nvim_set_hl(0, "Whitespace", { fg = "#2f3030", blend = 20 })
 vim.api.nvim_set_hl(0, "NonText", { fg = "#2f3030", blend = 50 })
 
-vim.g.indent_blankline_char = '▏'
+vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
 
 vim.diagnostic.config({
@@ -56,5 +56,3 @@ vim.diagnostic.config({
     end,
   },
 })
-
-
