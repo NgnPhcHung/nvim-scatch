@@ -53,8 +53,8 @@ map("n", "<C-k>", "<C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 
 --resize window
-map("n", "<A-Right>", ":vertical resize +2<CR>", opts)
-map("n", "<A-Left>", ":vertical resize -2<CR>", opts)
+map("n", "<A-Right>", ":vertical resize -2<CR>", opts)
+map("n", "<A-Left>", ":vertical resize +2<CR>", opts)
 map("n", "<A-Up>", ":resize +2<CR>", opts)
 map("n", "<A-Down>", ":resize -2<CR>", opts)
 
@@ -69,9 +69,9 @@ map("i", "<C-s>", "<C-o>:w<CR>", opts)
 map("n", "<C-a>", "gg<S-v>G", opts)
 
 -- Visual mode editing
-vim.keymap.set("v", "N", ":m '>+1<CR>gv=gv") -- Move selection up
-vim.keymap.set("v", "M", ":m '<-2<CR>gv=gv") -- Move selection down
-vim.keymap.set("v", "<C-n>", "y'>pgv")       -- Duplicate selection
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Moves Line Down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
+vim.keymap.set("v", "<C-n>", "y'>pgv") -- Duplicate selection
 
 -- Delete word in insert mode
 vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
@@ -103,3 +103,12 @@ vim.keymap.set("n", "rn", ":IncRename ")
 
 --coding
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)
+
+-- file actions
+vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
+vim.keymap.set(
+  { "n", "v", "x" },
+  "<leader>yy",
+  '"+yy',
+  { noremap = true, silent = true, desc = "Yank line to clipboard" }
+)
