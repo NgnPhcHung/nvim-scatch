@@ -1,27 +1,19 @@
-local cmp = require("cmp")
-local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities
 
 local on_attach = function(client)
-	client.server_capabilities.completionProvider = true
+	 client.server_capabilities.documentFormattingProvider = false
 end
 
 require("typescript-tools").setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
-		-- tsserver = {
-		--   preferences = {
-		--     moduleSpecifierPreference = "non-relative",
-		--     quotePreference = "auto",
-		--     includeCompletionsForImportStatements = true,
-		--     preferImportModuleSpecifier = false,
-		--     allowTextChangesInNewFiles = true,
-		--     allowSyntheticDefaultImports = false,
-		--     providePrefixAndSuffixTextForRename = true,
-		--   },
-		-- },
-		separate_diagnostic_server = false,
+	tsserver = {
+      experimental = {
+        enableProjectDiagnostics = true,
+      },
+    },
+    separate_diagnostic_server = false,
 		publish_diagnostic_on = "insert_leave",
 		expose_as_code_action = {
 			-- "fix_all", "add_missing_imports", "remove_unused_imports"
