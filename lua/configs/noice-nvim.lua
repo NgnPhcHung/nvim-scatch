@@ -60,21 +60,21 @@ require("noice").setup({
 			},
 			view = "mini",
 		},
-		{
-			filter = {
-				event = "lsp",
-				kind = "code_action",
-			},
-			opts = { skip = true }, -- Bỏ qua Code Action trong Noice
-		},
-		{
-			filter = {
-				event = "msg_show",
-				kind = "lsp",
-				find = "Code Action",
-			},
-			opts = { skip = true }, -- Bỏ qua thông báo Code Action từ LSP
-		},
+		-- {
+		-- 	filter = {
+		-- 		event = "lsp",
+		-- 		kind = "code_action",
+		-- 	},
+		-- 	opts = { skip = true }, -- Bỏ qua Code Action trong Noice
+		-- },
+		-- {
+		-- 	filter = {
+		-- 		event = "msg_show",
+		-- 		kind = "lsp",
+		-- 		find = "Code Action",
+		-- 	},
+		-- 	opts = { skip = true }, -- Bỏ qua thông báo Code Action từ LSP
+		-- },
 	},
 	presets = {
 		bottom_search = false,
