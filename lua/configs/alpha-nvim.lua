@@ -61,12 +61,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("alpha_start", { clear = true }),
   desc = "Open Alpha dashboard on startup",
   callback = function()
-    print("VimEnter triggered")  -- Debug
-    print("argc: ", vim.fn.argc())  -- Debug
-    print("filetype: ", vim.bo.filetype)  -- Debug
     
     if vim.fn.argc() == 0 and vim.bo.filetype == "" then
-      print("Opening Alpha...")  -- Debug
       require("alpha").start(false)
     end
   end,
