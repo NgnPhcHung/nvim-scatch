@@ -124,11 +124,19 @@ return require("packer").startup(function(use)
       "rafamadriz/friendly-snippets",
     },
   })
+
+  -- use({
+  --   "nvimtools/none-ls.nvim",
+  --   requires = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" },
+  --   config = function()
+  --     require("configs.null-ls-nvim")
+  --   end,
+  -- })
+  
   use({
-    "nvimtools/none-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" },
+    "stevearc/conform.nvim",
     config = function()
-      require("configs.null-ls-nvim")
+      require("conform").setup()
     end,
   })
 
