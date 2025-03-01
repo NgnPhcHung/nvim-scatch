@@ -29,7 +29,14 @@ return require("packer").startup(function(use)
   use("neovim/nvim-lspconfig")
 
   -- theme
-  use({ "catppuccin/nvim", as = "catppuccin" })
+  use({
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      vim.cmd.colorscheme("catpuccin-mocha")
+    end
+  })
+
   use({
     "nvim-lualine/lualine.nvim",
     requires = { "nvim-tree/nvim-web-devicons", opt = true },
@@ -77,7 +84,7 @@ return require("packer").startup(function(use)
     "TimUntersberger/neogit",
     requires = {
       "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
+      -- "sindrets/diffview.nvim",
       "lewis6991/gitsigns.nvim",
     },
   })
@@ -132,7 +139,7 @@ return require("packer").startup(function(use)
   --     require("configs.null-ls-nvim")
   --   end,
   -- })
-  
+
   use({
     "stevearc/conform.nvim",
     config = function()
@@ -225,4 +232,6 @@ return require("packer").startup(function(use)
   })
 
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+
+  use('mini.animate')
 end)

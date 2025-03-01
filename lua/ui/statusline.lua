@@ -55,7 +55,7 @@ function M.setup()
 
   lualine.setup({
     options = {
-      theme = "catppuccin-frappe",
+      theme = require("lualine.themes.catppuccin"),
       globalstatus = true,
       section_separators = "",
       component_separators = "",

@@ -31,11 +31,16 @@ local function setup_workspace()
       return
     end
 
-    vim.cmd("source " .. vim.g.session_file)
+    local ok, err = pcall(vim.cmd, "source " .. vim.g.session_file)
+    if not ok then
+      print("⚠️ Session Restore Error: " .. err)
+    end
 
     if #files_before_load > 0 then
       for _, file in ipairs(files_before_load) do
-        vim.cmd("edit " .. file)
+        if vim.fn.filereadable(file) == 1 then
+          vim.cmd("edit " .. file)
+        end
       end
     end
   end
