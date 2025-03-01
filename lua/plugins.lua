@@ -32,9 +32,6 @@ return require("packer").startup(function(use)
   use({
     "catppuccin/nvim",
     as = "catppuccin",
-    config = function()
-      vim.cmd.colorscheme("catpuccin-mocha")
-    end
   })
 
   use({
@@ -113,6 +110,9 @@ return require("packer").startup(function(use)
     end,
   })
 
+  use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
+
+  -- code
   use({ "onsails/lspkind.nvim" })
   use({
     "hrsh7th/nvim-cmp",
@@ -232,6 +232,4 @@ return require("packer").startup(function(use)
   })
 
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
-
-  use('mini.animate')
 end)

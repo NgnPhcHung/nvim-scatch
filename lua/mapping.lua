@@ -29,10 +29,11 @@ vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Lưu file trong Insert mod
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
 --tab/buffers actions
-map("n", "<A-,>", ":BufferPrevious<CR>", opts)
-map("n", "<A-.>", ":BufferNext<CR>", opts)
+map("n", "<A-.>", ":BufferLineCycleNext<CR>", opts)
+map("n", "<A-,>", ":BufferLineCyclePrev<CR>", opts)
 for i = 1, 9 do
   map("n", "b" .. i, ":BufferGoto " .. i .. "<CR>", opts)
+  map("n", "<A-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
 end
 map("n", "<A-0>", ":BufferLast<CR>", opts)
 
