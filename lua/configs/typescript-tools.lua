@@ -1,19 +1,24 @@
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-local on_attach = function(client)
-  client.server_capabilities.documentFormattingProvider = false
+local tsserver_exe = vim.fn.exepath("tsserver")
+if tsserver_exe == "" then
+  print("tsserver không được tìm thấy. Hãy kiểm tra cài đặt TypeScript.")
+else
+  print("tsserver path: " .. tsserver_exe)
 end
 
+local tsserver_js =
+"/Users/nguyenphuchung/Library/pnpm/global/5/node_modules/typescript/lib/tsserver.js" -- thay bằng đường dẫn đúng trên hệ thống của bạn
+
+
 require("typescript-tools").setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+  on_attach = function(client)
+    -- client.server_capabilities.documentFormattingProvider = false
+  end,
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
   settings = {
+    tsserver_path = tsserver_js,
     separate_diagnostic_server = false,
     publish_diagnostic_on = "insert_leave",
-    expose_as_code_action = {
-      "all",
-    },
-    tsserver_path = nil,
+    expose_as_code_action = { "all" },
     tsserver_plugins = {},
     tsserver_max_memory = "auto",
     tsserver_format_options = {
@@ -34,6 +39,6 @@ require("typescript-tools").setup({
       enable = true,
       filetypes = { "javascriptreact", "typescriptreact" },
     },
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
+    -- filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
   },
 })

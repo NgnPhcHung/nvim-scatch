@@ -32,7 +32,6 @@ vim.keymap.set("i", "jk", "<Esc>", opts)
 map("n", "<A-.>", ":BufferLineCycleNext<CR>", opts)
 map("n", "<A-,>", ":BufferLineCyclePrev<CR>", opts)
 for i = 1, 9 do
-  map("n", "b" .. i, ":BufferGoto " .. i .. "<CR>", opts)
   map("n", "<A-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
 end
 map("n", "<A-0>", ":BufferLast<CR>", opts)
@@ -78,6 +77,23 @@ vim.keymap.set("v", "<C-n>", "y'>pgv") -- Duplicate selection
 vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
 
 -- cpp compiler
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "cpp",
+--   callback = function()
+--     vim.keymap.set("n", "<F5>", function()
+--       local filepath = vim.fn.expand("%")
+--       local file_without_ext = vim.fn.expand("%:r")
+--
+--       require("toggleterm").exec(
+--         "g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
+--         1,
+--         nil,
+--         "horizontal"
+--       )
+--     end, { desc = "Compile and run C++ file" })
+--   end,
+-- })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",
   callback = function()
@@ -86,14 +102,15 @@ vim.api.nvim_create_autocmd("FileType", {
       local file_without_ext = vim.fn.expand("%:r")
 
       require("toggleterm").exec(
-        "g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
+        "g++ -std=c++17 " .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
         1,
         nil,
         "horizontal"
       )
-    end, { desc = "Compile and run C++ file" })
+    end, { desc = "Compile and run C++ file", buffer = true })
   end,
 })
+
 
 --gitactions
 map("n", "<leader>gh", ":Gitsigns preview_hunk<CR>", opts)
@@ -102,10 +119,8 @@ vim.keymap.set("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true
 --rename
 vim.keymap.set("n", "rn", ":IncRename ")
 
---coding
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)
 
--- file actions
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
 vim.keymap.set(
   { "n", "v", "x" },

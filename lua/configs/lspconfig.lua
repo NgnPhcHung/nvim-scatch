@@ -16,21 +16,3 @@ lspconfig.lua_ls.setup({
     },
   },
 })
-
--- lspconfig.ts_ls.setup({
--- 	capabilities = capabilities,
--- 	settings = {
--- 		typescript = {
--- 			inlayHints = {
--- 				includeInlayParameterNameHints = "none",
--- 				includeInlayEnumMemberValueHints = false,
--- 			},
--- 		},
--- 		javascript = {
--- 			inlayHints = {
--- 				includeInlayParameterNameHints = "none",
--- 				includeInlayEnumMemberValueHints = false,
--- 			},
--- 		},
--- 	},
--- })

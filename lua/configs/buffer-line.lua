@@ -23,9 +23,35 @@ require("bufferline").setup {
     end,
     separator_style = "slope",
     numbers = function(opts)
-    return string.format('%s',  opts.raise(opts.ordinal))
-  end,
+      return string.format('%s', opts.raise(opts.ordinal))
+    end,
     always_show_bufferline = true,
-    highlights = require("catppuccin.groups.integrations.bufferline").get(),
-  }
+  },
+  highlights = {
+    fill = {
+      bg = "none", -- Loại bỏ nền của bufferline
+    },
+    background = {
+      bg = "none", -- Background của buffer bình thường
+    },
+    buffer_selected = {
+      bg = "none", -- Background của buffer đang chọn
+      italic = false,
+    },
+    tab_selected = {
+      bg = "none",
+    },
+    separator = {
+      fg = "#1e1e2e", -- Hoặc màu tối hơn để không bị lộ khi transparent
+      bg = "none",
+    },
+    separator_selected = {
+      fg = "#1e1e2e",
+      bg = "none",
+    },
+    duplicate = {
+      fg = "#888888",
+      bg = "none",
+    },
+  },
 }
