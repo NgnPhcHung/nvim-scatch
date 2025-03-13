@@ -6,12 +6,15 @@ local lspkind = require("lspkind")
 
 cmp.setup({
   completion = {
-    autocomplte = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+    autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
   },
   snippet = {
     expand = function(args)
       require("luasnip").lsp_expand(args.body)
     end,
+  },
+  experimental = {
+    ghost_text = true,
   },
 
   mapping = cmp.mapping.preset.insert({
@@ -56,60 +59,51 @@ cmp.setup({
 
       return vim_item
     end,
-
-    performance = {
-      debounce = 6,
-      throttle = 10,
-      fetching_timeout = 200,
-      confirm_resolve_timeout = 60,
-      async_budget = 1,
-      max_view_entries = 200,
-    },
-
-    window = {
-      completion = {
-        border = {
-          { "󱐋", "WarningMsg" },
-          { "─", "Comment" },
-          { "╮", "Comment" },
-          { "│", "Comment" },
-          { "╯", "Comment" },
-          { "─", "Comment" },
-          { "╰", "Comment" },
-          { "│", "Comment" },
-        },
-      },
-      documentation = {
-        border = {
-          { "󰙎", "DiagnosticHint" },
-          { "─", "Comment" },
-          { "╮", "Comment" },
-          { "│", "Comment" },
-          { "╯", "Comment" },
-          { "─", "Comment" },
-          { "╰", "Comment" },
-          { "│", "Comment" },
-        },
-      },
-    },
   },
+
+  performance = {
+    debounce = 6,
+    throttle = 10,
+    fetching_timeout = 200,
+    confirm_resolve_timeout = 60,
+    async_budget = 1,
+    max_view_entries = 200,
+  },
+
+  window = {
+    completion = cmp.config.window.bordered({
+      border = "rounded",
+      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+      side_padding = 2, -- Tăng padding để text không bị cắt
+      max_width = 80, -- Mở rộng cửa sổ để text hiển thị đầy đủ
+      max_height = 20,
+      winblend = 5,
+    }),
+    documentation = cmp.config.window.bordered({
+      border = "rounded",
+      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+      side_padding = 2,
+      max_width = 80, -- Cho phép hover panel hiển thị nội dung đầy đủ
+      max_height = 25,
+      winblend = 5,
+    }),
+  }
 })
 
 vim.keymap.set("n", "E", function()
   vim.diagnostic.open_float(nil, {
     scope = "cursor",
-    border = {
-      { "╭", "FloatBorder" }, -- Góc trên trái
-      { "─", "FloatBorder" }, -- Đường ngang trên
-      { "╮", "FloatBorder" }, -- Góc trên phải
-      { "│", "FloatBorder" }, -- Đường dọc bên phải
-      { "╯", "FloatBorder" }, -- Góc dưới phải
-      { "─", "FloatBorder" }, -- Đường ngang dưới
-      { "╰", "FloatBorder" }, -- Góc dưới trái
-      { "│", "FloatBorder" }, -- Đường dọc bên trái
-    },
+    border = "rounded",
   })
 end, { noremap = true, silent = true })
+
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+  winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
+  winblend = 20,
+  -- wrap = true,
+})
 
 vim.cmd([[
   set completeopt=menuone,noinsert,noselect

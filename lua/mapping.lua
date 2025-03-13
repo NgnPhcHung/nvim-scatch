@@ -7,18 +7,20 @@ local opts = { noremap = true, silent = true }
 --Telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal<CR>", { noremap = true, silent = true })
 map("n", "<leader>fw", "<cmd>Telescope live_grep inital_mode=normal<CR>", { noremap = true, silent = true })
-map("n", "ls", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>")
+
 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
 map("n", "gD", "<cmd>Telescope lsp_type_definitions initial_mode=normal<CR>", opts)
 map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<CR>", opts)
+
 vim.keymap.set("n", "<S-h>", function()
   require("telescope.builtin").buffers({
     initial_mode = "normal",
     previewer = false,
     layout_strategy = "center",
     layout_config = {
-      width = 0.4,
+      width = 0.8,
       height = 0.4,
     },
   })
@@ -53,10 +55,10 @@ map("n", "<C-k>", "<C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 
 --resize window
-map("n", "<A-Right>", ":vertical resize -2<CR>", opts)
-map("n", "<A-Left>", ":vertical resize +2<CR>", opts)
-map("n", "<A-Up>", ":resize +2<CR>", opts)
-map("n", "<A-Down>", ":resize -2<CR>", opts)
+map("n", "<A-l>", ":vertical resize -2<CR>", opts)
+map("n", "<A-h>", ":vertical resize +2<CR>", opts)
+map("n", "<A-k>", ":resize +2<CR>", opts)
+map("n", "<A-j>", ":resize -2<CR>", opts)
 
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
@@ -75,24 +77,6 @@ vim.keymap.set("v", "<C-n>", "y'>pgv") -- Duplicate selection
 
 -- Delete word in insert mode
 vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
-
--- cpp compiler
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "cpp",
---   callback = function()
---     vim.keymap.set("n", "<F5>", function()
---       local filepath = vim.fn.expand("%")
---       local file_without_ext = vim.fn.expand("%:r")
---
---       require("toggleterm").exec(
---         "g++ -std=c++17" .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
---         1,
---         nil,
---         "horizontal"
---       )
---     end, { desc = "Compile and run C++ file" })
---   end,
--- })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",

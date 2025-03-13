@@ -1,5 +1,6 @@
 local M = {}
-
+vim.o.laststatus = 2 -- Ensure per-window statusline
+vim.o.cmdheight = 1  -- Ensure space for status messages
 function M.setup()
   local icon = require("packages.icons")
   local lualine = require("lualine")
@@ -55,14 +56,14 @@ function M.setup()
 
   lualine.setup({
     options = {
-      theme = require("lualine.themes.catppuccin"),
+      theme = "jellybeans",
       globalstatus = true,
       section_separators = "",
       component_separators = "",
       disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha" } },
     },
     sections = {
-      lualine_a = { mode },
+      lualine_a = { mode, },
       lualine_b = { branch },
       lualine_c = {
         { numberOfBuffers },
@@ -72,6 +73,7 @@ function M.setup()
       lualine_y = { "progress" },
       lualine_z = { "location" },
     },
+    globalstatus = false
   })
 end
 

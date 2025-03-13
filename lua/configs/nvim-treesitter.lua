@@ -21,3 +21,7 @@ require("nvim-treesitter.configs").setup({
     },
   },
 })
+
+vim.cmd [[
+  highlight link @jsdoc Comment
+]]

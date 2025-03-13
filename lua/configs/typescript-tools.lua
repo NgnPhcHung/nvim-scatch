@@ -11,7 +11,7 @@ local tsserver_js =
 
 require("typescript-tools").setup({
   on_attach = function(client)
-    -- client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentFormattingProvider = false
   end,
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
   settings = {
@@ -37,8 +37,21 @@ require("typescript-tools").setup({
     disable_member_code_lens = true,
     jsx_close_tag = {
       enable = true,
-      filetypes = { "javascriptreact", "typescriptreact" },
+      filetypes = { "typescriptreact" },
     },
-    -- filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
-  },
+    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+
+  }
+  ,
 })
+
+
+local api = require("typescript-tools.api")
+require("typescript-tools").setup {
+  handlers = {
+    ["textDocument/publishDiagnostics"] = api.filter_diagnostics(
+    -- Ignore 'This may be converted to an async function' diagnostics.
+      { 80006, 7044, 80001 }
+    ),
+  },
+}

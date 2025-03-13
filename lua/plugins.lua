@@ -33,6 +33,9 @@ return require("packer").startup(function(use)
     "catppuccin/nvim",
     as = "catppuccin",
   })
+  use "rebelot/kanagawa.nvim"
+  use 'mikesmithgh/gruvsquirrel.nvim'
+
 
   use({
     "nvim-lualine/lualine.nvim",
@@ -41,7 +44,6 @@ return require("packer").startup(function(use)
       require("ui.statusline").setup()
     end,
   })
-  use({ "nvim-tree/nvim-web-devicons" })
 
   --file actions
   use({
@@ -53,18 +55,15 @@ return require("packer").startup(function(use)
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
 
-  use({
-    "nvim-tree/nvim-tree.lua",
-    requires = {
-      "nvim-tree/nvim-web-devicons",
-    },
-  })
   use({ "nvim-telescope/telescope-ui-select.nvim" })
 
   use({ "mbbill/undotree" })
 
   --buffers
   use({ "axkirillov/hbac.nvim" })
+  use {
+    "nvim-lua/plenary.nvim"
+  }
 
   --git
   use({
@@ -80,8 +79,6 @@ return require("packer").startup(function(use)
   use({
     "TimUntersberger/neogit",
     requires = {
-      "nvim-lua/plenary.nvim",
-      -- "sindrets/diffview.nvim",
       "lewis6991/gitsigns.nvim",
     },
   })
@@ -89,6 +86,7 @@ return require("packer").startup(function(use)
     "sindrets/diffview.nvim",
     requires = "nvim-lua/plenary.nvim",
   })
+
   use({
     "akinsho/git-conflict.nvim",
     tag = "*",
@@ -98,6 +96,8 @@ return require("packer").startup(function(use)
   })
 
   --ui
+  use 'nvim-tree/nvim-web-devicons'
+
   use({
     "folke/noice.nvim",
     requires = {
@@ -110,7 +110,7 @@ return require("packer").startup(function(use)
     end,
   })
 
-  use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
+  -- use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
 
   -- code
   use({ "onsails/lspkind.nvim" })
@@ -212,9 +212,6 @@ return require("packer").startup(function(use)
 
   use({
     "goolord/alpha-nvim",
-    requires = {
-      "nvim-tree/nvim-web-devicons",
-    },
   })
 
   use("famiu/bufdelete.nvim")
@@ -222,11 +219,35 @@ return require("packer").startup(function(use)
   use({
     "MeanderingProgrammer/render-markdown.nvim",
     after = { "nvim-treesitter" },
-    requires = { "nvim-tree/nvim-web-devicons", opt = true }, -- if you prefer nvim-web-devicons
     config = function()
       require("render-markdown").setup({})
     end,
   })
 
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+
+  use {
+    'kkoomen/vim-doge',
+    run = ':call doge#install()'
+  }
+
+  use({ 'nvim-pack/nvim-spectre', requires = { "ray-x/sad.nvim", "ray-x/guihua.lua" } })
+
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    requires = {
+      "3rd/image.nvim",
+    }
+  })
+
+  use 'RRethy/vim-illuminate'
+
+  return {
+    "rhysd/accelerated-jk",
+    config = function()
+      vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
+      vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
+    end
+  }
 end)
