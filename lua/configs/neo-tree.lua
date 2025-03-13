@@ -2,7 +2,9 @@ require("neo-tree").setup({
   window = {
     position = "float",
     -- width = 40,
-    mappings = {
+    mapping_options = {
+      noremap = true,
+      nowait = true,
     },
   },
 
@@ -35,21 +37,27 @@ require("neo-tree").setup({
   },
 
   filesystem = {
+    follow_current_file = {
+      enabled = true, -- This will find and focus the file in the active buffer every time
+      leave_dirs_open = true,
+    },
     filtered_items = {
       visible = true,        -- Hiển thị các file được filter (cho mục đích xem trước)
       hide_dotfiles = false, -- Không ẩn dotfiles (theo config ban đầu của bạn)
       hide_by_name = { "node_modules", ".DS_Store" },
     },
     use_libuv_file_watcher = true,
-    follow_current_file = {
-      enabled = true,          -- This will find and focus the file in the active buffer every time
-      --               -- the current file is changed while the tree is open.
-      leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
-    },
   },
   git_status = {
     window = {
       position = "float",
     },
   },
+  buffers = {
+    follow_current_file = {
+      enabled = true,          -- This will find and focus the file in the active buffer every time
+      --              -- the current file is changed while the tree is open.
+      leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+    },
+  }
 })
