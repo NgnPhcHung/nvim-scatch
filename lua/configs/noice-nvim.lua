@@ -1,5 +1,10 @@
 require("noice").setup({
   messages = { view_search = false },
+  message = {
+    enabled = true,
+    view = "notify",
+    opts = {},
+  },
   notify = {
     enabled = true,
     view = "mini",
@@ -7,40 +12,28 @@ require("noice").setup({
   },
   cmdline = {
     enabled = true,
+    view = "cmdline_popup",
     format = {
       default = {
-        position = {
-          row = 40,
-          col = "50%",
-        },
-        size = {
-          width = "40%",
-        },
-        border = {
-          style = "rounded",
-        },
+        position = { row = 41, col = "50%" },
+        size = { width = "41%" },
+        border = { style = "rounded" },
       },
     },
   },
   lsp = {
-    progress = {
-      enabled = true,
-    },
+    progress = { enabled = true },
     override = {
       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
       ["vim.lsp.util.stylize_markdown"] = true,
       ["vim.lsp.buf.code_action"] = false,
-      ["cmp.entry.get_documentation"] = true,
+      ["cmp.entry.get_documentation"] = false,
+      ["vim.lsp.buf.hover"] = true,
     },
-    signature = {
-      enabled = true,
-    },
-    messages = {
-      enabled = false,
-    },
+    signature = { enabled = true },
+    messages = { enabled = false },
   },
   routes = {
-    -- See :h ui-messages
     {
       filter = {
         event = "msg_show",
@@ -54,27 +47,16 @@ require("noice").setup({
           { find = "^%d+ line less;?" },
           { find = "^Already at newest change" },
           { kind = "wmsg" },
-          { kind = "emsg",                      find = "E486" },
+          { kind = "emsg",                      find = "E487" },
           { kind = "quickfix" },
         },
       },
       view = "mini",
     },
-    -- {
-    -- 	filter = {
-    -- 		event = "lsp",
-    -- 		kind = "code_action",
-    -- 	},
-    -- 	opts = { skip = true }, -- Bỏ qua Code Action trong Noice
-    -- },
-    -- {
-    -- 	filter = {
-    -- 		event = "msg_show",
-    -- 		kind = "lsp",
-    -- 		find = "Code Action",
-    -- 	},
-    -- 	opts = { skip = true }, -- Bỏ qua thông báo Code Action từ LSP
-    -- },
+    {
+      filter = { event = "msg_show", kind = "", find = "written" },
+      opts = { skip = true },
+    },
   },
   presets = {
     bottom_search = false,
@@ -85,10 +67,33 @@ require("noice").setup({
     progress = false,
     smart_move = false,
   },
-  config = function(_, opts)
-    if vim.o.filetype == "lazy" then
-      vim.cmd([[messages clear]])
-    end
-    require("noice").setup(opts)
-  end,
+  views = {
+    hover = {
+      border = { style = "rounded" },
+      relative = "cursor",
+      size = {
+        width = "auto",
+        height = "auto",
+        max_width = math.floor(vim.o.columns * 1.5),
+        max_height = math.floor(vim.o.lines * 1.4),
+      },
+      position = { row = 2, col = 1 },
+      win_options = {
+        winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
+      },
+    },
+    cmdline_popup = {
+      win_options = {
+        winblend = 1, -- You can try increasing this value (e.g., 20) to see if transparency becomes visible.
+        winhl = "Normal:NoiceCmdLine,FloatBorder:NoiceCmdLineBorder",
+      },
+    },
+  },
 })
+vim.cmd [[
+  augroup NoiceCustomHighlights
+    autocmd!
+    autocmd ColorScheme * highlight NoiceCmdLine guibg=none ctermbg=none
+    autocmd ColorScheme * highlight NoiceCmdLineBorder guibg=none ctermbg=none
+  augroup END
+]]

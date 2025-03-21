@@ -20,6 +20,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<C-j>"] = cmp.mapping.select_next_item(),
     ["<C-k>"] = cmp.mapping.select_prev_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-.>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
@@ -32,13 +33,14 @@ cmp.setup({
   sources = cmp.config.sources({
     {
       name = "nvim_lsp",
-      entry_filter = function(entry, ctx)
+      entry_filter = function(entry)
         return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
       end,
     },
     { name = "dap" },
     { name = "luasnip" },
     { name = "path" },
+    { name = 'render-markdown' },
   }),
 
   preselect = cmp.PreselectMode.None,
@@ -72,37 +74,18 @@ cmp.setup({
 
   window = {
     completion = cmp.config.window.bordered({
-      border = "rounded",
-      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
-      side_padding = 2, -- Tăng padding để text không bị cắt
-      max_width = 80, -- Mở rộng cửa sổ để text hiển thị đầy đủ
-      max_height = 20,
+      side_padding = 2,
+      -- max_width = 60,
+      -- max_height = 20,
       winblend = 5,
     }),
     documentation = cmp.config.window.bordered({
-      border = "rounded",
-      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
       side_padding = 2,
-      max_width = 80, -- Cho phép hover panel hiển thị nội dung đầy đủ
-      max_height = 25,
+      -- max_width = 60,
+      -- max_height = 25,
       winblend = 5,
     }),
   }
-})
-
-vim.keymap.set("n", "E", function()
-  vim.diagnostic.open_float(nil, {
-    scope = "cursor",
-    border = "rounded",
-  })
-end, { noremap = true, silent = true })
-
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-  winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
-  winblend = 20,
-  -- wrap = true,
 })
 
 vim.cmd([[

@@ -17,4 +17,6 @@ require('neoscroll').setup({
   ignored_events = {           -- Events ignored while scrolling
     'WinScrolled', 'CursorMoved'
   },
+  easing_function = "quadratic", -- Chọn hàm easing phù hợp
+
 })

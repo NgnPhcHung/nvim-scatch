@@ -62,7 +62,7 @@ local function setup_workspace()
     for _, win in ipairs(vim.api.nvim_list_wins()) do
       local buf = vim.api.nvim_win_get_buf(win)
       local bufname = vim.api.nvim_buf_get_name(buf)
-      if bufname:match("Neo-tree") then
+      if bufname:match("NvimTree_") then
         vim.cmd("bdelete " .. buf)
       end
     end

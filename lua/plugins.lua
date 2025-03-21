@@ -25,7 +25,9 @@ return require("packer").startup(function(use)
 
   --Packer management
   use("wbthomason/packer.nvim")
-  use("williamboman/mason-lspconfig.nvim")
+  use({
+    "williamboman/mason-lspconfig.nvim"
+  })
   use("neovim/nvim-lspconfig")
 
   -- theme
@@ -34,8 +36,6 @@ return require("packer").startup(function(use)
     as = "catppuccin",
   })
   use "rebelot/kanagawa.nvim"
-  use 'mikesmithgh/gruvsquirrel.nvim'
-
 
   use({
     "nvim-lualine/lualine.nvim",
@@ -57,6 +57,7 @@ return require("packer").startup(function(use)
 
   use({ "nvim-telescope/telescope-ui-select.nvim" })
 
+  -- manage history of file
   use({ "mbbill/undotree" })
 
   --buffers
@@ -87,13 +88,7 @@ return require("packer").startup(function(use)
     requires = "nvim-lua/plenary.nvim",
   })
 
-  use({
-    "akinsho/git-conflict.nvim",
-    tag = "*",
-    config = function()
-      require("git-conflict").setup()
-    end,
-  })
+  use({ "MunifTanjim/nui.nvim" })
 
   --ui
   use 'nvim-tree/nvim-web-devicons'
@@ -102,7 +97,7 @@ return require("packer").startup(function(use)
     "folke/noice.nvim",
     requires = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      -- "rcarriga/nvim-notify",
       "nvim-lua/plenary.nvim",
     },
     config = function()
@@ -117,7 +112,7 @@ return require("packer").startup(function(use)
   use({
     "hrsh7th/nvim-cmp",
     config = function()
-      require("configs.nvim-cmp")
+      require("configs.cmp")
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   })
@@ -132,13 +127,6 @@ return require("packer").startup(function(use)
     },
   })
 
-  -- use({
-  --   "nvimtools/none-ls.nvim",
-  --   requires = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" },
-  --   config = function()
-  --     require("configs.null-ls-nvim")
-  --   end,
-  -- })
 
   use({
     "stevearc/conform.nvim",
@@ -216,13 +204,6 @@ return require("packer").startup(function(use)
 
   use("famiu/bufdelete.nvim")
 
-  use({
-    "MeanderingProgrammer/render-markdown.nvim",
-    after = { "nvim-treesitter" },
-    config = function()
-      require("render-markdown").setup({})
-    end,
-  })
 
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
 
@@ -232,22 +213,30 @@ return require("packer").startup(function(use)
   }
 
   use({ 'nvim-pack/nvim-spectre', requires = { "ray-x/sad.nvim", "ray-x/guihua.lua" } })
-
-  use({
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+  use {
+    'nvim-tree/nvim-tree.lua',
     requires = {
-      "3rd/image.nvim",
-    }
-  })
+      'nvim-tree/nvim-web-devicons', -- optional
+    },
+  }
+
+  use 'mrcjkb/rustaceanvim'
 
   use 'RRethy/vim-illuminate'
 
-  return {
+  use({
+    'MeanderingProgrammer/render-markdown.nvim',
+    after = { 'nvim-treesitter' },
+    requires = { 'echasnovski/mini.nvim', opt = true },
+  })
+
+  use {
     "rhysd/accelerated-jk",
     config = function()
       vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
       vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
     end
   }
+
+  -- use({ "sphamba/smear-cursor.nvim" })
 end)

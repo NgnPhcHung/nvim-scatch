@@ -32,16 +32,13 @@ vim.cmd("syntax on")
 vim.opt.ttimeoutlen = 0
 
 vim.opt.list = true
--- vim.opt.listchars = {
---   tab = "→ ",
---   trail = "•",
---   eol = "↴",
--- }
--- vim.api.nvim_set_hl(0, "Whitespace", { fg = "#4d4d4d", blend = 20 })
 vim.api.nvim_set_hl(0, "NonText", { fg = "#4d4d4d", blend = 50 })
 
 vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
+
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
 
 vim.diagnostic.config({
   virtual_text = {
@@ -72,17 +69,8 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
-vim.cmd([[
-  highlight! link NormalFloat Normal
-  highlight! link FloatBorder Normal
-  highlight! Pmenu guibg=NONE
-  highlight! PmenuSel guibg=#333333 guifg=#ffffff
-]])
-
-vim.cmd([[
-  highlight NormalFloat guibg=#0d1b2a
-  highlight FloatBorder guifg=#3e6072 guibg=#0d1b2a
-]])
-vim.cmd([[
-  highlight FloatTitle guifg=#a9d6e5 guibg=#0d1b2a
-]])
+vim.keymap.set("n", "E", function()
+  vim.diagnostic.open_float(nil, {
+    scope = "cursor",
+  })
+end, { noremap = true, silent = true })

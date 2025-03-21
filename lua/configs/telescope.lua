@@ -21,12 +21,13 @@ local function custom_entry_maker(entry)
   return {
     value = entry,
     display = custom_display,
-    ordinal = just_file,
+    ordinal = full_path, -- Sử dụng full_path để filtering theo đường dẫn
     filename = just_file,
     filelink = full_path,
     path = full_path,
   }
 end
+
 
 require("telescope").setup({
   defaults = {
@@ -69,9 +70,12 @@ require("telescope").setup({
     grep_string = {
       initial_mode = 'normal',
       theme = 'ivy',
+      sorting_strategy = 'ascending',
     },
     live_grep = {
       theme = 'dropdown',
+      winblend = 10,
+      sorting_strategy = 'ascending',
     },
     buffers = {
       previewer = true,
@@ -112,11 +116,48 @@ end)
 vim.cmd("highlight TelescopeResultsFileName guifg=white gui=bold")
 vim.cmd("highlight TelescopeResultsFileLink guifg=#888888 ctermfg=8 gui=NONE")
 
-vim.cmd("highlight TelescopeNormal guibg=#0d1b2a")                     -- Nền chính: xanh đậm
-vim.cmd("highlight TelescopeBorder guifg=#3e6072 guibg=#0d1b2a")       -- Viền: xanh vừa, tạo điểm nhấn
-vim.cmd("highlight TelescopePromptNormal guifg=#a9d6e5 guibg=#0d1b2a") -- Prompt: chữ xanh sáng
-vim.cmd("highlight TelescopePromptBorder guifg=#3e6072 guibg=#0d1b2a")
-vim.cmd("highlight TelescopeResultsNormal guibg=#0d1b2a")
-vim.cmd("highlight TelescopeResultsBorder guifg=#3e6072 guibg=#0d1b2a")
-vim.cmd("highlight TelescopePreviewNormal guibg=#0d1b2a")
-vim.cmd("highlight TelescopePreviewBorder guifg=#3e6072 guibg=#0d1b2a")
+vim.cmd("highlight CurrentBufferOpen  guifg=#789DBC")
+
+
+local function buffer_entry_maker(entry)
+  local bufnr = entry.bufnr
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+  local short_name = bufname ~= "" and vim.fn.fnamemodify(bufname, ":t") or "[No Name]"
+
+  local displayer = entry_display.create({
+    separator = " ",
+    items = {
+      { width = 4 },
+      { remaining = true },
+    },
+  })
+
+  local current_buf = vim.api.nvim_get_current_buf()
+  local hl = bufnr == current_buf and "CurrentBufferOpen" or nil
+
+  return {
+    value = entry,
+    ordinal = short_name,
+    display = function()
+      return displayer({
+        { tostring(bufnr), hl },
+        { short_name,      hl },
+      })
+    end,
+    bufnr = bufnr,
+  }
+end
+
+vim.keymap.set("n", "<S-h>", function()
+  require("telescope.builtin").buffers({
+    initial_mode = "normal",
+    previewer = false,
+    layout_strategy = "center",
+    layout_config = {
+      width = 0.8,
+      height = 0.4,
+    },
+    winblend = 30,
+    entry_maker = buffer_entry_maker,
+  })
+end, { desc = "Open telescope buffers list" })
