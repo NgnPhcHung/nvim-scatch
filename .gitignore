@@ -1,3 +1,4 @@
 shada/workxpaces/*
 !shada/workxpaces/
+node_modules/
 
