@@ -159,5 +159,7 @@ vim.keymap.set("n", "<S-h>", function()
     },
     winblend = 30,
     entry_maker = buffer_entry_maker,
+    sorter = nil,
+    sort_lastused = true,
   })
 end, { desc = "Open telescope buffers list" })
