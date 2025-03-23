@@ -36,6 +36,9 @@ return require("packer").startup(function(use)
     as = "catppuccin",
   })
   use "rebelot/kanagawa.nvim"
+  use 'shaunsingh/nord.nvim'
+  use 'sainnhe/gruvbox-material'
+  use "namrabtw/rusty.nvim"
 
   use({
     "nvim-lualine/lualine.nvim",
