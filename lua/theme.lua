@@ -9,7 +9,7 @@ catppuccin.setup({
     shade = 'dark',
     percentage = 0.15,
   },
-  transparent_background = true,
+  transparent_background = false,
   term_colors = false,
   compile = {
     enabled = false,
@@ -108,4 +108,4 @@ catppuccin.setup({
   highlight_overrides = {},
 })
 
-vim.cmd([[colorscheme rusty]])
+vim.cmd([[colorscheme tokyonight]])

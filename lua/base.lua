@@ -38,7 +38,16 @@ vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
 
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 
+
+-- disable startup message
+vim.opt.shortmess:append("sI")
+
+--split styles
+vim.opt.fillchars = { vert = "▒" }
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 
 vim.diagnostic.config({
   virtual_text = {

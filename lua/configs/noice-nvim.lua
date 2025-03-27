@@ -27,7 +27,7 @@ require("noice").setup({
       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
       ["vim.lsp.util.stylize_markdown"] = true,
       ["vim.lsp.buf.code_action"] = false,
-      ["cmp.entry.get_documentation"] = false,
+      ["cmp.entry.get_documentation"] = true,
       ["vim.lsp.buf.hover"] = true,
     },
     signature = { enabled = true },
@@ -63,13 +63,14 @@ require("noice").setup({
     command_palette = false,
     long_message_to_split = false,
     inc_rename = true,
-    lsp_doc_border = true,
+    lsp_doc_border = false,
     progress = false,
     smart_move = false,
   },
   views = {
     hover = {
-      border = { style = "rounded" },
+      enabled = false,
+      border = { style = "none" },
       relative = "cursor",
       size = {
         width = "auto",
@@ -78,13 +79,10 @@ require("noice").setup({
         max_height = math.floor(vim.o.lines * 1.4),
       },
       position = { row = 2, col = 1 },
-      win_options = {
-        winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
-      },
     },
     cmdline_popup = {
       win_options = {
-        winblend = 1, -- You can try increasing this value (e.g., 20) to see if transparency becomes visible.
+        winblend = 1,
         winhl = "Normal:NoiceCmdLine,FloatBorder:NoiceCmdLineBorder",
       },
     },

@@ -2,7 +2,9 @@ require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
     javascript = { "prettierd", "prettier", stop_after_first = true },
-    typescript = { "prettierd", "prettier", stop_after_first = true }
+    typescript = { "prettierd", "prettier", stop_after_first = true },
+    javascriptreact = { "prettier" },
+    typescriptreact = { "prettier" }
   },
   -- Set this to change the default values when calling conform.format()
   -- This will also affect the default values for format_on_save/format_after_save

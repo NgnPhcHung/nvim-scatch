@@ -36,9 +36,11 @@ return require("packer").startup(function(use)
     as = "catppuccin",
   })
   use "rebelot/kanagawa.nvim"
-  use 'shaunsingh/nord.nvim'
   use 'sainnhe/gruvbox-material'
   use "namrabtw/rusty.nvim"
+  use "rose-pine/neovim"
+  use "folke/tokyonight.nvim"
+
 
   use({
     "nvim-lualine/lualine.nvim",
@@ -107,6 +109,7 @@ return require("packer").startup(function(use)
       require("configs/noice-nvim")
     end,
   })
+
 
   -- use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
 

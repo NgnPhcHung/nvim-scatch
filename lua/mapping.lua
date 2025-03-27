@@ -16,17 +16,17 @@ map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<CR>", opts)
 vim.keymap.set("n", "<leader>ps", "<cmd>Telescope grep_string<CR>")
 
 
-vim.keymap.set("n", "<C-s>", ":w<CR>", opts)       -- Lưu file trong Normal mode
-vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Lưu file trong Insert mode
+vim.keymap.set("n", "<C-s>", ":w<CR>", opts)       -- Save file in normal mode
+vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
 --tab/buffers actions
-map("n", "<A-.>", ":BufferLineCycleNext<CR>", opts)
-map("n", "<A-,>", ":BufferLineCyclePrev<CR>", opts)
-for i = 1, 9 do
-  map("n", "<A-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
-end
-map("n", "<A-0>", ":BufferLast<CR>", opts)
+-- map("n", "<A-.>", ":BufferLineCycleNext<CR>", opts)
+-- map("n", "<A-,>", ":BufferLineCyclePrev<CR>", opts)
+-- for i = 1, 9 do
+--   map("n", "<A-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
+-- end
+-- map("n", "<A-0>", ":BufferLast<CR>", opts)
 
 map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
 map("n", "<A-w>", "<Cmd>Bdelete<CR>", opts)
@@ -63,7 +63,6 @@ map("n", "<C-a>", "gg<S-v>G", opts)
 -- Visual mode editing
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Moves Line Down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
-vim.keymap.set("v", "<C-n>", "y'>pgv") -- Duplicate selection
 
 -- Delete word in insert mode
 vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
@@ -102,3 +101,13 @@ vim.keymap.set(
   '"+yy',
   { noremap = true, silent = true, desc = "Yank line to clipboard" }
 )
+
+map("n", "<A-.>", ":bn<cr>", opts)              -- next buffer
+map("n", "<A-,>", ":bp<cr>", opts)              -- prev buffer
+map("n", "<esc><esc>", ":nohlsearch<cr>", opts) -- no highlight
+
+map("n", "n", "nzzzv", opts)                    -- focus highlight next
+map("n", "N", "Nzzzv", opts)                    -- focus hight prev
+
+-- map("n", "<C-d>", "<C-d>zz", opts)
+-- map("n", "<C-u>", "<C-u>zz", opts)

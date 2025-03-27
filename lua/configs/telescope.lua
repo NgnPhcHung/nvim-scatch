@@ -21,7 +21,7 @@ local function custom_entry_maker(entry)
   return {
     value = entry,
     display = custom_display,
-    ordinal = full_path, -- Sử dụng full_path để filtering theo đường dẫn
+    ordinal = full_path,
     filename = just_file,
     filelink = full_path,
     path = full_path,
@@ -118,22 +118,42 @@ vim.cmd("highlight TelescopeResultsFileLink guifg=#888888 ctermfg=8 gui=NONE")
 
 vim.cmd("highlight CurrentBufferOpen  guifg=#789DBC")
 
+local function truncate_path(path)
+  local max_path_length = math.floor(vim.o.columns)
+
+  if #path > max_path_length - 40 then
+    return "…" .. path:sub(-math.floor(max_path_length * 2 / 5))
+  end
+  return path
+end
 
 local function buffer_entry_maker(entry)
   local bufnr = entry.bufnr
   local bufname = vim.api.nvim_buf_get_name(bufnr)
   local short_name = bufname ~= "" and vim.fn.fnamemodify(bufname, ":t") or "[No Name]"
 
+  local project_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1] or vim.fn.getcwd()
+  if not project_root or project_root == "" then
+    project_root = vim.fn.getcwd()
+  end
+
+  local relative_path = bufname ~= "" and vim.fn.fnamemodify(bufname, ":.") or "[No Path]"
+  if vim.startswith(relative_path, project_root) then
+    relative_path = relative_path:sub(#project_root + 2)
+  end
+
   local displayer = entry_display.create({
     separator = " ",
     items = {
       { width = 4 },
+      { remaining = true },
       { remaining = true },
     },
   })
 
   local current_buf = vim.api.nvim_get_current_buf()
   local hl = bufnr == current_buf and "CurrentBufferOpen" or nil
+  local display_path = truncate_path(relative_path)
 
   return {
     value = entry,
@@ -142,6 +162,7 @@ local function buffer_entry_maker(entry)
       return displayer({
         { tostring(bufnr), hl },
         { short_name,      hl },
+        { display_path,    "TelescopeResultsFileLink" }
       })
     end,
     bufnr = bufnr,
@@ -157,7 +178,7 @@ vim.keymap.set("n", "<S-h>", function()
       width = 0.8,
       height = 0.4,
     },
-    winblend = 30,
+    winblend = 0,
     entry_maker = buffer_entry_maker,
     sorter = nil,
     sort_lastused = true,
