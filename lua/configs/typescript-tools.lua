@@ -1,14 +1,3 @@
--- local tsserver_exe = vim.fn.exepath("tsserver")
--- if tsserver_exe == "" then
---   print("tsserver không được tìm thấy. Hãy kiểm tra cài đặt TypeScript.")
--- else
---   print("tsserver path: " .. tsserver_exe)
--- end
---
--- local tsserver_js =
--- "/Users/nguyenphuchung/Library/pnpm/global/5/node_modules/typescript/lib/tsserver.js" -- thay bằng đường dẫn đúng trên hệ thống của bạn
---
---
 require("typescript-tools").setup({
   on_attach = function(client)
     client.server_capabilities.documentFormattingProvider = false

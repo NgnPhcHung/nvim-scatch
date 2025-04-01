@@ -1,19 +1,6 @@
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 
-local function capture(cmd, raw)
-  local f = assert(io.popen(cmd, "r"))
-  local s = assert(f:read("*a"))
-  f:close()
-  if raw then
-    return s
-  end
-  s = string.gsub(s, "^%s+", "")
-  s = string.gsub(s, "%s+$", "")
-  s = string.gsub(s, "[\n\r]+", " ")
-  return s
-end
-
 vim.defer_fn(function()
   local total_plugins = #vim.tbl_keys(packer_plugins or {})
   dashboard.section.footer.val = "Total plugins: " .. total_plugins

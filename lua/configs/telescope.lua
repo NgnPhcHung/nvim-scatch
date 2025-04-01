@@ -80,6 +80,7 @@ require("telescope").setup({
     buffers = {
       previewer = true,
       theme = 'dropdown',
+      sorting_strategy = 'ascending',
       mappings = {
         n = {
           ['<C-e>'] = 'delete_buffer',

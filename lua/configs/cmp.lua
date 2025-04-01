@@ -76,15 +76,15 @@ cmp.setup({
   window = {
     completion = cmp.config.window.bordered({
       side_padding = 2,
-      -- max_width = 60,
-      -- max_height = 20,
-      winblend = 5,
+      max_width = 60,
+      max_height = 20,
+      winblend = 10,
     }),
     documentation = cmp.config.window.bordered({
       side_padding = 2,
-      -- max_width = 60,
-      -- max_height = 25,
-      winblend = 5,
+      max_width = 60,
+      max_height = 25,
+      winblend = 10,
     }),
   }
 })

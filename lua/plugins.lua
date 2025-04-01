@@ -85,7 +85,6 @@ return require("packer").startup(function(use)
   use({
     "TimUntersberger/neogit",
     requires = {
-      "lewis6991/gitsigns.nvim",
     },
   })
   use({
@@ -98,40 +97,47 @@ return require("packer").startup(function(use)
   --ui
   use 'nvim-tree/nvim-web-devicons'
 
-  use({
-    "folke/noice.nvim",
-    requires = {
-      "MunifTanjim/nui.nvim",
-      -- "rcarriga/nvim-notify",
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      require("configs/noice-nvim")
-    end,
-  })
+  -- use({
+  --   "folke/noice.nvim",
+  --   requires = {
+  --     "MunifTanjim/nui.nvim",
+  --     -- "rcarriga/nvim-notify",
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   config = function()
+  --     require("configs/noice-nvim")
+  --   end,
+  -- })
+
+  use({ "j-hui/fidget.nvim", tag = "legacy" })
+
 
 
   -- use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
 
   -- code
+  -- use({ "luasnip.loaders.from_vscode" })
   use({ "onsails/lspkind.nvim" })
   use({
     "hrsh7th/nvim-cmp",
     config = function()
       require("configs.cmp")
-      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   })
+
+  use({ "saadparwaiz1/cmp_luasnip" })
   use({ "hrsh7th/cmp-nvim-lsp" })
-  use({ "hrsh7th/cmp-buffer" })
-  use({ "hrsh7th/cmp-path" })
-  use({
-    "L3MON4D3/LuaSnip",
-    requires = {
-      "saadparwaiz1/cmp_luasnip",
-      "rafamadriz/friendly-snippets",
-    },
-  })
+  -- use({ "hrsh7th/cmp-nvim-lsp" })
+  -- use({ "hrsh7th/cmp-buffer" })
+  -- use({ "hrsh7th/cmp-path" })
+  -- use({
+  --   "L3MON4D3/LuaSnip",
+  --   requires = {
+  --     -- "saadparwaiz1/cmp_luasnip",
+  --     "hrsh7th/cmp-nvim-lsp",
+  --     "rafamadriz/friendly-snippets",
+  --   },
+  -- })
 
 
   use({
@@ -222,7 +228,7 @@ return require("packer").startup(function(use)
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
-      'nvim-tree/nvim-web-devicons', -- optional
+      'nvim-tree/nvim-web-devicons',
     },
   }
 
@@ -244,5 +250,10 @@ return require("packer").startup(function(use)
     end
   }
 
-  -- use({ "sphamba/smear-cursor.nvim" })
+  use({
+    'nvimdev/lspsaga.nvim',
+    config = function()
+      require("configs.lspsaga")
+    end,
+  })
 end)

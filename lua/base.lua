@@ -37,8 +37,8 @@ vim.api.nvim_set_hl(0, "NonText", { fg = "#4d4d4d", blend = 50 })
 vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
 
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 
 
 -- disable startup message
