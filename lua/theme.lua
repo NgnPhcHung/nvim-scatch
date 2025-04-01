@@ -1,111 +1,41 @@
-vim.g.catppuccin_flavour = 'macchiato' -- latte, frappe, macchiato, mocha
-
-local catppuccin = require('catppuccin')
-local cp = require('catppuccin.palettes').get_palette()
-
-catppuccin.setup({
-  dim_inactive = {
-    enabled = false,
-    shade = 'dark',
-    percentage = 0.15,
-  },
-  transparent_background = false,
-  term_colors = false,
-  compile = {
-    enabled = false,
-  },
-  styles = {
-    comments = { 'italic' },
-    conditionals = { 'italic' },
-    loops = {},
-    functions = {},
-    keywords = { 'italic' },
-    strings = {},
-    variables = { 'italic' },
-    numbers = {},
-    booleans = { 'italic' },
-    properties = { 'italic' },
-    types = {},
-    operators = {},
-  },
-  integrations = {
-    treesitter = true,
-    native_lsp = {
-      enabled = true,
-      virtual_text = {
-        errors = { 'italic' },
-        hints = { 'italic' },
-        warnings = { 'italic' },
-        information = { 'italic' },
-      },
-      underlines = {
-        errors = { 'underline' },
-        hints = { 'underline' },
-        warnings = { 'underline' },
-        information = { 'underline' },
-      },
-    },
-    lsp_trouble = true,
-    cmp = true,
-    lsp_saga = false,
-    gitgutter = false,
-    gitsigns = true,
-    telescope = true,
-    nvimtree = {
-      enabled = false,
-      show_root = true,
-      transparent_panel = false,
-    },
-    dap = {
-      enabled = true,
-      enable_ui = true,
-    },
-    indent_blankline = {
-      enabled = true,
-      colored_indent_levels = true,
-    },
-    dashboard = true,
-    neogit = true,
-    vim_sneak = false,
-    barbar = false,
-    bufferline = {
-      enable = false,
-      italics = true,
-      bolds = true,
-    },
-    markdown = true,
-    ts_rainbow = true,
-    hop = true,
-    notify = false,
-    telekasten = false,
-    symbols_outline = true,
-    aerial = false,
-    beacon = true,
-    navic = true,
-  },
-  custom_highlights = {
-    TelescopeBorder = { fg = cp.blue },
-    TelescopeSelectionCaret = { fg = cp.flamingo },
-    TelescopeSelection = { fg = cp.text, bg = cp.surface0, style = { 'bold' } },
-    TelescopeMatching = { fg = cp.blue },
-    TelescopePromptPrefix = { bg = cp.crust },
-    TelescopePromptNormal = { bg = cp.crust },
-    TelescopeResultsNormal = { bg = cp.mantle },
-    TelescopePreviewNormal = { bg = cp.crust },
-    TelescopePromptBorder = { bg = cp.crust, fg = cp.crust },
-    TelescopeResultsBorder = { bg = cp.mantle, fg = cp.mantle },
-    TelescopePreviewBorder = { bg = cp.crust, fg = cp.crust },
-    TelescopePromptTitle = { fg = cp.mauve },
-    TelescopeResultsTitle = { fg = cp.mauve },
-    TelescopePreviewTitle = { fg = cp.mauve },
-    Beacon = { bg = cp.teal },
-    BufferLineIndicatorSelected = { fg = cp.pink },
-    BufferLineModifiedSelected = { fg = cp.teal },
-    BufferLineVisible = { fg = cp.pink, bg = cp.mantle },
-    BufferLineIndicatorVisible = { bg = cp.mante },
-    BufferLineBackcrust = { fg = cp.surface1, bg = cp.mantle },
-  },
-  highlight_overrides = {},
+require("tokyonight").setup({
+  style = "night",
+  transparent = true,
+  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
+  on_colors = function(colors)
+    colors.hint = colors.orange
+    colors.error = "#ff0000"
+  end,
+  on_highlights = function(hl, c)
+    local prompt = "#2d3149"
+    hl.TelescopeNormal = {
+      bg = c.bg_dark,
+      fg = c.fg_dark,
+    }
+    hl.TelescopeBorder = {
+      bg = c.bg_dark,
+      fg = c.bg_dark,
+    }
+    hl.TelescopePromptNormal = {
+      bg = prompt,
+    }
+    hl.TelescopePromptBorder = {
+      bg = prompt,
+      fg = prompt,
+    }
+    hl.TelescopePromptTitle = {
+      bg = prompt,
+      fg = prompt,
+    }
+    hl.TelescopePreviewTitle = {
+      bg = c.bg_dark,
+      fg = c.bg_dark,
+    }
+    hl.TelescopeResultsTitle = {
+      bg = c.bg_dark,
+      fg = c.bg_dark,
+    }
+  end,
 })
 
 vim.cmd([[colorscheme tokyonight]])
