@@ -185,12 +185,6 @@ _G.packer_plugins = {
     path = "/Users/nguyenphuchung/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
     url = "https://github.com/onsails/lspkind.nvim"
   },
-  ["lspsaga.nvim"] = {
-    config = { "\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20configs.lspsaga\frequire\0" },
-    loaded = true,
-    path = "/Users/nguyenphuchung/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
-    url = "https://github.com/nvimdev/lspsaga.nvim"
-  },
   ["lualine.nvim"] = {
     config = { "\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18ui.statusline\frequire\0" },
     loaded = true,
@@ -381,11 +375,6 @@ _G.packer_plugins = {
     path = "/Users/nguyenphuchung/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
   },
-  ["vim-doge"] = {
-    loaded = true,
-    path = "/Users/nguyenphuchung/.local/share/nvim/site/pack/packer/start/vim-doge",
-    url = "https://github.com/kkoomen/vim-doge"
-  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/Users/nguyenphuchung/.local/share/nvim/site/pack/packer/start/vim-fugitive",
@@ -410,38 +399,38 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
-time([[Config for gitsigns.nvim]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+try_loadstring("\27LJ\2\n+\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\16configs.cmp\frequire\0", "config", "nvim-cmp")
+time([[Config for nvim-cmp]], false)
 -- Config for: vim-visual-multi
 time([[Config for vim-visual-multi]], true)
 try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "vim-visual-multi")
 time([[Config for vim-visual-multi]], false)
--- Config for: lspsaga.nvim
-time([[Config for lspsaga.nvim]], true)
-try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20configs.lspsaga\frequire\0", "config", "lspsaga.nvim")
-time([[Config for lspsaga.nvim]], false)
--- Config for: conform.nvim
-time([[Config for conform.nvim]], true)
-try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fconform\frequire\0", "config", "conform.nvim")
-time([[Config for conform.nvim]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18ui.statusline\frequire\0", "config", "lualine.nvim")
-time([[Config for lualine.nvim]], false)
 -- Config for: accelerated-jk
 time([[Config for accelerated-jk]], true)
 try_loadstring("\27LJ\2\nù\1\0\0\6\0\b\0\0176\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\4\0'\4\5\0004\5\0\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\6\0'\4\a\0004\5\0\0B\0\5\1K\0\1\0\30<Plug>(accelerated_jk_gk)\6k\30<Plug>(accelerated_jk_gj)\6j\6n\20nvim_set_keymap\bapi\bvim\0", "config", "accelerated-jk")
 time([[Config for accelerated-jk]], false)
--- Config for: inc-rename.nvim
-time([[Config for inc-rename.nvim]], true)
-try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\15inc_rename\frequire\0", "config", "inc-rename.nvim")
-time([[Config for inc-rename.nvim]], false)
 -- Config for: flash.nvim
 time([[Config for flash.nvim]], true)
 try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "flash.nvim")
 time([[Config for flash.nvim]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18ui.statusline\frequire\0", "config", "lualine.nvim")
+time([[Config for lualine.nvim]], false)
+-- Config for: conform.nvim
+time([[Config for conform.nvim]], true)
+try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fconform\frequire\0", "config", "conform.nvim")
+time([[Config for conform.nvim]], false)
+-- Config for: aerial.nvim
+time([[Config for aerial.nvim]], true)
+try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19configs.aerial\frequire\0", "config", "aerial.nvim")
+time([[Config for aerial.nvim]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
 -- Config for: mason.nvim
 time([[Config for mason.nvim]], true)
 try_loadstring("\27LJ\2\n3\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\nmason\frequire\0", "config", "mason.nvim")
@@ -450,14 +439,10 @@ time([[Config for mason.nvim]], false)
 time([[Config for noice.nvim]], true)
 try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23configs/noice-nvim\frequire\0", "config", "noice.nvim")
 time([[Config for noice.nvim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-try_loadstring("\27LJ\2\n+\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\16configs.cmp\frequire\0", "config", "nvim-cmp")
-time([[Config for nvim-cmp]], false)
--- Config for: aerial.nvim
-time([[Config for aerial.nvim]], true)
-try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19configs.aerial\frequire\0", "config", "aerial.nvim")
-time([[Config for aerial.nvim]], false)
+-- Config for: inc-rename.nvim
+time([[Config for inc-rename.nvim]], true)
+try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\15inc_rename\frequire\0", "config", "inc-rename.nvim")
+time([[Config for inc-rename.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-treesitter ]]

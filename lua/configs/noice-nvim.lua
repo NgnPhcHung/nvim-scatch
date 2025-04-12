@@ -76,6 +76,7 @@ require("noice").setup({
     },
   },
 })
+
 vim.cmd [[
   augroup NoiceCustomHighlights
     autocmd!

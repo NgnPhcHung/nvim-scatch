@@ -25,10 +25,3 @@ require("kulala").setup({
     },
   },
 })
-
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>r",
-  "<cmd>lua require('kulala').run()<CR>",
-  { noremap = true, silent = true, desc = "Execute the request" }
-)

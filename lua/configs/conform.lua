@@ -18,7 +18,7 @@ require("conform").setup({
     lsp_format = "fallback",
     timeout_ms = 500,
     enabled = true,
-    pattern = "*.{js,jsx,ts,tsx}",
+    pattern = "*.{js,jsx,ts,tsx,lua}",
   },
 })
 

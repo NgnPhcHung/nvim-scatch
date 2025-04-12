@@ -20,14 +20,6 @@ vim.keymap.set("n", "<C-s>", ":w<CR>", opts)       -- Save file in normal mode
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
---tab/buffers actions
--- map("n", "<A-.>", ":BufferLineCycleNext<CR>", opts)
--- map("n", "<A-,>", ":BufferLineCyclePrev<CR>", opts)
--- for i = 1, 9 do
---   map("n", "<A-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
--- end
--- map("n", "<A-0>", ":BufferLast<CR>", opts)
-
 map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
 map("n", "<A-w>", "<Cmd>Bdelete<CR>", opts)
 
@@ -90,7 +82,7 @@ map("n", "<leader>gh", ":Gitsigns preview_hunk<CR>", opts)
 vim.keymap.set("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true, desc = "Open Neogit" })
 
 --rename
-vim.keymap.set("n", "rn", ":IncRename ")
+vim.keymap.set("n", "<leader>rn", ":IncRename ")
 
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)
 
@@ -108,6 +100,23 @@ map("n", "<esc><esc>", ":nohlsearch<cr>", opts) -- no highlight
 
 map("n", "n", "nzzzv", opts)                    -- focus highlight next
 map("n", "N", "Nzzzv", opts)                    -- focus hight prev
+
+map('n', '<leader>o', '<cmd>AerialToggle<CR>', opts)
+map('n', '[a', '<cmd>AerialPrev<CR>', opts)
+map('n', ']a', '<cmd>AerialNext<CR>', opts)
+
+map("n", "s", "<cmd>lua require('flash').jump()<CR>", opts)
+map("x", "s", "<cmd>lua require('flash').jump()<CR>", opts)
+map("o", "s", "<cmd>lua require('flash').jump()<CR>", opts)
+map("n", "S", "<cmd>lua require('flash').treesitter()<CR>", opts)
+map("n", "R", "<cmd>lua require('flash').remote()<CR>", opts)
+
+map(
+  "n",
+  "<leader>r",
+  "<cmd>lua require('kulala').run()<CR>",
+  { noremap = true, silent = true, desc = "Execute the request" }
+)
 
 -- map("n", "<C-d>", "<C-d>zz", opts)
 -- map("n", "<C-u>", "<C-u>zz", opts)

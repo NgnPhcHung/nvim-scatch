@@ -1,5 +1,15 @@
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "typescript", "html", "css", "lua", "javascript", "lua", "tsx", "json", "http" },
+  ensure_installed = {
+    "typescript",
+    "html",
+    "css",
+    "lua",
+    "javascript",
+    "lua",
+    "tsx",
+    "json",
+    "http"
+  },
   highlight = {
     enable = true,
     use_languagetree = true,
@@ -22,7 +32,3 @@ require("nvim-treesitter.configs").setup({
     },
   },
 })
-
-vim.cmd [[
-  highlight link @jsdoc Comment
-]]

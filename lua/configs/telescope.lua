@@ -28,7 +28,6 @@ local function custom_entry_maker(entry)
   }
 end
 
-
 require("telescope").setup({
   defaults = {
     prompt_prefix = '   ',

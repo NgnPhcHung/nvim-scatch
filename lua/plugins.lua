@@ -215,12 +215,8 @@ return require("packer").startup(function(use)
 
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
 
-  use {
-    'kkoomen/vim-doge',
-    run = ':call doge#install()'
-  }
-
   use({ 'nvim-pack/nvim-spectre', requires = { "ray-x/sad.nvim", "ray-x/guihua.lua" } })
+
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
@@ -245,11 +241,12 @@ return require("packer").startup(function(use)
     end
   }
 
-  use({
-    'nvimdev/lspsaga.nvim',
-    config = function()
-      require("configs.lspsaga")
-    end,
-  })
+  -- use({
+  --   'nvimdev/lspsaga.nvim',
+  --   config = function()
+  --     require("configs.lspsaga")
+  --   end,
+  -- })
+
   use({ "prisma/vim-prisma" })
 end)

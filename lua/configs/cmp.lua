@@ -73,21 +73,19 @@ cmp.setup({
     max_view_entries = 200,
   },
 
-  -- window = {
-  --   completion = cmp.config.window.bordered({
-  --     max_width = 60,
-  --     -- max_height = 20,
-  --     winblend = 10,
-  --   }),
-  --   documentation = cmp.config.window.bordered({
-  --     max_width = 60,
-  --     -- max_height = 25,
-  --     winblend = 10,
-  --   }),
-  -- }
+  window = {
+    completion = cmp.config.window.bordered({
+      max_width = 60,
+      -- max_height = 20,
+    }),
+    documentation = cmp.config.window.bordered({
+      max_width = 60,
+      -- max_height = 25,
+    }),
+  }
 })
 
-vim.cmd([[
-  set completeopt=menuone,noinsert,noselect
-  highlight! default link CmpItemKind CmpItemMenuDefault
-]])
+-- vim.cmd([[
+--   set completeopt=menuone,noinsert,noselect
+--   highlight! default link CmpItemKind CmpItemMenuDefault
+-- ]])

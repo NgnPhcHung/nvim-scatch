@@ -4,15 +4,22 @@ M.setup = function()
   require('aerial').setup({
     attach_mode = "window",
     show_guides = true,
+    backends = { "lsp", "treesitter", "markdown", "man" },
     layout = {
-      default_direction = "right",
-      max_width = { 40, 0.3 },
+      resize_to_content = false,
+      win_opts = {
+        winhl = "Normal:NormalFloat,FloatBorder:NormalFloat,SignColumn:SignColumnSB",
+        signcolumn = "yes",
+        statuscolumn = " ",
+      },
+    },
+    guides = {
+      mid_item   = "├╴",
+      last_item  = "└╴",
+      nested_top = "│ ",
+      whitespace = "  ",
     },
   })
-
-  vim.api.nvim_set_keymap('n', '<leader>o', '<cmd>AerialToggle<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '[a', '<cmd>AerialPrev<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', ']a', '<cmd>AerialNext<CR>', { noremap = true, silent = true })
 end
 
 return M

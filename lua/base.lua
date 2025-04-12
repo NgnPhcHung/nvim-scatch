@@ -64,20 +64,6 @@ vim.diagnostic.config({
 })
 
 
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "n:*",
-  callback = function()
-    vim.opt.lazyredraw = true
-  end,
-})
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "*:i",
-  callback = function()
-    vim.opt.lazyredraw = false
-  end,
-})
-
 vim.keymap.set("n", "E", function()
   vim.diagnostic.open_float(nil, {
     scope = "cursor",
