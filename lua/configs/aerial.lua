@@ -2,11 +2,11 @@ local M = {}
 
 M.setup = function()
   require('aerial').setup({
-    attach_mode = "window",        -- Tự động hiển thị outline trong cửa sổ mới
-    show_guides = true,            -- Hiển thị đường dẫn hướng dẫn
+    attach_mode = "window",
+    show_guides = true,
     layout = {
-      default_direction = "right", -- Hiển thị ở bên phải
-      max_width = { 40, 0.3 },     -- Chiều rộng tối đa
+      default_direction = "right",
+      max_width = { 40, 0.3 },
     },
   })
 

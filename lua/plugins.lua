@@ -97,21 +97,17 @@ return require("packer").startup(function(use)
   --ui
   use 'nvim-tree/nvim-web-devicons'
 
-  -- use({
-  --   "folke/noice.nvim",
-  --   requires = {
-  --     "MunifTanjim/nui.nvim",
-  --     -- "rcarriga/nvim-notify",
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   config = function()
-  --     require("configs/noice-nvim")
-  --   end,
-  -- })
-
-  use({ "j-hui/fidget.nvim", tag = "legacy" })
-
-
+  use({
+    "folke/noice.nvim",
+    requires = {
+      "MunifTanjim/nui.nvim",
+      -- "rcarriga/nvim-notify",
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("configs/noice-nvim")
+    end,
+  })
 
   -- use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
 
@@ -130,14 +126,14 @@ return require("packer").startup(function(use)
   -- use({ "hrsh7th/cmp-nvim-lsp" })
   -- use({ "hrsh7th/cmp-buffer" })
   -- use({ "hrsh7th/cmp-path" })
-  -- use({
-  --   "L3MON4D3/LuaSnip",
-  --   requires = {
-  --     -- "saadparwaiz1/cmp_luasnip",
-  --     "hrsh7th/cmp-nvim-lsp",
-  --     "rafamadriz/friendly-snippets",
-  --   },
-  -- })
+  use({
+    "L3MON4D3/LuaSnip",
+    requires = {
+      -- "saadparwaiz1/cmp_luasnip",
+      -- "hrsh7th/cmp-nvim-lsp",
+      -- "rafamadriz/friendly-snippets",
+    },
+  })
 
 
   use({
@@ -232,7 +228,6 @@ return require("packer").startup(function(use)
     },
   }
 
-  use 'mrcjkb/rustaceanvim'
 
   use 'RRethy/vim-illuminate'
 
@@ -256,4 +251,5 @@ return require("packer").startup(function(use)
       require("configs.lspsaga")
     end,
   })
+  use({ "prisma/vim-prisma" })
 end)

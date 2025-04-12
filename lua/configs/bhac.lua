@@ -6,6 +6,5 @@ require("hbac").setup({
   end,
   close_buffers_with_windows = true,
   telescope                  = {
-    -- See #telescope-configuration below
   },
 })

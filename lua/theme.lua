@@ -1,6 +1,6 @@
 require("tokyonight").setup({
   style = "night",
-  transparent = true,
+  transparent = false,
   -- Change the "hint" color to the "orange" color, and make the "error" color bright red
   on_colors = function(colors)
     colors.hint = colors.orange
@@ -38,4 +38,4 @@ require("tokyonight").setup({
   end,
 })
 
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme gruvbox-material]])

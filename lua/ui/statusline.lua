@@ -10,7 +10,7 @@ function M.setup()
 
   local numberOfBuffers = function()
     local buffers = vim.fn.getbufinfo({ buflisted = 1 })
-    return "[  " .. #buffers .. " ]"
+    return "[ " .. icon.kind.File .. " " .. #buffers .. " ]"
   end
   local branch = {
     "branch",
@@ -67,7 +67,7 @@ function M.setup()
       lualine_b = { branch },
       lualine_c = {
         { numberOfBuffers },
-        { "filename",     path = 1 }, -- Hiển thị đường dẫn tệp
+        -- { "filename",     path = 1 },
       },
       lualine_x = { diff, diagnostics, filetype },
       lualine_y = { "progress" },

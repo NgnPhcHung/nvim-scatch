@@ -83,3 +83,15 @@ vim.keymap.set("n", "E", function()
     scope = "cursor",
   })
 end, { noremap = true, silent = true })
+
+
+-- vim.api.nvim_create_autocmd("BufWrite", {
+--   pattern = "*",
+--   callback = function(args)
+--     if vim.bo.filetype == "typescript" or vim.bo.filetype == "javascript" then
+--       vim.cmd "TSToolsRemoveUnusedImports"
+--       vim.cmd "TSToolsOrganizeImports"
+--     end
+--     print ""
+--   end,
+-- })
