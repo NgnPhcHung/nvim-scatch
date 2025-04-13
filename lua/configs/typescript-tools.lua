@@ -2,7 +2,8 @@ require("typescript-tools").setup({
   on_attach = function(client)
     client.server_capabilities.documentFormattingProvider = false
   end,
-  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+  -- capabilities = require("cmp_nvim_lsp").default_capabilities(),
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
   settings = {
     tsserver_path = nil,
     separate_diagnostic_server = false,

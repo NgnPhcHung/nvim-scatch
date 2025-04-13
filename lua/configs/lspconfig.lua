@@ -1,5 +1,5 @@
 local lspconfig = require("lspconfig")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 -- Lua
 lspconfig.lua_ls.setup({
@@ -12,6 +12,10 @@ lspconfig.lua_ls.setup({
       },
       workspace = {
         library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      hint = {
+        enable = true,
       },
     },
   },

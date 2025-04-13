@@ -28,7 +28,7 @@ return require("packer").startup(function(use)
   use({
     "williamboman/mason-lspconfig.nvim"
   })
-  use("neovim/nvim-lspconfig")
+  use({ "neovim/nvim-lspconfig" })
 
   -- theme
   use({
@@ -98,10 +98,16 @@ return require("packer").startup(function(use)
   use 'nvim-tree/nvim-web-devicons'
 
   use({
+    'rcarriga/nvim-notify',
+    config = function()
+      require("configs.notify")
+    end
+  })
+
+  use({
     "folke/noice.nvim",
     requires = {
       "MunifTanjim/nui.nvim",
-      -- "rcarriga/nvim-notify",
       "nvim-lua/plenary.nvim",
     },
     config = function()
@@ -109,29 +115,27 @@ return require("packer").startup(function(use)
     end,
   })
 
-  -- use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
-
-  -- code
-  -- use({ "luasnip.loaders.from_vscode" })
-  use({ "onsails/lspkind.nvim" })
+  -- use({ "onsails/lspkind.nvim" })
   use({
     "hrsh7th/nvim-cmp",
     config = function()
       require("configs.cmp")
     end,
   })
-
-  use({ "saadparwaiz1/cmp_luasnip" })
-  use({ "hrsh7th/cmp-nvim-lsp" })
+  -- use({ "saadparwaiz1/cmp_luasnip" })
   -- use({ "hrsh7th/cmp-nvim-lsp" })
-  -- use({ "hrsh7th/cmp-buffer" })
-  -- use({ "hrsh7th/cmp-path" })
+  use({
+    "saghen/blink.cmp",
+    config = function()
+      require("configs.blink-cmp")
+    end,
+  })
+
+  use "rafamadriz/friendly-snippets"
   use({
     "L3MON4D3/LuaSnip",
     requires = {
-      -- "saadparwaiz1/cmp_luasnip",
-      -- "hrsh7th/cmp-nvim-lsp",
-      -- "rafamadriz/friendly-snippets",
+      "hrsh7th/cmp-nvim-lsp",
     },
   })
 
@@ -212,7 +216,6 @@ return require("packer").startup(function(use)
 
   use("famiu/bufdelete.nvim")
 
-
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
 
   use({ 'nvim-pack/nvim-spectre', requires = { "ray-x/sad.nvim", "ray-x/guihua.lua" } })
@@ -240,13 +243,9 @@ return require("packer").startup(function(use)
       vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
     end
   }
-
-  -- use({
-  --   'nvimdev/lspsaga.nvim',
-  --   config = function()
-  --     require("configs.lspsaga")
-  --   end,
-  -- })
+  use { 'echasnovski/mini.nvim', version = '*' }
+  use { 'echasnovski/mini.bracketed', version = '*' }
+  use { 'echasnovski/mini.indentscope', version = '*' }
 
   use({ "prisma/vim-prisma" })
 end)
