@@ -4,7 +4,19 @@ require("conform").setup({
     javascript = { "prettierd", "prettier", stop_after_first = true },
     typescript = { "prettierd", "prettier", stop_after_first = true },
     javascriptreact = { "prettier" },
-    typescriptreact = { "prettier" }
+    typescriptreact = { "prettier" },
+    json = { "prettierd" },
+    css = { "prettierd" },
+    prisma = { "prisma_fmt" }
+  },
+  {
+    formatters = {
+      prisma_fmt = {
+        command = "npx",
+        args = { "prisma", "format" },
+        stdin = false
+      }
+    }
   },
   -- Set this to change the default values when calling conform.format()
   -- This will also affect the default values for format_on_save/format_after_save
@@ -18,7 +30,7 @@ require("conform").setup({
     lsp_format = "fallback",
     timeout_ms = 500,
     enabled = true,
-    pattern = "*.{js,jsx,ts,tsx,lua}",
+    pattern = "*.{js,jsx,ts,tsx,lua,css,html,prisma}",
   },
 })
 

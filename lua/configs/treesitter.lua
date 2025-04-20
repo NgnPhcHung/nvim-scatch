@@ -8,7 +8,8 @@ require("nvim-treesitter.configs").setup({
     "lua",
     "tsx",
     "json",
-    "http"
+    "http",
+    "prisma"
   },
   highlight = {
     enable = true,

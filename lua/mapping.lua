@@ -113,10 +113,16 @@ map("n", "R", "<cmd>lua require('flash').remote()<CR>", opts)
 
 map(
   "n",
-  "<leader>r",
+  "<leader>rr",
   "<cmd>lua require('kulala').run()<CR>",
   { noremap = true, silent = true, desc = "Execute the request" }
 )
 
--- map("n", "<C-d>", "<C-d>zz", opts)
--- map("n", "<C-u>", "<C-u>zz", opts)
+vim.keymap.set("n", "<leader>un",
+  function()
+    require("notify").dismiss({ silent = true, pending = true })
+  end,
+  {
+    desc = "dismiss All Notifications",
+  }
+)

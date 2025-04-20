@@ -2,11 +2,11 @@ require("noice").setup({
   messages = { view_search = false },
   message = {
     enabled = true,
-    view = "notify",
+    view = "mini",
     opts = {},
   },
   notify = {
-    enabled = true,
+    enabled = false,
     view = "notify",
     position = "middle,right",
   },
@@ -22,7 +22,7 @@ require("noice").setup({
     },
   },
   lsp = {
-    progress = { enabled = true },
+    progress = { enabled = false },
     override = {
       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
       ["vim.lsp.util.stylize_markdown"] = true,
@@ -55,6 +55,13 @@ require("noice").setup({
     },
     {
       filter = { event = "msg_show", kind = "", find = "written" },
+      opts = { skip = true },
+    },
+    {
+      filter = {
+        event = "msg_show",
+        find = "method textDocument/documentHighlight is not supported",
+      },
       opts = { skip = true },
     },
   },

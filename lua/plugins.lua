@@ -115,28 +115,26 @@ return require("packer").startup(function(use)
     end,
   })
 
-  -- use({ "onsails/lspkind.nvim" })
-  use({
-    "hrsh7th/nvim-cmp",
-    config = function()
-      require("configs.cmp")
-    end,
-  })
-  -- use({ "saadparwaiz1/cmp_luasnip" })
-  -- use({ "hrsh7th/cmp-nvim-lsp" })
   use({
     "saghen/blink.cmp",
+    requires = { "rafamadriz/friendly-snippets", "onsails/lspkind.nvim" },
     config = function()
       require("configs.blink-cmp")
     end,
   })
 
-  use "rafamadriz/friendly-snippets"
   use({
     "L3MON4D3/LuaSnip",
     requires = {
       "hrsh7th/cmp-nvim-lsp",
+      'hrsh7th/nvim-cmp',
+      "onsails/lspkind.nvim",
+      "saadparwaiz1/cmp_luasnip"
     },
+    config = function()
+      require("configs.cmp")
+    end,
+
   })
 
 
@@ -247,5 +245,7 @@ return require("packer").startup(function(use)
   use { 'echasnovski/mini.bracketed', version = '*' }
   use { 'echasnovski/mini.indentscope', version = '*' }
 
-  use({ "prisma/vim-prisma" })
+  use({ "prisma/vim-prisma", ft = "prisma" })
+
+  use "b0o/schemastore.nvim"
 end)
