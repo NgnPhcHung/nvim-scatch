@@ -81,6 +81,11 @@ require("noice").setup({
         winhl = "Normal:NoiceCmdLine,FloatBorder:NoiceCmdLineBorder",
       },
     },
+    hover = {
+      size = {
+        max_width = 80
+      }
+    }
   },
 })
 

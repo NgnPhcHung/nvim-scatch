@@ -14,6 +14,7 @@ require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
     use_languagetree = true,
+    --markdown
   },
   indent = {
     enable = true,

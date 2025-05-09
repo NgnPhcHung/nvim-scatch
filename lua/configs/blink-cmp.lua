@@ -11,7 +11,8 @@ require("blink.cmp").setup({
 
     ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
     ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
-    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    -- ['<CR>'] = { 'select_and_accept', 'fallback' },
+    ['<CR>'] = { 'accept', 'fallback' },
   },
 
   appearance = {
@@ -27,7 +28,7 @@ require("blink.cmp").setup({
       }
     },
     ghost_text = {
-      enabled = true
+      enabled = false
     },
     trigger = {
       show_on_trigger_character = true,
@@ -44,7 +45,7 @@ require("blink.cmp").setup({
     providers = {
       lsp = {
         min_keyword_length = 0, -- Number of characters to trigger porvider
-        score_offset = 0,       -- Boost/penalize the score of the items
+        score_offset = 4,       -- Boost/penalize the score of the items
       },
       path = {
         min_keyword_length = 0,

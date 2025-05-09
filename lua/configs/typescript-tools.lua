@@ -27,10 +27,8 @@ require("typescript-tools").setup({
     disable_member_code_lens = true,
     jsx_close_tag = {
       enable = true,
-      filetypes = { "typescriptreact" },
+      filetypes = { "typescriptreact", "javascriptreact" },
     },
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-
   }
   ,
 })
@@ -40,7 +38,6 @@ local api = require("typescript-tools.api")
 require("typescript-tools").setup {
   handlers = {
     ["textDocument/publishDiagnostics"] = api.filter_diagnostics(
-    -- Ignore 'This may be converted to an async function' diagnostics.
       { 80006, 7044, 80001 }
     ),
   },

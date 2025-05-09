@@ -218,13 +218,21 @@ return require("packer").startup(function(use)
 
   use({ 'nvim-pack/nvim-spectre', requires = { "ray-x/sad.nvim", "ray-x/guihua.lua" } })
 
-  use {
-    'nvim-tree/nvim-tree.lua',
+  -- use {
+  --   'nvim-tree/nvim-tree.lua',
+  --   requires = {
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  -- }
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
     requires = {
-      'nvim-tree/nvim-web-devicons',
-    },
-  }
-
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    }
+  })
 
   use 'RRethy/vim-illuminate'
 
