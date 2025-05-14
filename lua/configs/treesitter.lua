@@ -3,34 +3,40 @@ require("nvim-treesitter.configs").setup({
     "typescript",
     "html",
     "css",
-    "lua",
+    "lua", -- Xoá phần "lua" thừa
     "javascript",
-    "lua",
     "tsx",
     "json",
     "http",
-    "prisma"
+    "prisma",
   },
   highlight = {
-    enable = true,
-    use_languagetree = true,
-    --markdown
+    enable = true,           -- Bật tính năng đánh dấu cú pháp
+    use_languagetree = true, -- Sử dụng tree-sitter cho các ngôn ngữ
   },
   indent = {
-    enable = true,
+    enable = true, -- Bật indent tự động dựa trên cây cú pháp
   },
   autopairs = {
-    enable = true,
+    enable = true, -- Bật tính năng tự động đóng dấu ngoặc
   },
-  fold = { enable = true },
+  fold = {
+    enable = true, -- Bật tính năng gập mã
+  },
   textobjects = {
     select = {
-      enable = true,
-      lookahead = true,
+      enable = true,                -- Bật chọn đối tượng theo cú pháp
+      lookahead = true,             -- Để xem trước khi chọn
       keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
+        ["af"] = "@function.outer", -- Chọn toàn bộ hàm
+        ["if"] = "@function.inner", -- Chọn bên trong hàm
       },
     },
   },
+
+  sync_install = false, -- Cài đặt các parser một cách đồng bộ hay không
+  auto_install = false, -- Tự động cài parser khi mở file
+  modules = {},         -- Bạn có thể thêm các module nếu cần thiết
+  ignore_install = {},  -- Các parser mà bạn muốn bỏ qua trong quá trình cài đặt
+
 })

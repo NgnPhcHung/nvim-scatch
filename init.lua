@@ -1,7 +1,7 @@
-require("plugins")
 require("mapping")
 require("theme")
 require("base")
+require("init_lazy")
 
 local function load_configs_from_directory(directory)
   local config_files = vim.fn.globpath(directory, "*.lua", false, true)
