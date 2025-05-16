@@ -59,6 +59,8 @@ require("telescope").setup({
       },
       sorting_strategy = 'ascending',
       entry_maker = custom_entry_maker,
+      hidden = true,
+      no_ignore = true
     },
     symbols = {
       theme = 'dropdown',
