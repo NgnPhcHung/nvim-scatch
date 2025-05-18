@@ -8,20 +8,36 @@ require("kulala").setup({
     ensure_installed = { "lua", "javascript", "typescript" },
     highlight = { enable = true },
   },
-  opts = {
-    display_mode = "split",
-    formatters = {
-      json = { "jq", "." },
-      xml = { "xmllint", "--format", "-" },
-      html = { "xmllint", "--format", "--html", "-" },
+  contenttypes = {
+    ["application/json"] = {
+      ft = "json",
+      formatter = vim.fn.executable("jq") == 1 and { "jq", "." },
+      pathresolver = function(...)
+        return require("kulala.parser.jsonpath").parse(...)
+      end,
     },
-    icons = {
-      inlay = {
-        loading = "󰔟",
-        done = " ",
-        error = " ",
-      },
-      lualine = " ",
+    ["application/xml"] = {
+      ft = "xml",
+      formatter = vim.fn.executable("xmllint") == 1 and { "xmllint", "--format", "-" },
+      pathresolver = vim.fn.executable("xmllint") == 1 and { "xmllint", "--xpath", "{{path}}", "-" },
+    },
+    ["text/html"] = {
+      ft = "html",
+      formatter = vim.fn.executable("xmllint") == 1 and { "xmllint", "--format", "--html", "-" },
+      pathresolver = nil,
     },
   },
+  ui = {
+    winbar = true,
+    display_mode = "float"
+  },
+  icons = {
+    inlay = {
+      loading = "󰔟",
+      done = " ",
+      error = " ",
+    },
+    lualine = " ",
+  },
+
 })
