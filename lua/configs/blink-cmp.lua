@@ -24,7 +24,8 @@ require("blink.cmp").setup({
       auto_show = true,
       auto_show_delay_ms = 500,
       window = {
-        border = "rounded"
+        border = "rounded",
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
       }
     },
     ghost_text = {
@@ -44,16 +45,16 @@ require("blink.cmp").setup({
     default = { 'lsp', 'path', 'snippets', 'buffer' },
     providers = {
       lsp = {
-        min_keyword_length = 0, -- Number of characters to trigger porvider
-        score_offset = 4,       -- Boost/penalize the score of the items
+        min_keyword_length = 1,
+        score_offset = 1,
       },
       path = {
         min_keyword_length = 0,
-        score_offset = 1
+        score_offset = 2
       },
       snippets = {
         min_keyword_length = 1,
-        score_offset = 2
+        score_offset = 3
       },
       buffer = {
         min_keyword_length = 0,
@@ -63,5 +64,12 @@ require("blink.cmp").setup({
   },
   fuzzy = { implementation = "lua" },
   snippets = { preset = 'luasnip' },
+})
 
+require('cmp').setup({
+  window = {
+    documentation = {
+      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    },
+  },
 })

@@ -84,7 +84,10 @@ require("noice").setup({
     hover = {
       size = {
         max_width = 80
-      }
+      },
+      win_options = {
+        winblend = 100,
+      },
     }
   },
 })
