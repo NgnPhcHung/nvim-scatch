@@ -55,6 +55,9 @@ vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoiceScrollbarHandle", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoiceScrollbar", { bg = "NONE" })
 
+vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
 
 -- disable startup message
 vim.opt.shortmess:append("sI")

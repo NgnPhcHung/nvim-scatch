@@ -20,11 +20,16 @@ require("blink.cmp").setup({
   },
 
   completion = {
+    menu = {
+      border = "rounded",
+      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    },
     documentation = {
       auto_show = true,
       auto_show_delay_ms = 500,
       window = {
         border = "rounded",
+        -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,Pmenu:NormalFloat,CmpPmenu:NormalFloat"
         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
       }
     },
@@ -45,7 +50,7 @@ require("blink.cmp").setup({
     default = { 'lsp', 'path', 'snippets', 'buffer' },
     providers = {
       lsp = {
-        min_keyword_length = 1,
+        min_keyword_length = 0,
         score_offset = 1,
       },
       path = {
@@ -69,7 +74,14 @@ require("blink.cmp").setup({
 require('cmp').setup({
   window = {
     documentation = {
+      border = "rounded",
       winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    },
+    completion = {
+      border = "rounded",
+      winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder,Pmenu:None,CmpPmenu:None'
+
+      -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,Pmenu:None"
     },
   },
 })
