@@ -29,6 +29,7 @@ local function custom_entry_maker(entry)
 end
 
 require("telescope").setup({
+
   defaults = {
     prompt_prefix = '   ',
     selection_caret = '▎ ',
@@ -36,7 +37,8 @@ require("telescope").setup({
     winblend = 0,
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     border = true,
-    path_display = { "absolute" },
+    path_display = { "truncate", "smart" },
+    cwd = vim.fn.getcwd(),
     mappings = {
       i = {
         ["<C-u>"] = false,
@@ -50,8 +52,9 @@ require("telescope").setup({
   },
   pickers = {
     find_files = {
+      prompt_title = 'HUH?',
       theme = "dropdown",
-      winblend = 10,
+      -- winblend = 10,
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       layout_config = {
         width = 0.9,
@@ -75,10 +78,12 @@ require("telescope").setup({
     },
     live_grep = {
       theme = 'dropdown',
-      winblend = 10,
+      prompt_title = 'String?',
+      -- winblend = 10,
       sorting_strategy = 'ascending',
     },
     buffers = {
+      prompt_title = 'Buffers',
       previewer = true,
       theme = 'dropdown',
       sorting_strategy = 'ascending',
@@ -89,6 +94,14 @@ require("telescope").setup({
         },
       },
       initial_mode = 'normal',
+    },
+    lsp_references = {
+      theme = "cursor",
+      initial_mode = "normal",
+      layout_config = {
+        height = 0.4,
+      },
+      show_line = false,
     },
   },
   extensions = {

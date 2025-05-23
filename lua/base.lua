@@ -59,6 +59,15 @@ vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
 
+vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#ffffff', bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopePromptBorder', { fg = '#ffffff', bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopeResultsBorder', { fg = '#ffffff', bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopePreviewBorder', { fg = '#ffffff', bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopePromptNormal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopeResultsNormal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'TelescopePreviewNormal', { bg = 'none' })
+
 -- disable startup message
 vim.opt.shortmess:append("sI")
 
@@ -88,7 +97,11 @@ vim.keymap.set("n", "E", function()
   })
 end, { noremap = true, silent = true })
 
-
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    require('custom-config.root-project').set_project_root()
+  end,
+})
 -- vim.api.nvim_create_autocmd("BufWrite", {
 --   pattern = "*",
 --   callback = function(args)
