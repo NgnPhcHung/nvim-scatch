@@ -1,22 +1,22 @@
 return {
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require("configs.mason")
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    version = "1.26.0", -- Hoặc phiên bản ổn định
-    dependencies = { "williamboman/mason.nvim" },
-    config = function()
-    end,
-  },
+  -- {
+  --   "williamboman/mason.nvim",
+  --   config = function()
+  --     require("configs.mason")
+  --   end,
+  -- },
+  -- {
+  --   "williamboman/mason-lspconfig.nvim",
+  --   version = "1.26.0", -- Hoặc phiên bản ổn định
+  --   dependencies = { "williamboman/mason.nvim" },
+  --   config = function()
+  --   end,
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = { "windwp/nvim-ts-autotag" },
-    opts = function()
+    config = function()
       require("configs.treesitter")
     end,
   },
@@ -31,7 +31,6 @@ return {
 
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("ui.statusline").setup()
     end,
@@ -40,7 +39,11 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").setup({})
+    end
   },
+
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   "nvim-telescope/telescope-ui-select.nvim",
 
@@ -135,6 +138,10 @@ return {
       "nvim-lua/plenary.nvim",
       "neovim/nvim-lspconfig",
     },
+    config = function()
+      require("configs.typescript-tools")
+    end
+
   },
 
   {
@@ -184,7 +191,6 @@ return {
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
   },
@@ -195,34 +201,34 @@ return {
     dependencies = { "echasnovski/mini.nvim" },
   },
 
-  {
-    "rhysd/accelerated-jk",
-    config = function()
-      vim.keymap.set("n", "j", "<Plug>(accelerated_jk_gj)")
-      vim.keymap.set("n", "k", "<Plug>(accelerated_jk_gk)")
-    end,
-  },
-
   { "echasnovski/mini.nvim",        version = "*" },
   { "echasnovski/mini.bracketed",   version = "*" },
   { "echasnovski/mini.indentscope", version = "*" },
 
-  { "prisma/vim-prisma",            ft = "prisma" },
-  "b0o/schemastore.nvim",
 
-  -- gRPCurl (for interacting with gRPC servers)
-  {
-    "fullstorydev/grpcurl",
-    config = function()
-      -- You can add configuration for grpcurl here if needed
-    end
-  },
+  { "prisma/vim-prisma",            ft = "prisma" },
+
+  { "b0o/schemastore.nvim" },
 
   {
     'mrcjkb/rustaceanvim',
-    version = '^6', -- Recommended
-    lazy = false,   -- This plugin is already lazy
+    version = '^6',
   },
 
-  { 'airblade/vim-rooter' }
+  { 'airblade/vim-rooter' },
+
+  {
+    "sphamba/smear-cursor.nvim",
+    opts = {
+
+      legacy_computing_symbols_support = true,
+      transparent_bg_fallback_color = "#303030",
+      stiffness = 0.8,               -- 0.6      [0, 1]
+      trailing_stiffness = 0.5,      -- 0.3      [0, 1]
+      distance_stop_animating = 0.5, -- 0.1      > 0
+      hide_target_hack = false,
+
+    },
+  },
+
 }

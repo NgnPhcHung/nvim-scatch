@@ -5,9 +5,9 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 --Telescope
-map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal<CR>", { noremap = true, silent = true })
+map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal <CR>", { noremap = true, silent = true })
 map("n", "<leader>fw", "<cmd>Telescope live_grep inital_mode=normal<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>e", ":Neotree reveal toggle<CR>", { desc = "File explorer toggle" })
+vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { desc = "File explorer toggle" })
 
 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)

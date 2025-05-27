@@ -53,17 +53,17 @@ require("telescope").setup({
   pickers = {
     find_files = {
       prompt_title = 'HUH?',
-      theme = "dropdown",
-      -- winblend = 10,
+      theme = "ivy",
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       layout_config = {
         width = 0.9,
-        prompt_position = "top",
+        prompt_position = "bottom",
       },
       sorting_strategy = 'ascending',
       entry_maker = custom_entry_maker,
-      hidden = true,
-      no_ignore = true
+      -- hidden = true,
+      -- no_ignore = true,
+      initial_mode = "normal"
     },
     symbols = {
       theme = 'dropdown',
@@ -79,21 +79,22 @@ require("telescope").setup({
     live_grep = {
       theme = 'dropdown',
       prompt_title = 'String?',
-      -- winblend = 10,
       sorting_strategy = 'ascending',
+      initial_mode = "normal"
     },
     buffers = {
-      prompt_title = 'Buffers',
-      previewer = true,
+      previewer = false,
       theme = 'dropdown',
       sorting_strategy = 'ascending',
       mappings = {
         n = {
-          ['<C-e>'] = 'delete_buffer',
+          ['d'] = 'delete_buffer',
           ['l'] = 'select_default',
         },
       },
       initial_mode = 'normal',
+      sort_lastused = true,
+      prompt_title = "Buffers",
     },
     lsp_references = {
       theme = "cursor",
@@ -102,6 +103,7 @@ require("telescope").setup({
         height = 0.4,
       },
       show_line = false,
+      prompt_title = "Usage"
     },
   },
   extensions = {
@@ -120,7 +122,6 @@ require("telescope").setup({
       previewer = false,
     },
   },
-  config = function() end,
 })
 
 require("telescope").load_extension("ui-select")
@@ -161,7 +162,7 @@ local function buffer_entry_maker(entry)
     separator = " ",
     items = {
       { width = 4 },
-      { remaining = true },
+      { width = 20 },
       { remaining = true },
     },
   })
@@ -191,11 +192,14 @@ vim.keymap.set("n", "<S-h>", function()
     layout_strategy = "center",
     layout_config = {
       width = 0.8,
-      height = 0.4,
+      height = 0.3,
     },
     winblend = 0,
     entry_maker = buffer_entry_maker,
     sorter = nil,
     sort_lastused = true,
+    prompt = {
+      enabled = false
+    }
   })
 end, { desc = "Open telescope buffers list" })
