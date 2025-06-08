@@ -215,8 +215,6 @@ return {
     version = '^6',
   },
 
-  { 'airblade/vim-rooter' },
-
   {
     "sphamba/smear-cursor.nvim",
     opts = {
