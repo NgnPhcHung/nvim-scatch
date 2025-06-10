@@ -1,15 +1,15 @@
 require("blink.cmp").setup({
   keymap = {
     preset = 'none',
-    ['<C-c>'] = { 'hide' },
     ['<C-.>'] = { function(cmp) cmp.show({ providers = { 'lsp' } }) end },
-
-    ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
-    ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
-
+    --
+    ['<C-k>'] = { 'select_prev', 'fallback' },
+    ['<C-j>'] = { 'select_next', 'fallback' },
+    --
     ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
     ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
-    ['<CR>'] = { 'accept', 'fallback' },
+
+    ['<CR>'] = { 'select_and_accept', 'fallback' },
   },
 
   appearance = {

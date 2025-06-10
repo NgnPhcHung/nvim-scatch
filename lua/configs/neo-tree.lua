@@ -1,5 +1,3 @@
-local root_dir = vim.fn.getcwd()
-
 require("neo-tree").setup({
   filesystem = {
     follow_current_file = {
@@ -11,11 +9,10 @@ require("neo-tree").setup({
       current = "none",
     },
     hijack_netrw_behavior = "open_default",
-    use_libuv_file_watcher = true,
   },
   buffers = {
     follow_current_file = {
-      enabled = false,
+      enabled = true,
     },
     bind_to_cwd = false,
   },
