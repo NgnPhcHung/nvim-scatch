@@ -19,8 +19,6 @@ vim.opt.rnu = true
 vim.opt.ai = true
 vim.opt.si = true
 
-vim.opt.wrap = true
-
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 
@@ -82,11 +80,17 @@ vim.opt.splitright = true
 
 vim.o.conceallevel = 2
 
--- maximum colums is 80
+-- Global settings
 vim.opt.textwidth = 80
 vim.opt.wrap = true
-vim.opt.formatoptions:append("t") -- Auto-wrap text at textwidth
-vim.opt.colorcolumn = "80"        -- Visual indicator at column 80
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.formatoptions = "tcqrn"
+
+vim.opt_local.wrap = true
+vim.opt_local.textwidth = 80
+vim.opt_local.linebreak = true
+vim.opt_local.breakindent = true
 
 vim.diagnostic.config({
   virtual_text = {

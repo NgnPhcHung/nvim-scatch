@@ -1,7 +1,7 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = { "lua_ls", "html", "cssls", "clangd", "prismals", "dockerls", "jsonls", "rust_analyzer" },
-  automatic_installation = false
+  automatic_installation = true
 })
 
 local lspconfig = require("lspconfig")
@@ -42,7 +42,6 @@ require("mason-lspconfig").setup_handlers({
 
   -- override for rust_analyzer (disable)
   ["rust_analyzer"] = function()
-    -- intentionally left blank
   end,
 
   -- override for jsonls

@@ -1,5 +1,5 @@
 return {
-    {
+  {
     "williamboman/mason.nvim",
     config = function()
       require("configs.mason")
@@ -219,7 +219,7 @@ return {
     "sphamba/smear-cursor.nvim",
   },
 
-{
+  {
     "epwalsh/obsidian.nvim",
     version = "*",
     lazy = true,
@@ -227,5 +227,23 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+    -- cond = function()
+    --   local cwd = vim.fn.getcwd()
+    --   local obsidian_vault_path
+    --   local is_windows = vim.fn.has("win32") == 1
+    --   local is_mac = vim.fn.has("mac") == 1
+    --   local is_linux = vim.fn.has("unix") == 1 and vim.fn.has("mac") == 0
+    --
+    --   if is_windows then
+    --     vim.notify("Not support this os")
+    --     return
+    --   elseif is_linux then
+    --     obsidian_vault_path = "/home/phuchung/obsidian"
+    --   elseif is_mac then
+    --     obsidian_vault_path =
+    --     "/Users/nguyenphuchung/library/Mobile Documents/iCloud~md~obsidian/Documents/PhucHungVaults"
+    --   end
+    --   return cwd:find(obsidian_vault_path, 1, true) ~= nil
+    -- end,
   }
 }
