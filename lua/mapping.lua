@@ -1,5 +1,4 @@
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
@@ -7,7 +6,7 @@ local opts = { noremap = true, silent = true }
 --Telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal <CR>", { noremap = true, silent = true })
 map("n", "<leader>fw", "<cmd>Telescope live_grep inital_mode=normal<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { desc = "File explorer toggle" })
+vim.keymap.set("n", "<leader>e", ":Neotree toggle reveal<CR>", { desc = "File explorer toggle" })
 
 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
@@ -37,10 +36,10 @@ map("n", "<C-k>", "<C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 
 --resize window
-map("n", "<A-l>", ":vertical resize +2<CR>", opts)
-map("n", "<A-h>", ":vertical resize -2<CR>", opts)
-map("n", "<A-k>", ":resize +2<CR>", opts)
-map("n", "<A-j>", ":resize -2<CR>", opts)
+map("n", "<leader><left>", ":vertical resize +2<CR>", opts)
+map("n", "<leader><right>", ":vertical resize -2<CR>", opts)
+map("n", "<leader><up>", ":resize +2<CR>", opts)
+map("n", "<leader><down>", ":resize -2<CR>", opts)
 
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
@@ -101,7 +100,7 @@ map("n", "<esc><esc>", ":nohlsearch<cr>", opts) -- no highlight
 map("n", "n", "nzzzv", opts)                    -- focus highlight next
 map("n", "N", "Nzzzv", opts)                    -- focus hight prev
 
-map('n', '<leader>o', '<cmd>AerialToggle<CR>', opts)
+map('n', '<leader>ol', '<cmd>AerialToggle<CR>', opts)
 map('n', '[a', '<cmd>AerialPrev<CR>', opts)
 map('n', ']a', '<cmd>AerialNext<CR>', opts)
 

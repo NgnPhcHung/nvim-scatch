@@ -1,8 +1,12 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("init_lazy")
 
 require("mapping")
 require("theme")
 require("base")
+
 
 local function load_configs_from_directory(directory)
   local config_files = vim.fn.globpath(directory, "*.lua", false, true)

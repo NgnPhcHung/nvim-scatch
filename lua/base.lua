@@ -72,12 +72,21 @@ vim.api.nvim_set_hl(0, 'TelescopePreviewNormal', { bg = 'none' })
 vim.g.root_spec = { "cwd" }
 
 -- disable startup message
-vim.opt.shortmess:append("sI")
+vim.opt.laststatus = 0
+vim.opt.shortmess:append("F")
 
 --split styles
 vim.opt.fillchars = { vert = "▒" }
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
+vim.o.conceallevel = 2
+
+-- maximum colums is 80
+vim.opt.textwidth = 80
+vim.opt.wrap = true
+vim.opt.formatoptions:append("t") -- Auto-wrap text at textwidth
+vim.opt.colorcolumn = "80"        -- Visual indicator at column 80
 
 vim.diagnostic.config({
   virtual_text = {
@@ -99,20 +108,3 @@ vim.keymap.set("n", "E", function()
     scope = "cursor",
   })
 end, { noremap = true, silent = true })
-
--- vim.api.nvim_create_autocmd("VimEnter", {
---   callback = function()
---     require('custom-config.root-project').set_project_root()
---   end,
--- })
-
--- vim.api.nvim_create_autocmd("BufWrite", {
---   pattern = "*",
---   callback = function(args)
---     if vim.bo.filetype == "typescript" or vim.bo.filetype == "javascript" then
---       vim.cmd "TSToolsRemoveUnusedImports"
---       vim.cmd "TSToolsOrganizeImports"
---     end
---     print ""
---   end,
--- })

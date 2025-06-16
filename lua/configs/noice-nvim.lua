@@ -46,23 +46,15 @@ require("noice").setup({
           { find = "^%d+ more lines?;?" },
           { find = "^%d+ line less;?" },
           { find = "^Already at newest change" },
+          { find = "%d+L, %d+B" }, -- File info like "106L, 2951B"
+          { find = "written" },    -- File written messages
           { kind = "wmsg" },
-          { kind = "emsg",                      find = "E487" },
+          { kind = "emsg",                                                  find = "E487" },
           { kind = "quickfix" },
+          { find = "method textDocument/documentHighlight is not supported" },
         },
       },
       view = "mini",
-    },
-    {
-      filter = { event = "msg_show", kind = "", find = "written" },
-      opts = { skip = true },
-    },
-    {
-      filter = {
-        event = "msg_show",
-        find = "method textDocument/documentHighlight is not supported",
-      },
-      opts = { skip = true },
     },
   },
   presets = {
