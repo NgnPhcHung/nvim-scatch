@@ -40,7 +40,7 @@ require("neo-tree").setup({
     position = "float",
     mappings = {
       ["<CR>"] = "open",
-      ["<Tab>"] = "open_split",
+      ["<Tab>"] = "open",
     },
   }
 })

@@ -9,9 +9,9 @@ require("typescript-tools").setup({
 
   handlers = {
     ["textDocument/publishDiagnostics"] = api.filter_diagnostics({
-      80006, -- 'await' has no effect
-      7044,  -- JSX implicit children type
-      80001, -- convert to ES module
+      80006,
+      7044,
+      80001,
     }),
   },
 
@@ -35,7 +35,7 @@ require("typescript-tools").setup({
     },
 
     tsserver_locale = "en",
-    complete_function_calls = true,
+    complete_function_calls = false,
     include_completions_with_insert_text = true,
     code_lens = "off",
     disable_member_code_lens = true,

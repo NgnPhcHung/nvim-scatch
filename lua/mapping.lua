@@ -41,10 +41,10 @@ map("n", "<leader><right>", ":vertical resize -2<CR>", opts)
 map("n", "<leader><up>", ":resize +2<CR>", opts)
 map("n", "<leader><down>", ":resize -2<CR>", opts)
 
-vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
-vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
-vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
-vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
+-- vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
+-- vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
+-- vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
+-- vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
 
 --file actions
 map("i", "<C-z>", "<C-o>u", opts)

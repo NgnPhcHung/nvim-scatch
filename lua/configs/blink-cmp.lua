@@ -1,15 +1,19 @@
 require("blink.cmp").setup({
   keymap = {
     preset = 'none',
-    ['<C-.>'] = { function(cmp) cmp.show({ providers = { 'lsp' } }) end },
-    --
-    ['<C-k>'] = { 'select_prev', 'fallback' },
+    -- ['<C-.>'] = { function(cmp) cmp.show({ providers = { 'lsp' } }) end },
+    ['<C-k>'] = { "select_prev", 'fallback' },
     ['<C-j>'] = { 'select_next', 'fallback' },
-    --
     ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
     ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
-    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    ['<CR>'] = {
+      'select_and_accept',
+      fallback = function()
+      end
+    },
+    ['<C-.>'] = { 'show', 'show_documentation' },
+
   },
 
   appearance = {
@@ -18,12 +22,18 @@ require("blink.cmp").setup({
 
   completion = {
     menu = {
-      border = "rounded",
+      border       = "rounded",
       winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+      draw         = {
+        columns = {
+          { "label", "label_description", gap = 1 }
+        },
+        treesitter = { "lsp" }
+      }
     },
     documentation = {
       auto_show = true,
-      auto_show_delay_ms = 500,
+      auto_show_delay_ms = 250,
       window = {
         border = "rounded",
         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
@@ -38,16 +48,35 @@ require("blink.cmp").setup({
       show_on_x_blocked_trigger_characters = {
         "'", '"', '(', '{', '['
       }
-    }
+    },
+    keyword = { range = "full" },
+    list = { selection = { preselect = false, auto_insert = true } },
+
   },
   signature = { enabled = true },
 
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer' },
+    default = function()
+      local success, node = pcall(vim.treesitter.get_node)
+      if success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment' }, node:type()) then
+        return { 'buffer' }
+      elseif vim.bo.filetype == 'lua' then
+        return { 'lsp', 'path' }
+      else
+        return { 'lsp', 'path', 'snippets', 'buffer' }
+      end
+    end,
     providers = {
       lsp = {
+        name = "LSP",
+        module = 'blink.cmp.sources.lsp',
         min_keyword_length = 0,
         score_offset = 1,
+        transform_items = function(_, items)
+          return vim.tbl_filter(function(item)
+            return item.kind ~= require('blink.cmp.types').CompletionItemKind.Keyword
+          end, items)
+        end,
       },
       path = {
         min_keyword_length = 0,
@@ -66,16 +95,3 @@ require("blink.cmp").setup({
   fuzzy = { implementation = "lua" },
   snippets = { preset = 'luasnip' },
 })
-
--- require('cmp').setup({
---   window = {
---     documentation = {
---       border = "rounded",
---       winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
---     },
---     completion = {
---       border = "rounded",
---       winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder,Pmenu:None,CmpPmenu:None'
---     },
---   },
--- })
