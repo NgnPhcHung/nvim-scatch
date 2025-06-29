@@ -9,8 +9,7 @@ require("blink.cmp").setup({
 
     ['<CR>'] = {
       'select_and_accept',
-      fallback = function()
-      end
+      'fallback'
     },
     ['<C-.>'] = { 'show', 'show_documentation' },
 

@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
+vim.keymap.set("i", "<CR>", "<CR>", { noremap = true })
 
 --Telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal <CR>", { noremap = true, silent = true })
@@ -20,7 +21,7 @@ vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
 map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
-map("n", "<A-w>", "<Cmd>Bdelete<CR>", opts)
+map("n", "<leader>w", "<Cmd>Bdelete<CR>", opts)
 
 map("n", "te", ":tabedit<CR>", opts)
 map("n", "tc", ":close<CR>", opts)
