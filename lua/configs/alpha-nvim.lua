@@ -5,11 +5,7 @@ dashboard.section.header.val =
     vim.fn.readfile(vim.fs.normalize("~/.config/nvim/lua/custom-config/files/my_header_banner.txt"))
 dashboard.section.header.opts.hl = "Question"
 
-dashboard.section.buttons.val = {
-  dashboard.button("f", " Find file", ":Telescope find_files<CR>"),
-  dashboard.button("p", " Update plugins", ":Lazy sync<CR>"),
-  dashboard.button("q", " Exit", ":qa!<CR>"),
-}
+dashboard.section.buttons.val = {}
 
 vim.api.nvim_create_autocmd("User", {
   pattern = "LazyVimStarted",

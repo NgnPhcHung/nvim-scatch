@@ -7,7 +7,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    version = "1.26.0", -- Hoặc phiên bản ổn định
+    version = "1.26.0",
     dependencies = { "williamboman/mason.nvim" },
     config = function()
     end,
@@ -22,11 +22,6 @@ return {
   },
   "neovim/nvim-lspconfig",
 
-  { "catppuccin/nvim",                          name = "catppuccin" },
-  "rebelot/kanagawa.nvim",
-  "sainnhe/gruvbox-material",
-  "namrabtw/rusty.nvim",
-  "rose-pine/neovim",
   "folke/tokyonight.nvim",
 
   {
@@ -74,7 +69,6 @@ return {
   {
     "folke/noice.nvim",
     dependencies = {
-      "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
     },
     config = function()
@@ -151,17 +145,6 @@ return {
     end,
   },
 
-  "karb94/neoscroll.nvim",
-
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "rcarriga/nvim-dap-ui",
-      "nvim-neotest/nvim-nio",
-      "mxsdev/nvim-dap-vscode-js",
-    },
-  },
-
   {
     "stevearc/aerial.nvim",
     config = function()
@@ -169,7 +152,7 @@ return {
     end,
   },
 
-  { "mistweaverco/kulala.nvim", opts = {} },
+  { "mistweaverco/kulala.nvim",     opts = {} },
   "goolord/alpha-nvim",
   "famiu/bufdelete.nvim",
 
