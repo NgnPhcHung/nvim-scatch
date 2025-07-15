@@ -1,4 +1,4 @@
-require('notify').setup {
+require('notify').setup({
   stages = 'slide',
   timeout = 5000,
   position = 'bottom_right',
@@ -17,4 +17,4 @@ require('notify').setup {
     TRACE = '',
   },
   render = "compact"
-}
+})

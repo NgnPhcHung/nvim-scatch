@@ -41,7 +41,7 @@ require("typescript-tools").setup({
     disable_member_code_lens = true,
 
     jsx_close_tag = {
-      enable = true,
+      enable = false,
       filetypes = { "typescriptreact", "javascriptreact" },
     },
   }

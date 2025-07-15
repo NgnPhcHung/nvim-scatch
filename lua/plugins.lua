@@ -12,20 +12,31 @@ return {
     config = function()
     end,
   },
+
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = { "windwp/nvim-ts-autotag" },
     config = function()
       require("configs.treesitter")
     end,
   },
-  "neovim/nvim-lspconfig",
 
-  "folke/tokyonight.nvim",
+  {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter",
+  }
+  ,
+
+
+  { "neovim/nvim-lspconfig" },
+
+  { "folke/tokyonight.nvim" },
 
   {
     "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
     config = function()
       require("ui.statusline").setup()
     end,
@@ -39,72 +50,86 @@ return {
     end
   },
 
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-  "nvim-telescope/telescope-ui-select.nvim",
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
 
-  "mbbill/undotree",
-  "axkirillov/hbac.nvim",
-  "nvim-lua/plenary.nvim",
+  { "nvim-telescope/telescope-ui-select.nvim",  lazy = true },
 
-  "tpope/vim-fugitive",
+
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+  },
+
+
+  { "axkirillov/hbac.nvim" },
+  { "nvim-lua/plenary.nvim" },
+
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "G" },
+  },
   {
     "lewis6991/gitsigns.nvim",
+    event = "BufReadPre",
     config = function()
       require("gitsigns").setup()
     end,
   },
-  "TimUntersberger/neogit",
-  "sindrets/diffview.nvim",
+  { "sindrets/diffview.nvim", cmd = "DiffviewOpen" },
+  { "TimUntersberger/neogit", cmd = "Neogit" },
+
 
   "MunifTanjim/nui.nvim",
   "nvim-tree/nvim-web-devicons",
 
   {
     "rcarriga/nvim-notify",
-    config = function()
-      require("configs.notify")
-    end,
+    lazy = true,
   },
 
   {
     "folke/noice.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      require("configs.noice-nvim")
-    end,
+    lazy = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
 
   {
     "saghen/blink.cmp",
+    event = "InsertEnter",
     dependencies = {
+      "hrsh7th/nvim-cmp",
       "rafamadriz/friendly-snippets",
       "onsails/lspkind.nvim",
+      {
+        "L3MON4D3/LuaSnip",
+        event = "InsertEnter",
+      },
+      {
+        "saadparwaiz1/cmp_luasnip",
+        lazy = true,
+      },
+      {
+        "hrsh7th/cmp-nvim-lsp",
+        lazy = true,
+      },
     },
     config = function()
       require("configs.blink-cmp")
     end,
   },
 
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/nvim-cmp",
-      "onsails/lspkind.nvim",
-      "saadparwaiz1/cmp_luasnip",
-    },
-    config = function()
-      require("configs.cmp")
-    end,
-  },
+  -- {
+  --   dependencies = {
+  --     "hrsh7th/nvim-cmp",
+  --     "onsails/lspkind.nvim",
+  --   },
+  --   config = function()
+  --     require("configs.cmp")
+  --   end,
+  -- },
 
   {
     "stevearc/conform.nvim",
-    config = function()
-      require("conform").setup()
-    end,
   },
 
   {
@@ -112,19 +137,31 @@ return {
     version = "*",
   },
 
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = function()
-      require("nvim-autopairs").setup({})
-    end,
-  },
-  "windwp/nvim-ts-autotag",
+  -- {
+  --   "windwp/nvim-autopairs",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("nvim-autopairs").setup({ map_cr = false })
+  --   end,
+  -- },
+
+  -- "windwp/nvim-ts-autotag",
+
   { "folke/flash.nvim" },
+
   "mg979/vim-visual-multi",
-  "lukas-reineke/indent-blankline.nvim",
-  "numToStr/Comment.nvim",
-  "JoosepAlviste/nvim-ts-context-commentstring",
+
+  -- "lukas-reineke/indent-blankline.nvim",
+
+  -- {
+  --   "numToStr/Comment.nvim",
+  --   event = "VeryLazy",
+  -- },
+
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    event = "BufReadPre",
+  },
 
   {
     "pmizio/typescript-tools.nvim",
@@ -152,9 +189,11 @@ return {
     end,
   },
 
-  { "mistweaverco/kulala.nvim",     opts = {} },
-  "goolord/alpha-nvim",
-  "famiu/bufdelete.nvim",
+  { "mistweaverco/kulala.nvim", opts = {}, lazy = true },
+
+  { "goolord/alpha-nvim" },
+
+  { "famiu/bufdelete.nvim" },
 
   {
     "kevinhwang91/nvim-ufo",
@@ -163,6 +202,7 @@ return {
 
   {
     "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
     dependencies = {
       "ray-x/sad.nvim",
       "ray-x/guihua.lua",
@@ -178,18 +218,20 @@ return {
     },
   },
 
-  "RRethy/vim-illuminate",
+  { "rrethy/vim-illuminate" },
+
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "echasnovski/mini.nvim" },
   },
 
   { "echasnovski/mini.nvim",        version = "*" },
+
   { "echasnovski/mini.bracketed",   version = "*" },
+
   { "echasnovski/mini.indentscope", version = "*" },
 
-
-  { "prisma/vim-prisma",            ft = "prisma" },
+  { "prisma/vim-prisma",            ft = "prisma", lazy = true },
 
   { "b0o/schemastore.nvim" },
 
@@ -210,23 +252,5 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    -- cond = function()
-    --   local cwd = vim.fn.getcwd()
-    --   local obsidian_vault_path
-    --   local is_windows = vim.fn.has("win32") == 1
-    --   local is_mac = vim.fn.has("mac") == 1
-    --   local is_linux = vim.fn.has("unix") == 1 and vim.fn.has("mac") == 0
-    --
-    --   if is_windows then
-    --     vim.notify("Not support this os")
-    --     return
-    --   elseif is_linux then
-    --     obsidian_vault_path = "/home/phuchung/obsidian"
-    --   elseif is_mac then
-    --     obsidian_vault_path =
-    --     "/Users/nguyenphuchung/library/Mobile Documents/iCloud~md~obsidian/Documents/PhucHungVaults"
-    --   end
-    --   return cwd:find(obsidian_vault_path, 1, true) ~= nil
-    -- end,
   }
 }
