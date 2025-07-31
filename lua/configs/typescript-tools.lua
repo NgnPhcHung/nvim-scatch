@@ -1,9 +1,9 @@
 local api = require("typescript-tools.api")
 
 require("typescript-tools").setup({
-  on_attach = function(client)
-    client.server_capabilities.documentFormattingProvider = false
-  end,
+  -- on_attach = function(client)
+  --   client.server_capabilities.documentFormattingProvider = false
+  -- end,
 
   capabilities = require('blink.cmp').get_lsp_capabilities(),
 
@@ -41,7 +41,7 @@ require("typescript-tools").setup({
     disable_member_code_lens = true,
 
     jsx_close_tag = {
-      enable = false,
+      enable = true,
       filetypes = { "typescriptreact", "javascriptreact" },
     },
   }

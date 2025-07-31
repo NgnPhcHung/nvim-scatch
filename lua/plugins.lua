@@ -153,10 +153,9 @@ return {
 
   -- "lukas-reineke/indent-blankline.nvim",
 
-  -- {
-  --   "numToStr/Comment.nvim",
-  --   event = "VeryLazy",
-  -- },
+  {
+    "numToStr/Comment.nvim",
+  },
 
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
@@ -212,17 +211,12 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
   },
 
   { "rrethy/vim-illuminate" },
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "echasnovski/mini.nvim" },
   },
 
   { "echasnovski/mini.nvim",        version = "*" },
@@ -240,9 +234,9 @@ return {
     version = '^6',
   },
 
-  {
-    "sphamba/smear-cursor.nvim",
-  },
+  -- {
+  --   "sphamba/smear-cursor.nvim",
+  -- },
 
   {
     "epwalsh/obsidian.nvim",
