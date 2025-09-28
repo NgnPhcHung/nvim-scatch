@@ -1,4 +1,4 @@
-require('nvim-ts-autotag').setup({
+local opts = {
   opts = {
     -- Defaults
     enable_close = true,          -- Auto close tags
@@ -10,4 +10,6 @@ require('nvim-ts-autotag').setup({
       enable_close = false
     }
   }
-})
+}
+
+return opts 

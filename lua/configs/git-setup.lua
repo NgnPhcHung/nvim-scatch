@@ -1,8 +1,7 @@
 require("neogit").setup({
-  -- kind = "floating",
   disable_commit_confirmation = true,
   popup = {
-    -- kind = "floating",
+    kind = "floating",
   },
   integrations = {
     diffview = true,
@@ -10,7 +9,7 @@ require("neogit").setup({
 })
 
 require("gitsigns").setup({
-  current_line_blame = true, -- Hiển thị blame cho dòng hiện tại
+  current_line_blame = true,
   on_attach = function(bufnr)
     local gs = package.loaded.gitsigns
 

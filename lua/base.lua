@@ -27,9 +27,15 @@ vim.o.smartcase = true
 
 vim.g.loaded_matchparen = true
 vim.cmd("syntax on")
-vim.opt.ttimeoutlen = 0
+vim.opt.timeoutlen = 300
 
-vim.opt.list = true
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+vim.opt.termguicolors = true
+vim.o.wrapscan = true
+vim.o.swapfile = false
+vim.opt.list = false
 vim.api.nvim_set_hl(0, "NonText", { fg = "#4d4d4d", blend = 50 })
 
 vim.g.indent_blankline_char = "▏"
@@ -57,15 +63,14 @@ vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
 
-vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#ffffff', bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopePromptBorder', { fg = '#ffffff', bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopeResultsBorder', { fg = '#ffffff', bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopePreviewBorder', { fg = '#ffffff', bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopePromptNormal', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopeResultsNormal', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'TelescopePreviewNormal', { bg = 'none' })
-
+vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = "#ffffff", bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = "#ffffff", bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = "#ffffff", bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
+vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
 
 vim.g.root_spec = { "cwd" }
 
@@ -93,22 +98,21 @@ vim.opt_local.linebreak = true
 vim.opt_local.breakindent = true
 
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = icon.task.Failure,
-    format = function(diagnostic)
-      local message = diagnostic.message
-      local max_width = 50
-      if #message > max_width then
-        return message:sub(1, max_width) .. "..."
-      end
-      return message
-    end,
-  },
+	virtual_text = {
+		prefix = icon.task.Failure,
+		format = function(diagnostic)
+			local message = diagnostic.message
+			local max_width = 50
+			if #message > max_width then
+				return message:sub(1, max_width) .. "..."
+			end
+			return message
+		end,
+	},
 })
 
-
 vim.keymap.set("n", "E", function()
-  vim.diagnostic.open_float(nil, {
-    scope = "cursor",
-  })
+	vim.diagnostic.open_float(nil, {
+		scope = "cursor",
+	})
 end, { noremap = true, silent = true })

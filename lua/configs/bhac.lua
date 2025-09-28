@@ -1,4 +1,4 @@
-require("hbac").setup({
+local opts = {
   autoclose                  = true,
   threshold                  = 9,
   close_command              = function(bufnr)
@@ -7,4 +7,7 @@ require("hbac").setup({
   close_buffers_with_windows = true,
   telescope                  = {
   },
-})
+}
+
+
+return opts

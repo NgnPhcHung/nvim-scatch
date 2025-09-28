@@ -54,12 +54,12 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("alpha_start", { clear = true }),
-  desc = "Open Alpha dashboard on startup",
-  callback = function()
-    if vim.fn.argc() == 0 and vim.bo.filetype == "" then
-      require("alpha").start(false)
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   group = vim.api.nvim_create_augroup("alpha_start", { clear = true }),
+--   desc = "Open Alpha dashboard on startup",
+--   callback = function()
+--     if vim.fn.argc() == 0 and vim.bo.filetype == "" then
+--       require("alpha").start(false)
+--     end
+--   end,
+-- })
