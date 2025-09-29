@@ -1,7 +1,6 @@
 local api = require("typescript-tools.api")
--- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 require("typescript-tools").setup({
 	on_attach = function(_, bufnr)
@@ -31,6 +30,13 @@ require("typescript-tools").setup({
 		filter_out_diagnostics_by_code = {
 			80007,
 			80006,
+		},
+		tsserver = {
+			preferences = {
+				importModuleSpecifierPreference = "relative",
+				quotePreference = "single",
+				importTypeSpecifier = "type",
+			},
 		},
 	},
 

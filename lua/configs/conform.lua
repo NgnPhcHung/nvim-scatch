@@ -1,15 +1,16 @@
+local util = require("lspconfig.util")
+
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		css = { "prettierd" },
 		prisma = { "prisma_fmt" },
 
-		-- ts/js
 		javascript = { "biome", "prettierd", stop_after_first = true },
 		typescript = { "biome", "prettierd", stop_after_first = true },
-		javascriptreact = { "biome", "prettierd" },
-		typescriptreact = { "biome", "prettierd" },
-		json = { "biome", "prettierd" },
+		javascriptreact = { "biome", "prettierd", stop_after_first = true },
+		typescriptreact = { "biome", "prettierd", stop_after_first = true },
+		json = { "biome", "prettierd", stop_after_first = true },
 	},
 
 	formatters = {
@@ -20,11 +21,25 @@ require("conform").setup({
 		},
 
 		biome = {
-			command = "biome",
-			args = { "format", "--stdin-file-path", "$FILENAME" },
+			command = "npx",
+			args = { "biome", "format", "--stdin-file-path", "$FILENAME" },
+
+			stdin = true,
 			cwd = function(ctx)
-				return require("lspconfig.util").root_pattern("biome.json", ".git")(ctx.dirname)
+				return require("lspconfig.util").root_pattern("package.json", "biome.json", ".git")(ctx.dirname)
 			end,
+		},
+
+		stylua = {
+			command = "stylua",
+			args = { "-" },
+			stdin = true,
+		},
+
+		prettierd = {
+			command = "prettierd",
+			args = { "--stdin-file-path", "$FILENAME" },
+			stdin = true,
 		},
 	},
 
@@ -40,35 +55,4 @@ require("conform").setup({
 	},
 })
 
-vim.lsp.enable("biome")
-
--- local lint = require("lint")
---
--- lint.linters.biome = {
--- 	cmd = "biome",
--- 	stdin = true,
--- 	args = { "check", "--stdin-file-path", "$FILENAME", "--format=json" },
--- 	ignore_exitcode = true,
--- 	parser = require("lint.parser").from_errorformat("%f:%l:%c: %m"),
--- }
---
--- lint.linters_by_ft = {
--- 	javascript = { "biome", "eslint_d" },
--- 	typescript = { "biome", "eslint_d" },
--- 	javascriptreact = { "biome", "eslint_d" },
--- 	typescriptreact = { "biome", "eslint_d" },
--- 	json = { "biome", "eslint_d" },
--- }
---
--- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
--- 	callback = function()
--- 		require("lint").try_lint()
--- 	end,
--- })
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*",
-	callback = function(args)
-		require("conform").format({ bufnr = args.buf })
-	end,
-})
+-- vim.lsp.enable("biome")

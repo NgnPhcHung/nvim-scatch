@@ -1,11 +1,11 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "html", "cssls", "prismals", "dockerls", "jsonls" },
+	ensure_installed = { "lua_ls", "html", "cssls", "prismals", "dockerls", "jsonls", "tailwindcss" },
 	automatic_installation = true,
 })
 
--- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local function lsp_highlight_document(client)
 	local status_ok, illuminate = pcall(require, "illuminate")
@@ -60,6 +60,65 @@ require("mason-lspconfig").setup_handlers({
 			},
 		}
 	end,
+	["tailwindcss"] = function()
+		vim.lsp.config.tailwindcss = {
+			capabilities = capabilities,
+			on_attach = lsp_highlight_document,
+			cmd = { "tailwindcss-language-server", "--stdio" },
+			filetypes = {
+				"html",
+				"css",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"svelte",
+				"astro",
+			},
+			workspace_required = true,
+			root_dir = function(bufnr, on_dir)
+				local root_files = {
+					"tailwind.config.js",
+					"tailwind.config.cjs",
+					"tailwind.config.mjs",
+					"tailwind.config.ts",
+					"postcss.config.js",
+					"postcss.config.cjs",
+					"postcss.config.mjs",
+					"postcss.config.ts",
+				}
+				local fname = vim.api.nvim_buf_get_name(bufnr)
+				root_files = util.insert_package_json(root_files, "tailwindcss", fname)
+				on_dir(vim.fs.dirname(vim.fs.find(root_files, { path = fname, upward = true })[1]))
+			end,
+			settings = {
+				tailwindCSS = {
+					validate = true,
+					lint = {
+						cssConflict = "warning",
+						invalidApply = "error",
+						invalidScreen = "error",
+						invalidVariant = "error",
+						invalidConfigPath = "error",
+						invalidTailwindDirective = "error",
+						recommendedVariantOrder = "warning",
+					},
+					classAttributes = {
+						"class",
+						"className",
+						"class:list",
+						"classList",
+						"ngClass",
+					},
+					includeLanguages = {
+						eelixir = "html-eex",
+						eruby = "erb",
+						templ = "html",
+						htmlangular = "html",
+					},
+				},
+			},
+		}
+	end,
 })
-
-require("mason-lspconfig").setup_handlers({})

@@ -76,7 +76,9 @@ vim.g.root_spec = { "cwd" }
 
 -- disable startup message
 vim.opt.laststatus = 0
-vim.opt.shortmess:append("F")
+-- vim.opt.shortmess:append("FI")
+vim.opt.shortmess:append("Ifs")
+vim.opt.showcmd = false
 
 --split styles
 vim.opt.fillchars = { vert = "▒" }

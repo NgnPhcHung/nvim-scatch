@@ -22,7 +22,7 @@ require("noice").setup({
 		},
 	},
 	lsp = {
-		progress = { enabled = false },
+		progress = { enabled = true, view = "mini" },
 		override = {
 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 			["vim.lsp.util.stylize_markdown"] = true,
@@ -46,7 +46,6 @@ require("noice").setup({
 					{ find = "^%d+ more lines?;?" },
 					{ find = "^%d+ line less;?" },
 					{ find = "^Already at newest change" },
-					{ find = "%d+L, %d+B" }, -- File info like "106L, 2951B"
 					{ find = "written" }, -- File written messages
 					{ kind = "wmsg" },
 					{ kind = "emsg", find = "E487" },
@@ -54,7 +53,7 @@ require("noice").setup({
 					{ find = "method textDocument/documentHighlight is not supported" },
 				},
 			},
-			view = "mini",
+			view = { skip = true },
 		},
 	},
 	presets = {
