@@ -39,7 +39,7 @@ cmp.setup({
 				return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text
 			end,
 		},
-		{ name = "luasnip" },
+		-- { name = "luasnip" },
 		{ name = "path" },
 		{ name = "render-markdown" },
 	}),
@@ -63,15 +63,6 @@ cmp.setup({
 			return vim_item
 		end,
 	},
-
-	-- performance = {
-	-- 	debounce = 6,
-	-- 	throttle = 10,
-	-- 	fetching_timeout = 200,
-	-- 	confirm_resolve_timeout = 60,
-	-- 	async_budget = 1,
-	-- 	max_view_entries = 200,
-	-- },
 
 	window = {
 		completion = cmp.config.window.bordered({
