@@ -1,73 +1,81 @@
+local icons = require("packages.icons")
+
 local function setup_workspace()
-  local function get_git_root()
-    local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-    local git_root = handle:read("*a")
-    handle:close()
-    if git_root and #git_root > 0 then
-      return git_root:gsub("\n", "")
-    end
-    return nil
-  end
+	local function get_git_root()
+		local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+		local git_root = handle:read("*a")
+		handle:close()
+		if git_root and #git_root > 0 then
+			return git_root:gsub("\n", "")
+		end
+		return nil
+	end
 
-  local dir = get_git_root() or vim.fn.getcwd()
-  local hash = vim.fn.sha256(dir)
-  local workspace_dir = vim.fn.expand("~/.config/nvim/shada/workxpaces/")
-  local shada_path = workspace_dir .. hash .. "/shada"
+	local function get_git_branch()
+		local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
+		local branch = handle:read("*a")
+		handle:close()
+		if branch and #branch > 0 then
+			return branch:gsub("\n", "")
+		end
+		return "default"
+	end
 
-  vim.opt.shadafile = shada_path
-  vim.g.session_file = workspace_dir .. hash .. "/session.vim"
+	-- Always set safe session options
+	vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 
-  if vim.fn.isdirectory(workspace_dir) == 0 then
-    vim.fn.mkdir(workspace_dir, "p")
-  end
+	-- Build session path (project + branch)
+	local function get_session_file()
+		local dir = get_git_root() or vim.fn.getcwd()
+		local branch = get_git_branch()
+		local hash = vim.fn.sha256(dir .. branch)
+		local ws_path = vim.fn.expand("~/.config/nvim/shada/workxpaces/") .. hash .. "/"
+		return ws_path .. "session.vim"
+	end
 
-  vim.opt.sessionoptions = { "blank", "folds", "help", "tabpages", "winsize", "buffers" }
+	local function load_session()
+		local session_file = get_session_file()
+		if vim.fn.filereadable(session_file) == 0 then
+			vim.notify(icons.kind.Null .. " No session found for this project/branch")
+			return
+		end
+		local ok, err = pcall(vim.cmd, "source " .. session_file)
+		if not ok then
+			vim.notify("⚠️ Session Restore Error: " .. err)
+		else
+			vim.notify(icons.kind.Package .. " session loaded: ")
+		end
+	end
 
-  local function restore_session()
-    local files_before_load = vim.fn.argv()
+	-- Save session automatically on exit
+	local function save_session()
+		local session_file = get_session_file()
+		local session_dir = vim.fn.fnamemodify(session_file, ":h")
 
-    if vim.fn.filereadable(vim.g.session_file) == 0 then
-      print("No session file found: " .. vim.g.session_file)
-      return
-    end
+		if vim.fn.isdirectory(session_dir) == 0 then
+			vim.fn.mkdir(session_dir, "p")
+		end
 
-    local ok, err = pcall(vim.cmd, "source " .. vim.g.session_file)
-    if not ok then
-      print("⚠️ Session Restore Error: " .. err)
-    end
+		for _, win in ipairs(vim.api.nvim_list_wins()) do
+			local buf = vim.api.nvim_win_get_buf(win)
+			local bufname = vim.api.nvim_buf_get_name(buf)
+			if bufname:match("NvimTree_") then
+				vim.cmd("bdelete " .. buf)
+			end
+		end
 
-    if #files_before_load > 0 then
-      for _, file in ipairs(files_before_load) do
-        if vim.fn.filereadable(file) == 1 then
-          vim.cmd("edit " .. file)
-        end
-      end
-    end
-  end
+		vim.cmd("mksession! " .. session_file)
+		-- Uncomment this if you want feedback every save:
+		-- print("💾 Session saved: " .. session_file)
+	end
 
-  restore_session()
+	vim.api.nvim_create_user_command("WorkspaceLoad", load_session, {})
+	vim.api.nvim_create_user_command("WorkspaceSave", save_session, {})
 
-  vim.cmd([[
-    augroup SessionAutoSave
-      autocmd!
-      autocmd VimLeavePre * call v:lua.save_session()
-    augroup END
-  ]])
-
-  function _G.save_session()
-    local session_dir = vim.fn.fnamemodify(vim.g.session_file, ":h")
-    if vim.fn.isdirectory(session_dir) == 0 then
-      vim.fn.mkdir(session_dir, "p")
-    end
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      local bufname = vim.api.nvim_buf_get_name(buf)
-      if bufname:match("NvimTree_") then
-        vim.cmd("bdelete " .. buf)
-      end
-    end
-    vim.cmd("mksession! " .. vim.g.session_file)
-  end
+	-- auto save on exit
+	vim.api.nvim_create_autocmd("VimLeavePre", {
+		callback = save_session,
+	})
 end
 
 setup_workspace()

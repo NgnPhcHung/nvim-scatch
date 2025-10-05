@@ -17,8 +17,8 @@ vim.keymap.set("n", "<C-s>", ":w<CR>", opts) -- Save file in normal mode
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 vim.keymap.set("i", "jk", "<Esc>", opts)
 
-map("n", "<A-a>", ":BufferCloseAllButPinned<CR>", opts)
-map("n", "<leader>w", "<Cmd>Bdelete<CR>", opts)
+map("n", ";a", ":BufferCloseAllButPinned<CR>", opts)
+map("n", ";w", "<Cmd>Bdelete<CR>", opts)
 
 map("n", "te", ":tabedit<CR>", opts)
 map("n", "tc", ":close<CR>", opts)
@@ -28,10 +28,10 @@ map("n", "|", ":vsplit<Return>", opts)
 map("n", "-", ":split<Return>", opts)
 
 --swich window
-map("n", "<C-h>", "<C-w>h", opts)
-map("n", "<C-j>", "<C-w>j", opts)
-map("n", "<C-k>", "<C-w>k", opts)
-map("n", "<C-l>", "<C-w>l", opts)
+map("n", "<leader>h", "<C-w>h", opts)
+map("n", "<leader>j", "<C-w>j", opts)
+map("n", "<leader>k", "<C-w>k", opts)
+map("n", "<leader>l", "<C-w>l", opts)
 
 --resize window
 map("n", "<leader><left>", ":vertical resize +2<CR>", opts)

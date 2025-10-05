@@ -13,16 +13,14 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		-- build = ":TSUpdate",
 		event = { "BufReadPost", "BufNewFile" },
-		-- config = function()
-		-- 	require("configs.treesitter")
-		-- end,
 	},
 
 	{ "neovim/nvim-lspconfig" },
 
 	-- theme
-	{ "folke/tokyonight.nvim" },
+	{ "folke/tokyonight.nvim", priority = 1000, config = true },
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
 	{
 		"nvim-lualine/lualine.nvim",
@@ -53,9 +51,6 @@ return {
 	{
 		"axkirillov/hbac.nvim",
 		event = "BufEnter",
-		configs = function()
-			require("configs.bhac")
-		end,
 	},
 
 	-- git
@@ -91,55 +86,59 @@ return {
 	{ "nvim-lua/plenary.nvim" },
 	{ "MunifTanjim/nui.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
-	{ "folke/noice.nvim" },
+
+	{ "folke/noice.nvim", dependencies = {
+		"rcarriga/nvim-notify",
+	}, config = true, event = "VeryLazy" },
+
 	{ "folke/flash.nvim", event = "BufEnter" },
 	{ "mg979/vim-visual-multi", event = "VeryLazy", lazy = true },
 	{ "goolord/alpha-nvim" },
 
 	-- cmp / lint / lsp
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-cmdline",
-			"saadparwaiz1/cmp_luasnip",
-			"L3MON4D3/LuaSnip",
-			"rafamadriz/friendly-snippets",
-			"hrsh7th/cmp-vsnip",
-			"hrsh7th/vim-vsnip",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"onsails/lspkind.nvim",
-		},
-		config = function()
-			require("configs.cmp")
-		end,
-	},
-
 	-- {
-	-- 	"saghen/blink.cmp",
-	-- 	event = "InsertEnter",
+	-- 	"hrsh7th/nvim-cmp",
 	-- 	dependencies = {
-	-- 		"hrsh7th/nvim-cmp",
+	-- 		"neovim/nvim-lspconfig",
+	-- 		"hrsh7th/cmp-buffer",
+	-- 		"hrsh7th/cmp-path",
+	-- 		"hrsh7th/cmp-nvim-lsp",
+	-- 		"hrsh7th/cmp-nvim-lua",
+	-- 		"hrsh7th/cmp-cmdline",
+	-- 		"saadparwaiz1/cmp_luasnip",
+	-- 		"L3MON4D3/LuaSnip",
 	-- 		"rafamadriz/friendly-snippets",
+	-- 		"hrsh7th/cmp-vsnip",
+	-- 		"hrsh7th/vim-vsnip",
+	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
 	-- 		"onsails/lspkind.nvim",
-	-- 		{
-	-- 			"L3MON4D3/LuaSnip",
-	-- 			event = "InsertEnter",
-	-- 		},
-	-- 		{
-	-- 			"saadparwaiz1/cmp_luasnip",
-	-- 			lazy = true,
-	-- 		},
-	-- 		{
-	-- 			"hrsh7th/cmp-nvim-lsp",
-	-- 			lazy = true,
-	-- 		},
 	-- 	},
+	-- 	config = function()
+	-- 		require("configs.cmp")
+	-- 	end,
 	-- },
+
+	{
+		"saghen/blink.cmp",
+		event = "InsertEnter",
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+			"rafamadriz/friendly-snippets",
+			"onsails/lspkind.nvim",
+			{
+				"L3MON4D3/LuaSnip",
+				event = "InsertEnter",
+			},
+			{
+				"saadparwaiz1/cmp_luasnip",
+				lazy = true,
+			},
+			{
+				"hrsh7th/cmp-nvim-lsp",
+				lazy = true,
+			},
+		},
+	},
 
 	{
 		"stevearc/conform.nvim",
@@ -157,12 +156,7 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		ft = { "tsx", "jsx", "html" },
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				autotag = {
-					enable = true,
-				},
-			})
-			-- require("configs.autotag-nvim")
+			require("nvim-ts-autotag").setup(require("configs.autotag-nvim"))
 		end,
 	},
 
@@ -186,6 +180,7 @@ return {
 		event = "VeryLazy",
 	},
 
+	--  outline
 	{
 		"stevearc/aerial.nvim",
 		config = function()
@@ -208,6 +203,13 @@ return {
 		"rrethy/vim-illuminate",
 		event = "BufReadPre",
 		lazy = true,
+	},
+
+	{
+		"catgoose/nvim-colorizer.lua",
+		event = "BufReadPre",
+		opts = { -- set to setup table
+		},
 	},
 
 	{ "MeanderingProgrammer/render-markdown.nvim" },

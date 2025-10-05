@@ -42,26 +42,25 @@ vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
 
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "none" })
+vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "none" })
 
 -- noice
-vim.api.nvim_set_hl(0, "NoicePopup", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoicePopupBorder", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoiceScrollbarHandle", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoiceScrollbar", { bg = "NONE" })
-
-vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
-vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoicePopup", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoicePopupBorder", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoiceScrollbarHandle", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoiceScrollbar", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
+-- vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
 
 vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = "none" })
 vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = "#ffffff", bg = "none" })

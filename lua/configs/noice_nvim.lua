@@ -1,44 +1,62 @@
 require("noice").setup({
-	messages = { view_search = false },
 	message = {
 		enabled = true,
-		view = "mini",
+		view = "notify",
 		opts = {},
 	},
 	notify = {
-		enabled = false,
-		view = "mini",
-		position = "middle,right",
+		enabled = true,
+		view = "notify",
+		position = "top,right",
 	},
 	cmdline = {
 		enabled = true,
 		view = "cmdline_popup",
 		format = {
-			default = {
-				position = { row = 41, col = "50%" },
-				size = { width = "41%" },
-				border = { style = "rounded" },
-			},
+			cmdline = { pattern = "^:", icon = require("packages.icons").ui.Search, lang = "vim", title = "" },
 		},
 	},
 	lsp = {
-		progress = { enabled = true, view = "mini" },
 		override = {
 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 			["vim.lsp.util.stylize_markdown"] = true,
-			["vim.lsp.buf.code_action"] = false,
 			["cmp.entry.get_documentation"] = true,
-			["vim.lsp.buf.hover"] = true,
 		},
 		signature = { enabled = true },
 		messages = { enabled = false },
 	},
+
 	routes = {
+		-- hide ruler (line,col)
+		{
+			filter = { event = "msg_ruler" },
+			opts = { skip = true },
+		},
+		-- hide session loaded notify
+		{
+			filter = { event = "notify", find = "session loaded" },
+			opts = { skip = true },
+		},
+		-- hide list_cmd
+		{
+			filter = { event = "msg_show", kind = "list_cmd" },
+			opts = { skip = true },
+		},
+		-- hide file opened messages like "82L, 2326B"
+		{
+			filter = { event = "msg_show", find = "%d+L, %d+B" },
+			opts = { skip = true },
+		},
+
+		{
+			filter = { event = "msg_show", kind = "list_cmd" },
+			opts = { skip = true },
+		},
+		-- already had other noisy filters
 		{
 			filter = {
 				event = "msg_show",
 				any = {
-					{ find = "%d+L, %d+B" },
 					{ find = "^%d+ changes?; after #%d+" },
 					{ find = "^%d+ changes?; before #%d+" },
 					{ find = "^Hunk %d+ of %d+$" },
@@ -46,47 +64,55 @@ require("noice").setup({
 					{ find = "^%d+ more lines?;?" },
 					{ find = "^%d+ line less;?" },
 					{ find = "^Already at newest change" },
-					{ find = "written" }, -- File written messages
+					{ find = "written" },
+					{ find = "bufwrite" },
 					{ kind = "wmsg" },
 					{ kind = "emsg", find = "E487" },
 					{ kind = "quickfix" },
 					{ find = "method textDocument/documentHighlight is not supported" },
+					{ find = "bytes written" },
 				},
 			},
-			view = { skip = true },
+			opts = { skip = true },
+		},
+		-- hide lua_ls progress spam
+		{
+			filter = {
+				event = "lsp",
+				kind = "progress",
+				cond = function(message)
+					local client = vim.tbl_get(message.opts, "progress", "client")
+					return client == "lua_ls"
+				end,
+			},
+			opts = { skip = true },
 		},
 	},
+
 	presets = {
 		bottom_search = false,
 		command_palette = false,
-		long_message_to_split = false,
+		long_message_to_split = true,
 		inc_rename = true,
-		lsp_doc_border = true,
 		progress = false,
 		smart_move = false,
 	},
+
 	views = {
-		cmdline_popup = {
-			win_options = {
-				winblend = 0,
-				winhl = "Normal:NoiceCmdLine,FloatBorder:NoiceCmdLineBorder",
-			},
-		},
 		hover = {
+			border = {
+				style = "rounded",
+				padding = { 0, 1 },
+			},
+			position = { row = 2, col = 2 },
 			size = {
 				max_width = 80,
+				max_height = 20,
 			},
 			win_options = {
-				winblend = 100,
+				winblend = 0,
+				winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
 			},
 		},
 	},
 })
-
-vim.cmd([[
-  augroup NoiceCustomHighlights
-    autocmd!
-    autocmd ColorScheme * highlight NoiceCmdLine guibg=none ctermbg=none
-    autocmd ColorScheme * highlight NoiceCmdLineBorder guibg=none ctermbg=none
-  augroup END
-]])
