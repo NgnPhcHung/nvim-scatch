@@ -19,6 +19,16 @@ require("mason-lspconfig").setup_handlers({
 		vim.lsp.config[server_name] = {
 			capabilities = capabilities,
 			on_attach = lsp_highlight_document,
+			diagnostics = {
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = require("packages.icons").ui.Ghost,
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.HINT] = "",
+						[vim.diagnostic.severity.INFO] = "",
+					},
+				},
+			},
 		}
 	end,
 })

@@ -1,6 +1,34 @@
 local actions = require("telescope.actions")
 local entry_display = require("telescope.pickers.entry_display")
 
+local function get_project_root()
+	local buf_path = vim.fn.expand("%:p")
+	local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+	local cwd = vim.fn.getcwd()
+
+	if not git_root or git_root == "" or vim.v.shell_error ~= 0 then
+		return cwd
+	end
+
+	local subprojects = {
+		"apps",
+		"packages",
+		"services",
+	}
+
+	for _, dir in ipairs(subprojects) do
+		local match = buf_path:match(git_root .. "/" .. dir .. "/([^/]+)/")
+		if match then
+			local possible_root = git_root .. "/" .. dir .. "/" .. match
+			if vim.fn.isdirectory(possible_root .. "/src") == 1 or vim.fn.isdirectory(possible_root .. "/app") == 1 then
+				return possible_root
+			end
+		end
+	end
+
+	return git_root
+end
+
 local function custom_display(entry)
 	local displayer = entry_display.create({
 		separator = " ",
@@ -38,7 +66,9 @@ require("telescope").setup({
 		borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 		border = true,
 		path_display = { "truncate", "smart" },
-		cwd = vim.fn.getcwd(),
+		-- cwd = vim.fn.getcwd(),
+		cwd = get_project_root(),
+
 		mappings = {
 			i = {
 				["<C-u>"] = false,
@@ -73,12 +103,12 @@ require("telescope").setup({
 		},
 		grep_string = {
 			initial_mode = "normal",
-			theme = "ivy",
+			theme = "dropdown",
 			sorting_strategy = "ascending",
 		},
 		live_grep = {
 			theme = "dropdown",
-			prompt_title = "String?",
+			prompt_title = "What the fk?",
 			sorting_strategy = "ascending",
 			initial_mode = "normal",
 		},
@@ -86,6 +116,7 @@ require("telescope").setup({
 			previewer = false,
 			theme = "dropdown",
 			sorting_strategy = "ascending",
+			borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 			mappings = {
 				n = {
 					["d"] = "delete_buffer",
@@ -94,13 +125,15 @@ require("telescope").setup({
 			},
 			initial_mode = "normal",
 			sort_lastused = true,
-			prompt_title = "Buffers",
+			prompt_title = "Opening buffers",
 		},
 		lsp_references = {
 			theme = "cursor",
 			initial_mode = "normal",
 			layout_config = {
 				height = 0.4,
+				preview_width = 0.8,
+				width = 0.9,
 			},
 			show_line = false,
 			prompt_title = "Usage",

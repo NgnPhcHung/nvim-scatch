@@ -35,19 +35,26 @@ local function setup_workspace()
 
 	local function load_session()
 		local session_file = get_session_file()
+		local git_root = get_git_root()
+
 		if vim.fn.filereadable(session_file) == 0 then
 			vim.notify(icons.kind.Null .. " No session found for this project/branch")
 			return
 		end
+
 		local ok, err = pcall(vim.cmd, "source " .. session_file)
 		if not ok then
 			vim.notify("⚠️ Session Restore Error: " .. err)
 		else
-			vim.notify(icons.kind.Package .. " session loaded: ")
+			if git_root then
+				vim.cmd("cd " .. git_root)
+				vim.notify(icons.kind.Package .. " session loaded (root restored): " .. git_root)
+			else
+				vim.notify(icons.kind.Package .. " session loaded (cwd unchanged)")
+			end
 		end
 	end
 
-	-- Save session automatically on exit
 	local function save_session()
 		local session_file = get_session_file()
 		local session_dir = vim.fn.fnamemodify(session_file, ":h")
@@ -65,7 +72,6 @@ local function setup_workspace()
 		end
 
 		vim.cmd("mksession! " .. session_file)
-		-- Uncomment this if you want feedback every save:
 		-- print("💾 Session saved: " .. session_file)
 	end
 

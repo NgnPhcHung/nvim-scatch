@@ -2,7 +2,6 @@ require("neo-tree").setup({
 	close_if_last_window = true,
 	popup_border_style = "rounded",
 	enable_git_status = true,
-
 	filesystem = {
 		follow_current_file = {
 			enabled = true,
@@ -37,6 +36,14 @@ require("neo-tree").setup({
 		nowait = true,
 	},
 	window = {
+		popup = {
+			title = require("packages.icons").kind.Folder .. " Explorer",
+			size = {
+				-- height = "20",
+				-- width = "",
+			},
+			position = "50%",
+		},
 		position = "float",
 		mappings = {
 			["<CR>"] = "open",

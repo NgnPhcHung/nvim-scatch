@@ -53,26 +53,9 @@ vim.api.nvim_create_autocmd("User", {
 	end,
 })
 
--- local group = vim.api.nvim_create_augroup("TsOrganizeOnSave", { clear = true })
---
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- 	group = group,
--- 	pattern = { "*.ts", "*.tsx" },
--- 	callback = function()
--- 		-- chạy format
--- 		vim.lsp.buf.format({ async = false })
---
--- 		-- chạy organize imports
--- 		vim.cmd("TSToolOrganizeImports")
--- 	end,
--- })
-
--- vim.api.nvim_create_autocmd("VimEnter", {
---   group = vim.api.nvim_create_augroup("alpha_start", { clear = true }),
---   desc = "Open Alpha dashboard on startup",
---   callback = function()
---     if vim.fn.argc() == 0 and vim.bo.filetype == "" then
---       require("alpha").start(false)
---     end
---   end,
--- })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "json", "jsonc", "markdown" },
+	callback = function()
+		vim.wo.conceallevel = 0
+	end,
+})

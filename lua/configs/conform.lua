@@ -3,14 +3,14 @@ local util = require("lspconfig.util")
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		css = { "prettierd" },
 		prisma = { "prisma_fmt" },
+		css = { "biome", "prettierd", "eslint_d" },
 
-		javascript = { "biome", "prettierd", stop_after_first = true },
-		typescript = { "biome", "prettierd", stop_after_first = true },
-		javascriptreact = { "biome", "prettierd", stop_after_first = true },
-		typescriptreact = { "biome", "prettierd", stop_after_first = true },
-		json = { "biome", "prettierd", stop_after_first = true },
+		javascript = { "biome", "eslint_d", "prettierd", stop_after_first = true },
+		typescript = { "biome", "eslint_d", "prettierd", stop_after_first = true },
+		javascriptreact = { "biome", "eslint_d", "prettierd", stop_after_first = true },
+		typescriptreact = { "biome", "eslint_d", "prettierd", stop_after_first = true },
+		json = { "biome", "prettierd", "eslint_d", stop_after_first = true },
 	},
 
 	formatters = {
@@ -20,13 +20,16 @@ require("conform").setup({
 			stdin = false,
 		},
 
+		-- ✅ biome: chỉ chạy nếu có biome.json hoặc dependency "biome"
 		biome = {
 			command = "npx",
 			args = { "biome", "format", "--stdin-file-path", "$FILENAME" },
-
 			stdin = true,
 			cwd = function(ctx)
-				return require("lspconfig.util").root_pattern("package.json", "biome.json", ".git")(ctx.dirname)
+				return util.root_pattern("biome.json", "package.json", ".git")(ctx.dirname)
+			end,
+			condition = function(ctx)
+				return util.root_pattern("biome.json", "biome.jsonc")(ctx.dirname) ~= nil
 			end,
 		},
 
@@ -41,6 +44,21 @@ require("conform").setup({
 			args = { "--stdin-file-path", "$FILENAME" },
 			stdin = true,
 		},
+
+		-- ✅ eslint_d: chỉ chạy nếu có .eslintrc.* hoặc eslint trong package.json
+		eslint_d = {
+			command = "npx",
+			args = { "eslint_d", "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
+			stdin = true,
+			cwd = function(ctx)
+				return util.root_pattern(".eslintrc", ".eslintrc.json", ".eslintrc.js", "package.json", ".git")(
+					ctx.dirname
+				)
+			end,
+			condition = function(ctx)
+				return util.root_pattern(".eslintrc", ".eslintrc.json", ".eslintrc.js")(ctx.dirname) ~= nil
+			end,
+		},
 	},
 
 	default_format_opts = {
@@ -54,5 +72,3 @@ require("conform").setup({
 		pattern = "*.{js,jsx,ts,tsx,lua,css,html,prisma}",
 	},
 })
-
--- vim.lsp.enable("biome")

@@ -18,8 +18,6 @@ return {
 	{ "neovim/nvim-lspconfig" },
 
 	-- theme
-	{ "folke/tokyonight.nvim", priority = 1000, config = true },
-	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
 	{
@@ -51,6 +49,12 @@ return {
 	{
 		"axkirillov/hbac.nvim",
 		event = "BufEnter",
+	},
+
+	{
+		"famiu/bufdelete.nvim",
+		lazy = true,
+		event = "VeryLazy",
 	},
 
 	-- git
@@ -94,29 +98,6 @@ return {
 	{ "folke/flash.nvim", event = "BufEnter" },
 	{ "mg979/vim-visual-multi", event = "VeryLazy", lazy = true },
 	{ "goolord/alpha-nvim" },
-
-	-- cmp / lint / lsp
-	-- {
-	-- 	"hrsh7th/nvim-cmp",
-	-- 	dependencies = {
-	-- 		"neovim/nvim-lspconfig",
-	-- 		"hrsh7th/cmp-buffer",
-	-- 		"hrsh7th/cmp-path",
-	-- 		"hrsh7th/cmp-nvim-lsp",
-	-- 		"hrsh7th/cmp-nvim-lua",
-	-- 		"hrsh7th/cmp-cmdline",
-	-- 		"saadparwaiz1/cmp_luasnip",
-	-- 		"L3MON4D3/LuaSnip",
-	-- 		"rafamadriz/friendly-snippets",
-	-- 		"hrsh7th/cmp-vsnip",
-	-- 		"hrsh7th/vim-vsnip",
-	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
-	-- 		"onsails/lspkind.nvim",
-	-- 	},
-	-- 	config = function()
-	-- 		require("configs.cmp")
-	-- 	end,
-	-- },
 
 	{
 		"saghen/blink.cmp",
@@ -163,7 +144,6 @@ return {
 	{ "numToStr/Comment.nvim", event = "BufReadPre" },
 	{ "JoosepAlviste/nvim-ts-context-commentstring", event = "BufReadPre" },
 
-	-- codings
 	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = {
@@ -183,13 +163,6 @@ return {
 	--  outline
 	{
 		"stevearc/aerial.nvim",
-		config = function()
-			-- require("configs.aerial").setup()
-		end,
-	},
-
-	{
-		"famiu/bufdelete.nvim",
 		lazy = true,
 		event = "VeryLazy",
 	},
@@ -199,30 +172,62 @@ return {
 		branch = "v3.x",
 	},
 
-	{
-		"rrethy/vim-illuminate",
-		event = "BufReadPre",
-		lazy = true,
-	},
+	-- {
+	-- 	"rrethy/vim-illuminate",
+	-- 	event = "BufReadPre",
+	-- 	lazy = true,
+	-- },
 
-	{
-		"catgoose/nvim-colorizer.lua",
-		event = "BufReadPre",
-		opts = { -- set to setup table
-		},
-	},
-
-	{ "MeanderingProgrammer/render-markdown.nvim" },
+	-- { "MeanderingProgrammer/render-markdown.nvim", lazy = true, event = "VeryLazy", ft = "markdown" },
 	{ "echasnovski/mini.nvim", version = "*" },
 	{ "echasnovski/mini.indentscope", version = "*" },
 	{ "prisma/vim-prisma", ft = "prisma", event = "VeryLazy", lazy = true },
 	{ "b0o/schemastore.nvim" },
 
+	-- {
+	-- 	"epwalsh/obsidian.nvim",
+	-- 	version = "*",
+	-- 	ft = "markdown",
+	-- 	event = "VeryLazy",
+	-- },
 	{
-		"epwalsh/obsidian.nvim",
-		version = "*",
-		ft = "markdown",
+		"catgoose/nvim-colorizer.lua",
 		event = "VeryLazy",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("colorizer").setup({
+				filetypes = { "*" },
+				user_default_options = {
+					css = true,
+					tailwind = "both",
+					mode = "virtualtext",
+					virtualtext = require("packages.icons").ui.Round,
+					virtualtext_inline = "before",
+					virtualtext_mode = "foreground",
+				},
+			})
+		end,
+	},
+	{
+		"ravibrock/spellwarn.nvim",
+		event = "VeryLazy",
+		config = function()
+			vim.opt.spell = true
+			vim.opt.spelllang = "en"
+			require("spellwarn").setup({
+				event = {
+					"CursorHold",
+					"InsertLeave",
+					"TextChanged",
+					"TextChangedI",
+					"TextChangedP",
+				},
+				suggest = false,
+			})
+		end,
+	},
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "VeryLazy",
+		priority = 1000,
 	},
 }

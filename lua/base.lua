@@ -36,11 +36,11 @@ vim.opt.termguicolors = true
 vim.o.wrapscan = true
 vim.o.swapfile = false
 vim.opt.list = false
-vim.api.nvim_set_hl(0, "NonText", { fg = "#4d4d4d", blend = 50 })
 
 vim.g.indent_blankline_char = "▏"
 vim.g.indent_blankline_show_current_context = true
 
+vim.api.nvim_set_hl(0, "NonText", { fg = "#4d4d4d", blend = 50 })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -62,6 +62,7 @@ vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "none" })
 -- vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = "NONE" })
 -- vim.api.nvim_set_hl(0, "NoicePopupmenuSel", { bg = "NONE" })
 
+--telescope
 vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = "none" })
 vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = "#ffffff", bg = "none" })
 vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = "#ffffff", bg = "none" })
@@ -117,3 +118,18 @@ vim.keymap.set("n", "E", function()
 		scope = "cursor",
 	})
 end, { noremap = true, silent = true })
+
+-- undo tree
+-- Tạo thư mục undo nếu chưa có
+local undodir = vim.fn.stdpath("data") .. "/undo"
+if vim.fn.isdirectory(undodir) == 0 then
+	vim.fn.mkdir(undodir, "p")
+end
+
+-- Set undodir
+vim.o.undodir = undodir
+vim.o.undofile = true -- Bật persistent undo
+
+--spell
+vim.o.spelllang = "en_us"
+vim.o.spell = true
