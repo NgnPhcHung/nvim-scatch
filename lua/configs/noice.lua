@@ -1,5 +1,5 @@
-require("noice").setup({
-	message = {
+return {
+	messages = {
 		enabled = true,
 		view = "notify",
 		opts = {},
@@ -13,7 +13,12 @@ require("noice").setup({
 		enabled = true,
 		view = "cmdline_popup",
 		format = {
-			cmdline = { pattern = "^:", icon = require("packages.icons").ui.Search, lang = "vim", title = "" },
+			cmdline = {
+				pattern = "^:",
+				icon = "", -- Kính lúp (Search)
+				lang = "vim",
+				title = "",
+			},
 		},
 	},
 	lsp = {
@@ -27,42 +32,19 @@ require("noice").setup({
 	},
 
 	routes = {
-		-- hide ruler (line,col)
-		{
-			filter = { event = "msg_ruler" },
-			opts = { skip = true },
-		},
-		-- hide session loaded notify
-		{
-			filter = { event = "notify", find = "session loaded" },
-			opts = { skip = true },
-		},
-		-- hide list_cmd
-		{
-			filter = { event = "msg_show", kind = "list_cmd" },
-			opts = { skip = true },
-		},
-		-- hide file opened messages like "82L, 2326B"
-		{
-			filter = { event = "msg_show", find = "%d+L, %d+B" },
-			opts = { skip = true },
-		},
-
-		{
-			filter = { event = "msg_show", kind = "list_cmd" },
-			opts = { skip = true },
-		},
-		-- already had other noisy filters
+		{ filter = { event = "msg_ruler" }, opts = { skip = true } },
+		{ filter = { event = "notify", find = "session loaded" }, opts = { skip = true } },
+		{ filter = { event = "msg_show", find = "%d+L, %d+B" }, opts = { skip = true } },
 		{
 			filter = {
 				event = "msg_show",
 				any = {
-					{ find = "^%d+ changes?; after #%d+" },
-					{ find = "^%d+ changes?; before #%d+" },
+					{ find = "^%d+ changes?; after #" },
+					{ find = "^%d+ changes?; before #" },
 					{ find = "^Hunk %d+ of %d+$" },
-					{ find = "^%d+ fewer lines;?" },
-					{ find = "^%d+ more lines?;?" },
-					{ find = "^%d+ line less;?" },
+					{ find = "^%d+ fewer lines" },
+					{ find = "^%d+ more lines" },
+					{ find = "^%d+ line less" },
 					{ find = "^Already at newest change" },
 					{ find = "written" },
 					{ find = "bufwrite" },
@@ -71,11 +53,11 @@ require("noice").setup({
 					{ kind = "quickfix" },
 					{ find = "method textDocument/documentHighlight is not supported" },
 					{ find = "bytes written" },
+					{ kind = "list_cmd" },
 				},
 			},
 			opts = { skip = true },
 		},
-		-- hide lua_ls progress spam
 		{
 			filter = {
 				event = "lsp",
@@ -100,19 +82,10 @@ require("noice").setup({
 
 	views = {
 		hover = {
-			border = {
-				style = "rounded",
-				padding = { 0, 1 },
-			},
+			border = { style = "rounded", padding = { 0, 1 } },
 			position = { row = 2, col = 2 },
-			size = {
-				max_width = 80,
-				max_height = 20,
-			},
-			win_options = {
-				winblend = 0,
-				winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
-			},
+			size = { max_width = 80, max_height = 20 },
+			win_options = { winblend = 0, winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder" },
 		},
 	},
-})
+}

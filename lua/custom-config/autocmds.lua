@@ -1,61 +1,86 @@
-local autocmd = vim.api.nvim_create_autocmd
+local api = vim.api
+local autocmd = api.nvim_create_autocmd
 
+-- Sử dụng một Autogroup chính để quản lý tất cả các Autocmd tùy chỉnh
+local custom_group = api.nvim_create_augroup("CustomAutocmds", { clear = true })
+
+-- *******************************************************
+-- 1. FILE/BUFFER HANDLING & LAZY LOADING HELPERS
+-- *******************************************************
+
+-- A. Mô phỏng FilePost & Editorconfig Loading
+--   (Logic này phức tạp và có thể được thay thế bằng các event/hook của Lazy.nvim)
+--   *GHI CHÚ: Logic tự tạo 'NvFilePost' này thường được dùng cho cấu hình cũ hơn.
+--    Nếu bạn dùng Lazy.nvim, tốt nhất là sử dụng event 'User FilePost' của các plugin.*
 autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
-	group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
+	group = custom_group, -- Sử dụng custom_group đã clear
 	callback = function(args)
-		local file = vim.api.nvim_buf_get_name(args.buf)
-		local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-
+		-- Đảm bảo UI đã vào (Nếu dùng Lazy.nvim, nên dùng 'VimEnter' thay 'UIEnter')
 		if not vim.g.ui_entered and args.event == "UIEnter" then
 			vim.g.ui_entered = true
 		end
 
+		local file = api.nvim_buf_get_name(args.buf)
+		local buftype = api.nvim_get_option_value("buftype", { buf = args.buf })
+
 		if file ~= "" and buftype ~= "nofile" and vim.g.ui_entered then
-			vim.api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
-			vim.api.nvim_del_augroup_by_name("NvFilePost")
+			-- 1. Kích hoạt 'User FilePost'
+			api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
 
+			-- 2. Tải Editorconfig (Nên dùng plugin 'editorconfig' với event 'BufReadPre'/'BufNewFile' của nó)
 			vim.schedule(function()
-				vim.api.nvim_exec_autocmds("FileType", {})
-
 				if vim.g.editorconfig then
-					require("editorconfig").config(args.buf)
+					-- Sử dụng pcall để tránh lỗi nếu plugin chưa load
+					local ed_config_ok, editorconfig = pcall(require, "editorconfig")
+					if ed_config_ok then
+						editorconfig.config(args.buf)
+					end
 				end
 			end)
+
+			-- *LƯU Ý: Không cần xóa Autogroup nếu bạn dùng custom_group đã clear*
 		end
 	end,
 })
 
-vim.api.nvim_create_autocmd("BufDelete", {
-	group = vim.api.nvim_create_augroup("bufdelpost_autocmd", {}),
-	desc = "BufDeletePost User autocmd",
+-- B. Xử lý BufDeletePost (Tạo sự kiện User tùy chỉnh)
+--   (Bạn đã định nghĩa một Autogroup trống, có thể dùng custom_group)
+autocmd("BufDelete", {
+	group = custom_group,
+	desc = "Kích hoạt User BufDeletePost",
 	callback = function()
 		vim.schedule(function()
-			vim.api.nvim_exec_autocmds("User", {
+			api.nvim_exec_autocmds("User", {
 				pattern = "BufDeletePost",
 			})
 		end)
 	end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-	pattern = "BufDeletePost",
-	group = vim.api.nvim_create_augroup("dashboard_delete_buffers", {}),
-	desc = "Open Dashboard when no available buffers",
-	callback = function(ev)
-		local deleted_name = vim.api.nvim_buf_get_name(ev.buf)
-		local deleted_ft = vim.api.nvim_get_option_value("filetype", { buf = ev.buf })
-		local deleted_bt = vim.api.nvim_get_option_value("buftype", { buf = ev.buf })
-		local dashboard_on_empty = deleted_name == "" and deleted_ft == "" and deleted_bt == ""
+-- Lua Autocmd để mở Dashboard khi khởi động
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = vim.api.nvim_create_augroup("AlphaStart", { clear = true }),
+	-- Đảm bảo Alpha chỉ chạy nếu không có file nào được mở
+	pattern = "*",
+	callback = function()
+		local bufcount = #vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 })
 
-		if dashboard_on_empty then
-			vim.cmd("Alpha")
+		-- Chỉ mở Alpha nếu số lượng buffer đang được tải và niêm yết là 0 hoặc 1 (No Name)
+		if bufcount <= 1 then
+			pcall(vim.cmd, "Alpha")
 		end
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
+-- *******************************************************
+-- 2. TÙY CHỈNH THEO FILETYPE
+-- *******************************************************
+
+-- Vô hiệu hóa Conceallevel (Dấu hiệu) cho một số filetype
+autocmd("FileType", {
+	group = custom_group,
 	pattern = { "json", "jsonc", "markdown" },
 	callback = function()
-		vim.wo.conceallevel = 0
+		vim.wo.conceallevel = 0 -- Thiết lập cho window hiện tại
 	end,
 })

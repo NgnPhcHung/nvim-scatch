@@ -86,7 +86,7 @@ map("n", "<leader>rn", ":IncRename ", opts)
 
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)
 
-map("n", "<leader>y", '"+y', opts)
+map({ "n", "v" }, "<leader>y", '"+y', opts)
 map("n", "<leader>yy", '"+yy', opts)
 
 map("n", "<A-.>", ":bn<cr>", opts) -- next buffer

@@ -1,18 +1,14 @@
--- require("colorizer").setup({
--- 	css = true, -- Enable all CSS *features*:
--- 	-- boolean|'normal'|'lsp'|'both'.  True sets to 'normal'
--- 	tailwind = "both",
--- 	xterm = false, -- Enable xterm 256-color codes (#xNN, \e[38;5;NNNm)
--- 	-- Highlighting mode.  'background'|'foreground'|'virtualtext'
--- 	mode = "virtualtext", -- Set the display mode
--- 	-- Virtualtext character to use
--- 	virtualtext = "■",
--- 	-- Display virtualtext inline with color.  boolean|'before'|'after'.  True sets to 'after'
--- 	virtualtext_inline = false,
--- 	-- Virtualtext highlight mode: 'background'|'foreground'
--- 	virtualtext_mode = "foreground",
--- 	-- update color values even if buffer is not focused
--- 	-- example use: cmp_menu, cmp_docs
--- 	always_update = false,
--- 	-- hooks to invert control of colorizer
--- })
+local status_ok, icons = pcall(require, "packages.icons")
+local color_icon = status_ok and icons.ui.Round or "●"
+
+return {
+	filetypes = { "*" },
+	user_default_options = {
+		css = true,
+		tailwind = "both",
+		mode = "virtualtext",
+		virtualtext = color_icon,
+		virtualtext_inline = "before",
+		virtualtext_mode = "foreground",
+	},
+}

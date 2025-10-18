@@ -1,233 +1,267 @@
 return {
-	{
-		"williamboman/mason.nvim",
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		version = "1.26.0",
-		dependencies = { "williamboman/mason.nvim" },
-		config = function() end,
-	},
-
-	{
-		"nvim-treesitter/nvim-treesitter",
-		-- build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
-	},
-
-	{ "neovim/nvim-lspconfig" },
-
-	-- theme
-	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("ui.statusline").setup()
-		end,
-	},
-
-	{
-		"nvim-focus/focus.nvim",
-		event = "WinNew",
-	},
-
-	----------------
-	-- file/buffer
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("telescope").setup({})
-		end,
-	},
-
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
-	{ "nvim-telescope/telescope-ui-select.nvim", lazy = true },
-
-	{
-		"axkirillov/hbac.nvim",
-		event = "BufEnter",
-	},
-
-	{
-		"famiu/bufdelete.nvim",
-		lazy = true,
-		event = "VeryLazy",
-	},
-
-	-- git
-	{
-		"tpope/vim-fugitive",
-		cmd = { "Git", "G" },
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		event = "BufReadPre",
-		config = function()
-			require("gitsigns").setup()
-		end,
-	},
-	{
-		"sindrets/diffview.nvim",
-		cmd = "DiffviewOpen",
-		config = true,
-		event = "VeryLazy",
-	},
-	{
-		"TimUntersberger/neogit",
-		cmd = "Neogit",
-	},
-	{
-		"akinsho/git-conflict.nvim",
-		version = "*",
-		config = true,
-		event = "VeryLazy",
-	},
-
-	-- extensions
 	{ "nvim-lua/plenary.nvim" },
 	{ "MunifTanjim/nui.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 
-	{ "folke/noice.nvim", dependencies = {
-		"rcarriga/nvim-notify",
-	}, config = true, event = "VeryLazy" },
-
-	{ "folke/flash.nvim", event = "BufEnter" },
-	{ "mg979/vim-visual-multi", event = "VeryLazy", lazy = true },
-	{ "goolord/alpha-nvim" },
+	------------------------------------------------------
+	-- ✨ UI & Theme
+	------------------------------------------------------
+	{ "catppuccin.nvim", name = "catppuccin", priority = 1000, opts = {} },
 
 	{
-		"saghen/blink.cmp",
-		event = "InsertEnter",
+		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
 		dependencies = {
-			"hrsh7th/nvim-cmp",
-			"rafamadriz/friendly-snippets",
-			"onsails/lspkind.nvim",
-			{
-				"L3MON4D3/LuaSnip",
-				event = "InsertEnter",
-			},
-			{
-				"saadparwaiz1/cmp_luasnip",
-				lazy = true,
-			},
-			{
-				"hrsh7th/cmp-nvim-lsp",
-				lazy = true,
-			},
+			"nvim-tree/nvim-web-devicons",
 		},
+		config = require("ui.statusline"),
 	},
 
 	{
-		"stevearc/conform.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = require("configs.noice"),
 	},
-
 	{
-		"mfussenegger/nvim-lint",
-		event = { "BufReadPre", "BufNewFile" },
+		"rcarriga/nvim-notify",
+		event = "VeryLazy",
+		config = require("configs.notify"),
 	},
-
 	{
-		"windwp/nvim-ts-autotag",
-		event = "InsertEnter",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		ft = { "tsx", "jsx", "html" },
+		"catgoose/nvim-colorizer.lua",
+		event = "VeryLazy",
+		opts = require("configs.colorizer"),
+	},
+	{ "nvim-focus/focus.nvim", event = "WinNew", opts = require("configs.focus") },
+	{ "goolord/alpha-nvim", cmd = "Alpha", config = require("configs.alpha") },
+
+	------------------------------------------------------
+	-- 💻 LSP, TS, JS/TSX
+	------------------------------------------------------
+	-- 1. Cấu hình Mason cơ bản (Đảm bảo nó chạy sớm)
+	{
+		"williamboman/mason.nvim",
+		cmd = "Mason",
+		lazy = false,
+		priority = 200,
 		config = function()
-			require("nvim-ts-autotag").setup(require("configs.autotag-nvim"))
+			require("mason").setup()
 		end,
 	},
 
-	{ "numToStr/Comment.nvim", event = "BufReadPre" },
-	{ "JoosepAlviste/nvim-ts-context-commentstring", event = "BufReadPre" },
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		lazy = false,
+		priority = 100,
+	},
+
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+		priority = 50,
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"prisma/vim-prisma",
+			"b0o/schemastore.nvim",
+		},
+		config = require("configs.lsp-setup"),
+	},
 
 	{
 		"pmizio/typescript-tools.nvim",
+		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
+		opts = require("configs.typescript-tools"),
+	},
+	------------------------------------------------------
+	-- 🔍 Completion & Snippets
+	------------------------------------------------------
+	{
+		"saghen/blink.cmp",
+		event = "BufReadPre",
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+			"rafamadriz/friendly-snippets",
+			"onsails/lspkind.nvim",
+			{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-nvim-lsp",
+		},
+		config = require("configs.blink-cmp"),
+	},
+	{
+		"L3MON4D3/LuaSnip",
+		version = "2.*", -- Khuyến nghị dùng version cụ thể
+		event = "InsertEnter",
+		-- Sử dụng config để đảm bảo hàm setup chạy sau khi plugin được tải
+		config = require("configs.luasnip"),
+	},
+
+	------------------------------------------------------
+	-- 🛠️ Formatter & Linter (Conform & Lint)
+	------------------------------------------------------
+	{
+		"stevearc/conform.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		config = require("configs.conform"),
+	},
+	{ "mfussenegger/nvim-lint", event = { "BufReadPre", "BufNewFile" }, config = require("configs.nvim-lint") },
+
+	------------------------------------------------------
+	-- 🌲 Treesitter & Syntax
+	------------------------------------------------------
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		event = { "BufReadPost", "BufNewFile" },
+		dependencies = {
+			"windwp/nvim-ts-autotag",
+			"nvim-treesitter/nvim-treesitter-textobjects", -- Add this for textobjects
+		},
+		config = function()
+			require("nvim-treesitter.configs").setup(require("configs.treesitter"))
+		end,
 	},
 
 	{
-		"smjonas/inc-rename.nvim",
-		config = function()
-			require("inc_rename").setup({})
-		end,
-		event = "VeryLazy",
+		"windwp/nvim-ts-autotag",
+		ft = { "tsx", "jsx", "html", "xml", "vue", "svelte" },
+		opts = {
+			opts = {
+				enable_close = true,
+				enable_rename = true,
+				enable_close_on_slash = true,
+			},
+		},
 	},
 
-	--  outline
+	{
+		"numToStr/Comment.nvim",
+		event = "BufReadPre",
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+		config = require("configs.comment"),
+	},
+	------------------------------------------------------
+	-- 💾 Git & VCS
+	------------------------------------------------------
+	{
+		"NeogitOrg/neogit",
+		cmd = "Neogit",
+		opts = require("configs.neogit"),
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+	},
+
+	{
+		"lewis6991/gitsigns.nvim",
+		event = { "BufReadPost", "BufNewFile" },
+		config = require("configs.gitsigns"),
+	},
+
+	{ "tpope/vim-fugitive", cmd = { "Git", "G" } },
+	-- { "sindrets/diffview.nvim", cmd = "DiffviewOpen", config = true, lazy = true },
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
+		event = "BufReadPre",
+		opts = require("configs.git-conflict"),
+	},
+
+	------------------------------------------------------
+	-- 📂 File, Buffer & Navigation
+	------------------------------------------------------
+
+	{
+		"nvim-telescope/telescope.nvim",
+		event = "VimEnter",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			{ "echasnovski/mini.files", optional = true },
+			{ "nvim-telescope/telescope-ui-select.nvim" },
+		},
+		config = require("configs.telescope"),
+	},
+
+	{
+		"axkirillov/hbac.nvim",
+		event = "BufWinLeave",
+		opts = require("configs.hbac"),
+	},
+
+	{ "famiu/bufdelete.nvim", cmd = "Bdelete", lazy = true },
+
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		opts = require("configs.flash"),
+	},
+
+	{ "mg979/vim-visual-multi", lazy = true, event = "VeryLazy" },
+	{ "smjonas/inc-rename.nvim", cmd = "IncRename", lazy = true },
+
 	{
 		"stevearc/aerial.nvim",
-		lazy = true,
-		event = "VeryLazy",
+		event = "BufReadPost",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		cmd = "AerialToggle",
+		opts = require("configs.aerial"),
 	},
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		cmd = "Neotree",
 		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- Cần thiết cho icons
+			"MunifTanjim/nui.nvim", -- Dependency cho các pop-up/UI
+		},
+		config = require("configs.neo-tree"),
+	},
+
+	------------------------------------------------------
+	-- 💡 Utility & Quality of Life
+	------------------------------------------------------
+	{
+		"echasnovski/mini.nvim",
+		version = "*",
+		-- Đặt event cho mini.nvim
+		event = "BufReadPre",
+		dependencies = {
+			"nvim-mini/mini.indentscope",
+		},
+		-- Sử dụng config để setup các module con (ví dụ: indentscope)
+		config = function()
+			require("configs.indentscope")() -- Gọi hàm setup indentscope đã tạo
+		end,
 	},
 
 	-- {
-	-- 	"rrethy/vim-illuminate",
-	-- 	event = "BufReadPre",
-	-- 	lazy = true,
-	-- },
-
-	-- { "MeanderingProgrammer/render-markdown.nvim", lazy = true, event = "VeryLazy", ft = "markdown" },
-	{ "echasnovski/mini.nvim", version = "*" },
-	{ "echasnovski/mini.indentscope", version = "*" },
-	{ "prisma/vim-prisma", ft = "prisma", event = "VeryLazy", lazy = true },
-	{ "b0o/schemastore.nvim" },
-
-	-- {
-	-- 	"epwalsh/obsidian.nvim",
-	-- 	version = "*",
-	-- 	ft = "markdown",
+	-- 	"ravibrock/spellwarn.nvim",
 	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		vim.opt.spell = true
+	-- 		vim.opt.spelllang = "en"
+	-- 		require("spellwarn").setup({
+	-- 			event = { "CursorHold", "InsertLeave", "TextChanged" },
+	-- 			suggest = false,
+	-- 		})
+	-- 	end,
 	-- },
-	{
-		"catgoose/nvim-colorizer.lua",
-		event = "VeryLazy",
-		config = function()
-			require("colorizer").setup({
-				filetypes = { "*" },
-				user_default_options = {
-					css = true,
-					tailwind = "both",
-					mode = "virtualtext",
-					virtualtext = require("packages.icons").ui.Round,
-					virtualtext_inline = "before",
-					virtualtext_mode = "foreground",
-				},
-			})
-		end,
-	},
-	{
-		"ravibrock/spellwarn.nvim",
-		event = "VeryLazy",
-		config = function()
-			vim.opt.spell = true
-			vim.opt.spelllang = "en"
-			require("spellwarn").setup({
-				event = {
-					"CursorHold",
-					"InsertLeave",
-					"TextChanged",
-					"TextChangedI",
-					"TextChangedP",
-				},
-				suggest = false,
-			})
-		end,
-	},
-	{
-		"rachartier/tiny-inline-diagnostic.nvim",
-		event = "VeryLazy",
-		priority = 1000,
-	},
+	{ "rachartier/tiny-inline-diagnostic.nvim", event = "VeryLazy", priority = 1000 },
 }
