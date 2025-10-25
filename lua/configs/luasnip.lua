@@ -7,10 +7,14 @@ return function()
 	require("luasnip.loaders.from_snipmate").lazy_load({ paths = vim.g.snipmate_snippets_path or "" })
 
 	require("luasnip.loaders.from_lua").load()
-	require("luasnip.loaders.from_lua").lazy_load({ paths = vim.g.lua_snippets_path or "" })
+	require("luasnip.loaders.from_lua").lazy_load({
+		paths = vim.g.lua_snippets_path or "",
+	})
 
 	-- 2. Setup LuaSnip sau khi loaders đã được gọi
 	local luasnip = require("luasnip")
+	luasnip.add_snippets("markdown", require("custom-config/snippets/markdown"))
+
 	luasnip.setup({
 		-- ... setup options ...
 		history = true,

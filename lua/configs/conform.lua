@@ -5,31 +5,66 @@ return function()
 		formatters_by_ft = {
 			lua = { "stylua" },
 			prisma = { "prisma_fmt" },
-			css = { "biome", "prettierd", "eslint_d", stop_after_first = true },
-			javascript = { "biome", "eslint_d", "prettierd", stop_after_first = true },
-			typescript = { "biome", "eslint_d", "prettierd", stop_after_first = true },
-			javascriptreact = { "biome", "eslint_d", "prettierd", stop_after_first = true },
-			typescriptreact = { "biome", "eslint_d", "prettierd", stop_after_first = true },
-			json = { "biome", "prettierd", "eslint_d", stop_after_first = true },
+
+			-- 🧩  ESLint + Prettierd
+			css = { "eslint_d", "prettierd" },
+			javascript = { "eslint_d", "prettierd" },
+			typescript = { "eslint_d", "prettierd" },
+			javascriptreact = { "eslint_d", "prettierd" },
+			typescriptreact = { "eslint_d", "prettierd" },
+			json = { "eslint_d", "prettierd" },
+
+			-- 🧩 Biome
+			-- css = { "biome", stop_after_first = true },
+			-- javascript = { "biome", stop_after_first = true },
+			-- typescript = { "biome", stop_after_first = true },
+			-- javascriptreact = { "biome", stop_after_first = true },
+			-- typescriptreact = { "biome", stop_after_first = true },
+			-- json = { "biome", stop_after_first = true },
 		},
 
 		formatters = {
+			-- Prisma
 			prisma = {
 				command = "npx",
-				args = { "prisma", "format" },
+				args = { "prisma", "format", "--schema", "$FILENAME" },
 				stdin = false,
+				cwd = function(ctx)
+					return util.root_pattern("prisma", "package.json", ".git")(ctx.dirname)
+				end,
 			},
-			-- prisma_fmt = {
-			-- 	command = "npx",
-			-- 	args = { "prisma", "format", "--schema", "$FILENAME" },
-			-- 	stdin = false,
-			-- 	cwd = function(ctx)
-			-- 		return util.root_pattern("prisma", "package.json", ".git")(ctx.dirname)
-			-- 	end,
-			-- 	timeout_ms = 5000,
-			-- },
 
-			-- Biome
+			stylua = { command = "stylua", args = { "-" }, stdin = true },
+
+			prettierd = {
+				command = "prettierd",
+				args = { "--stdin-file-path", "$FILENAME" },
+				stdin = true,
+			},
+
+			eslint_d = {
+				command = "npx",
+				args = { "eslint_d", "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
+				stdin = true,
+				cwd = function(ctx)
+					return util.root_pattern(".eslintrc*", "eslint.config.*", "package.json", ".git")(ctx.dirname)
+				end,
+				condition = function(ctx)
+					return util.root_pattern(
+						".eslintrc",
+						".eslintrc.js",
+						".eslintrc.cjs",
+						".eslintrc.json",
+						".eslintrc.yaml",
+						".eslintrc.yml",
+						"eslint.config.js",
+						"eslint.config.mjs",
+						"eslint.config.cjs"
+					)(ctx.dirname) ~= nil
+				end,
+			},
+
+			-- 🌿 Biome (only if no ESLint)
 			biome = {
 				command = "npx",
 				args = { "biome", "format", "--stdin-file-path", "$FILENAME" },
@@ -38,29 +73,22 @@ return function()
 					return util.root_pattern("biome.json", "package.json", ".git")(ctx.dirname)
 				end,
 				condition = function(ctx)
-					return util.root_pattern("biome.json", "biome.jsonc")(ctx.dirname) ~= nil
-				end,
-			},
-
-			stylua = { command = "stylua", args = { "-" }, stdin = true },
-			prettierd = { command = "prettierd", args = { "--stdin-file-path", "$FILENAME" }, stdin = true },
-
-			-- Eslint_d
-			eslint_d = {
-				command = "npx",
-				args = { "eslint_d", "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
-				stdin = true,
-				cwd = function(ctx)
-					return util.root_pattern(".eslintrc", "package.json", ".git")(ctx.dirname)
-				end,
-				condition = function(ctx)
-					return util.root_pattern(
+					-- ❌ Skip Biome if ESLint config is present
+					local eslint_found = util.root_pattern(
 						".eslintrc",
-						".eslintrc.json",
 						".eslintrc.js",
+						".eslintrc.cjs",
+						".eslintrc.json",
+						".eslintrc.yml",
 						".eslintrc.yaml",
-						".eslintrc.yml"
-					)(ctx.dirname) ~= nil
+						"eslint.config.js",
+						"eslint.config.mjs",
+						"eslint.config.cjs"
+					)(ctx.dirname)
+					if eslint_found then
+						return false
+					end
+					return util.root_pattern("biome.json", "biome.jsonc")(ctx.dirname) ~= nil
 				end,
 			},
 		},
@@ -68,9 +96,8 @@ return function()
 		default_format_opts = { lsp_format = "fallback" },
 
 		format_on_save = {
-			lsp_format = "fallback",
 			timeout_ms = 3000,
-			enabled = true,
+			lsp_format = "never",
 			pattern = "*.{js,jsx,ts,tsx,lua,css,html,prisma,json}",
 		},
 	})

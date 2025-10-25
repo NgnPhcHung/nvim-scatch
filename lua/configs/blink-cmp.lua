@@ -54,7 +54,6 @@ return function()
 					score_offset = 1,
 					transform_items = function(_, items)
 						return vim.tbl_filter(function(item)
-							-- SỬ DỤNG cmp_types ĐÃ REQUIRE BÊN TRONG HÀM
 							return item.kind ~= cmp_types.CompletionItemKind.Keyword
 						end, items)
 					end,

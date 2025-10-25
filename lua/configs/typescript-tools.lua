@@ -1,4 +1,3 @@
--- Get capabilities from blink.cmp or fallback
 local function get_capabilities()
 	local status_ok, blink_cmp = pcall(require, "blink.cmp")
 	if status_ok then
@@ -21,13 +20,22 @@ local function ts_on_attach(client, bufnr)
 		illuminate.on_attach(client)
 	end
 
+	-- local eslint_root = vim.fs.root(bufnr, {
+	-- 	".eslintrc",
+	-- 	".eslintrc.js",
+	-- 	".eslintrc.cjs",
+	-- 	".eslintrc.json",
+	-- 	"eslint.config.js",
+	-- })
+	--
+	-- if eslint_root then
+	-- 	client.server_capabilities.documentFormattingProvider = false
+	-- 	client.server_capabilities.documentRangeFormattingProvider = false
+	-- end
+
 	-- TypeScript specific keymaps
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 end
 
@@ -35,11 +43,15 @@ end
 local DIAG_FILTERS = { 80007, 80006 }
 
 return {
+	-- FIX: Use a function for root_dir instead of calling vim.fs.root directly
+	root_dir = function(fname)
+		return vim.fs.root(fname, { "package.json", "tsconfig.json", "jsconfig.json" })
+	end,
 	on_attach = ts_on_attach,
 	capabilities = get_capabilities(),
 	settings = {
-		-- TSServer file preferences
 		tsserver_file_preferences = {
+			experimentalDecorators = true,
 			includeInlayParameterNameHints = "all",
 			includeCompletionsForModuleExports = true,
 			includeCompletionsWithSnippetText = true,
@@ -50,22 +62,17 @@ return {
 			includeInlayFunctionLikeReturnTypeHints = true,
 			includeInlayEnumMemberValueHints = true,
 		},
-		-- TSServer format options
 		tsserver_format_options = {
 			insertSpaceAfterCommaDelimiter = true,
 			insertSpaceAfterFunctionKeywordForAnonymousFunctions = true,
 			insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true,
 		},
-		-- Expose all code actions
 		expose_as_code_action = "all",
-		-- Disable complete function calls (can be annoying)
 		complete_function_calls = false,
-		-- Filter out specific diagnostics by code
 		filter_out_diagnostics_by_code = DIAG_FILTERS,
-		-- TSServer preferences
 		tsserver_preferences = {
 			importModuleSpecifierPreference = "relative",
-			quotePreference = "double", -- Match with Biome
+			quotePreference = "double",
 			importTypeSpecifier = "type",
 		},
 	},

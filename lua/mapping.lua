@@ -21,7 +21,22 @@ map("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 map("i", "jk", "<Esc>", opts)
 
 map("n", ";a", ":BufferCloseAllButPinned<CR>", opts)
-map("n", ";w", "<Cmd>Bdelete<CR>", opts)
+map("n", ";w", function()
+	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+	local normal_bufs = vim.tbl_filter(function(buf)
+		local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf.bufnr })
+		local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf.bufnr })
+		return buftype == "" and filetype ~= "alpha"
+	end, bufs)
+
+	vim.cmd("bdelete")
+
+	if #normal_bufs <= 1 then
+		vim.schedule(function()
+			vim.cmd("Alpha")
+		end)
+	end
+end, opts)
 
 map("n", "te", ":tabedit<CR>", opts)
 map("n", "tc", ":close<CR>", opts)

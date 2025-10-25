@@ -200,8 +200,6 @@ return {
 		opts = require("configs.hbac"),
 	},
 
-	{ "famiu/bufdelete.nvim", cmd = "Bdelete", lazy = true },
-
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -264,4 +262,13 @@ return {
 	-- 	end,
 	-- },
 	{ "rachartier/tiny-inline-diagnostic.nvim", event = "VeryLazy", priority = 1000 },
+
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
+		ft = { "md", "markdown" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
 }
