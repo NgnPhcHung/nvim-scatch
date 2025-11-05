@@ -9,7 +9,9 @@ return function()
 			["<C-j>"] = { "select_next", "fallback" },
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
-			["<CR>"] = { "select_and_accept", "fallback" },
+			["<CR>"] = { "accept", "fallback" },
+			["<Tab>"] = { "select_next", "fallback" },
+			["<S-Tab>"] = { "select_prev", "fallback" },
 			["<C-.>"] = { "show", "show_documentation" },
 		},
 
@@ -37,10 +39,15 @@ return function()
 			ghost_text = { enabled = false },
 			trigger = {
 				show_on_trigger_character = true,
-				show_on_blocked_trigger_characters = { " ", "\n", "\t", "'", '"', "(", "{", "[", "}" },
+				show_on_insert_on_trigger_character = false,
 			},
 			keyword = { range = "full" },
-			list = { selection = { preselect = false, auto_insert = true } },
+			list = {
+				selection = {
+					preselect = true, -- Pre-select first item so Enter works immediately
+					auto_insert = false, -- Don't auto-insert, only insert on explicit accept
+				},
+			},
 		},
 		signature = { enabled = true },
 
@@ -52,11 +59,6 @@ return function()
 					module = "blink.cmp.sources.lsp",
 					min_keyword_length = 0,
 					score_offset = 1,
-					transform_items = function(_, items)
-						return vim.tbl_filter(function(item)
-							return item.kind ~= cmp_types.CompletionItemKind.Keyword
-						end, items)
-					end,
 				},
 				path = { min_keyword_length = 0, score_offset = 2 },
 				snippets = { min_keyword_length = 1, score_offset = 3 },

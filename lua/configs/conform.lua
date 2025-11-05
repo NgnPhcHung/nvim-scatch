@@ -1,39 +1,54 @@
 return function()
 	local util = require("lspconfig.util")
 
+	-- Smart formatter selection: returns appropriate formatters based on project config
+	local function get_formatters_for_js()
+		local bufnr = vim.api.nvim_get_current_buf()
+		local bufname = vim.api.nvim_buf_get_name(bufnr)
+		local dirname = vim.fn.fnamemodify(bufname, ":h")
+
+		-- Check for ESLint config
+		local eslint_config = util.root_pattern(
+			".eslintrc",
+			".eslintrc.js",
+			".eslintrc.cjs",
+			".eslintrc.json",
+			".eslintrc.yml",
+			".eslintrc.yaml",
+			"eslint.config.js",
+			"eslint.config.mjs",
+			"eslint.config.cjs"
+		)(dirname)
+
+		-- Check for Biome config
+		local biome_config = util.root_pattern("biome.json", "biome.jsonc")(dirname)
+
+		-- Prefer ESLint + Prettier if both exist, otherwise use whichever is found
+		if eslint_config then
+			return { "eslint_d", "prettierd" }
+		elseif biome_config then
+			return { "biome" }
+		end
+
+		-- Fallback to prettier if no config found
+		return { "prettierd" }
+	end
+
 	require("conform").setup({
 		formatters_by_ft = {
 			lua = { "stylua" },
-			prisma = { "prisma_fmt" },
+			-- Prisma uses LSP formatting (prismals)
 
-			-- 🧩  ESLint + Prettierd
-			css = { "eslint_d", "prettierd" },
-			javascript = { "eslint_d", "prettierd" },
-			typescript = { "eslint_d", "prettierd" },
-			javascriptreact = { "eslint_d", "prettierd" },
-			typescriptreact = { "eslint_d", "prettierd" },
-			json = { "eslint_d", "prettierd" },
-
-			-- 🧩 Biome
-			-- css = { "biome", stop_after_first = true },
-			-- javascript = { "biome", stop_after_first = true },
-			-- typescript = { "biome", stop_after_first = true },
-			-- javascriptreact = { "biome", stop_after_first = true },
-			-- typescriptreact = { "biome", stop_after_first = true },
-			-- json = { "biome", stop_after_first = true },
+			-- Use smart detection for JS/TS files
+			css = get_formatters_for_js,
+			javascript = get_formatters_for_js,
+			typescript = get_formatters_for_js,
+			javascriptreact = get_formatters_for_js,
+			typescriptreact = get_formatters_for_js,
+			json = get_formatters_for_js,
 		},
 
 		formatters = {
-			-- Prisma
-			prisma = {
-				command = "npx",
-				args = { "prisma", "format", "--schema", "$FILENAME" },
-				stdin = false,
-				cwd = function(ctx)
-					return util.root_pattern("prisma", "package.json", ".git")(ctx.dirname)
-				end,
-			},
-
 			stylua = { command = "stylua", args = { "-" }, stdin = true },
 
 			prettierd = {
@@ -97,7 +112,7 @@ return function()
 
 		format_on_save = {
 			timeout_ms = 3000,
-			lsp_format = "never",
+			lsp_format = "fallback",
 			pattern = "*.{js,jsx,ts,tsx,lua,css,html,prisma,json}",
 		},
 	})

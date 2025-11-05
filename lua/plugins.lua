@@ -78,7 +78,16 @@ return {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-		opts = require("configs.typescript-tools"),
+		config = function()
+			local status_ok, ts_tools = pcall(require, "typescript-tools")
+			if not status_ok then
+				vim.notify("Failed to load typescript-tools", vim.log.levels.ERROR)
+				return
+			end
+
+			local config = require("configs.typescript-tools")
+			ts_tools.setup(config)
+		end,
 	},
 	------------------------------------------------------
 	-- 🔍 Completion & Snippets
@@ -207,7 +216,18 @@ return {
 	},
 
 	{ "mg979/vim-visual-multi", lazy = true, event = "VeryLazy" },
-	{ "smjonas/inc-rename.nvim", cmd = "IncRename", lazy = true },
+	{
+		"smjonas/inc-rename.nvim",
+		event = "LspAttach",
+		config = function()
+			require("inc_rename").setup({
+				post_hook = function()
+					-- Save all modified buffers after rename
+					vim.cmd("silent! wall")
+				end,
+			})
+		end,
+	},
 
 	{
 		"stevearc/aerial.nvim",
@@ -265,7 +285,7 @@ return {
 
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" },
 		ft = { "md", "markdown" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig

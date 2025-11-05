@@ -12,6 +12,7 @@ return {
 		"prisma",
 		"markdown",
 		"markdown_inline",
+		"mermaid",
 		"bash",
 		"vim",
 		"vimdoc",

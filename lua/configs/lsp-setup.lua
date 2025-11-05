@@ -36,7 +36,7 @@ return function()
 				"dockerls",
 				"jsonls",
 				"tailwindcss",
-				"eslint",
+				"eslint", -- Install but we manage startup manually
 				-- NOTE: typescript-tools handles TypeScript, so no tsserver here
 				-- NOTE: Biome NOT included - it conflicts with ESLint
 			},
@@ -137,21 +137,11 @@ return function()
 		-- ==========================================
 		-- 8. ESLint Configuration (Only if config exists)
 		-- ==========================================
-		setup_server("eslint", {
-			autostart = true,
-			-- Only start ESLint if config file exists
-			root_dir = vim.fs.root(0, {
-				".eslintrc",
-				".eslintrc.js",
-				".eslintrc.cjs",
-				".eslintrc.json",
-				".eslintrc.yml",
-				".eslintrc.yaml",
-				"eslint.config.js",
-				"eslint.config.mjs",
-				"eslint.config.cjs",
-				"package.json", -- Fallback if eslintConfig in package.json
-			}),
+		-- Disable ESLint autostart - only start it manually via FileType autocmd with validation
+		vim.lsp.config.eslint = {
+			enabled = false, -- Prevent automatic enabling
+			autostart = false, -- Prevent automatic startup
+			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				-- Only setup auto-fix if ESLint actually attached
 				vim.api.nvim_create_autocmd("BufWritePre", {
@@ -168,6 +158,41 @@ return function()
 				validate = "on",
 				workingDirectory = { mode = "auto" },
 			},
+		}
+
+		-- Only start ESLint if config file actually exists
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = {
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"svelte",
+			},
+			callback = function(args)
+				local bufnr = args.buf
+				local bufname = vim.api.nvim_buf_get_name(bufnr)
+				local dirname = vim.fn.fnamemodify(bufname, ":h")
+
+				-- Check if ESLint config exists
+				local eslint_config = vim.fs.root(dirname, {
+					".eslintrc",
+					".eslintrc.js",
+					".eslintrc.cjs",
+					".eslintrc.json",
+					".eslintrc.yml",
+					".eslintrc.yaml",
+					"eslint.config.js",
+					"eslint.config.mjs",
+					"eslint.config.cjs",
+				})
+
+				-- Only start ESLint if we found a config
+				if eslint_config then
+					vim.lsp.enable("eslint", bufnr)
+				end
+			end,
 		})
 
 		-- ============================================
@@ -182,12 +207,6 @@ return function()
 			Hint = (icon_status_ok and icon.diagnostics and icon.diagnostics.Hint) or "⚑",
 			Info = (icon_status_ok and icon.diagnostics and icon.diagnostics.Info) or "»",
 		}
-
-		-- Set diagnostic signs in the sign column
-		for type, icon_char in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon_char, texthl = hl, numhl = hl })
-		end
 
 		vim.diagnostic.config({
 			virtual_text = {
@@ -205,7 +224,14 @@ return function()
 					return message
 				end,
 			},
-			signs = true,
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = signs.Error,
+					[vim.diagnostic.severity.WARN] = signs.Warn,
+					[vim.diagnostic.severity.HINT] = signs.Hint,
+					[vim.diagnostic.severity.INFO] = signs.Info,
+				},
+			},
 			underline = true,
 			update_in_insert = false,
 			severity_sort = true,

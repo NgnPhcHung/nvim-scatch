@@ -7,8 +7,31 @@ map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal <CR>", { no
 map("n", "<leader>fw", "<cmd>Telescope live_grep inital_mode=normal<CR>", { noremap = true, silent = true })
 map("n", "<leader>e", ":Neotree toggle reveal<CR>", { desc = "File explorer toggle" })
 
-map("n", "<leader>ti", ":TSToolsAddMissingImports<CR>", { desc = "Add missing import in .ts .tsx file" })
-map("n", "<leader>to", ":TSToolsOrganizeImports<CR>", { desc = "Organize import in .ts .tsx file" })
+map("n", "<leader>ti", function()
+	local clients = vim.lsp.get_clients({ bufnr = 0, name = "typescript-tools" })
+	if #clients == 0 then
+		vim.notify("TypeScript Tools is not running. Starting now...", vim.log.levels.WARN)
+		vim.cmd("LspStart typescript-tools")
+		vim.defer_fn(function()
+			vim.cmd("TSToolsAddMissingImports")
+		end, 1000)
+	else
+		vim.cmd("TSToolsAddMissingImports")
+	end
+end, { desc = "Add missing import in .ts .tsx file" })
+
+map("n", "<leader>to", function()
+	local clients = vim.lsp.get_clients({ bufnr = 0, name = "typescript-tools" })
+	if #clients == 0 then
+		vim.notify("TypeScript Tools is not running. Starting now...", vim.log.levels.WARN)
+		vim.cmd("LspStart typescript-tools")
+		vim.defer_fn(function()
+			vim.cmd("TSToolsOrganizeImports")
+		end, 1000)
+	else
+		vim.cmd("TSToolsOrganizeImports")
+	end
+end, { desc = "Organize import in .ts .tsx file" })
 
 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
@@ -22,6 +45,7 @@ map("i", "jk", "<Esc>", opts)
 
 map("n", ";a", ":BufferCloseAllButPinned<CR>", opts)
 map("n", ";w", function()
+	local current_buf = vim.api.nvim_get_current_buf()
 	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
 	local normal_bufs = vim.tbl_filter(function(buf)
 		local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf.bufnr })
@@ -29,8 +53,21 @@ map("n", ";w", function()
 		return buftype == "" and filetype ~= "alpha"
 	end, bufs)
 
-	vim.cmd("bdelete")
+	-- If there are other buffers, switch to alternate/previous before deleting
+	if #normal_bufs > 1 then
+		-- Try alternate buffer first, then previous, then next
+		local alt_buf = vim.fn.bufnr("#")
+		if alt_buf ~= -1 and alt_buf ~= current_buf and vim.fn.buflisted(alt_buf) == 1 then
+			vim.cmd("buffer " .. alt_buf)
+		else
+			vim.cmd("bprevious")
+		end
+	end
 
+	-- Now delete the original buffer
+	vim.api.nvim_buf_delete(current_buf, { force = false })
+
+	-- If this was the last buffer, show Alpha
 	if #normal_bufs <= 1 then
 		vim.schedule(function()
 			vim.cmd("Alpha")
@@ -97,7 +134,9 @@ map("n", "<leader>gh", ":Gitsigns preview_hunk<CR>", opts)
 map("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true, desc = "Open Neogit" })
 
 --rename
-map("n", "<leader>rn", ":IncRename ", opts)
+map("n", "<leader>rn", function()
+	return ":IncRename " .. vim.fn.expand("<cword>")
+end, { noremap = true, silent = true, expr = true, desc = "Incremental rename" })
 
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() initial_mode=normal<CR>", opts)
 
