@@ -218,9 +218,11 @@ return {
 	on_attach = ts_on_attach,
 	capabilities = get_capabilities(),
 	settings = {
-		-- Enable synchronous file updates to detect external changes faster
-		tsserver_max_memory = 8192, -- Increased from 4096 to prevent crashes
-		tsserver_path = nil, -- Use bundled tsserver
+		tsserver_max_memory = 8192,
+		tsserver_path = nil,
+		publish_diagnostic_on = "change",
+		separate_diagnostic_server = true,
+		tsserver_logs = "verbose",
 
 		tsserver_file_preferences = {
 			experimentalDecorators = true,

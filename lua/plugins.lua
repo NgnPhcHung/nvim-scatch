@@ -32,7 +32,15 @@ return {
 		event = "VeryLazy",
 		opts = require("configs.colorizer"),
 	},
-	{ "nvim-focus/focus.nvim", event = "WinNew", opts = require("configs.focus") },
+	{
+		"anuvyklack/windows.nvim",
+		event = "WinNew",
+		dependencies = {
+			"anuvyklack/middleclass",
+			"anuvyklack/animation.nvim",
+		},
+		config = require("configs.windows"),
+	},
 	{ "goolord/alpha-nvim", cmd = "Alpha", config = require("configs.alpha") },
 
 	------------------------------------------------------
@@ -290,5 +298,18 @@ return {
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {},
+	},
+
+	{
+		"mbbill/undotree",
+		cmd = "UndotreeToggle",
+		keys = {
+			{ "<leader>u", "<cmd>UndotreeToggle<CR>", desc = "Toggle undo tree" },
+		},
+		config = function()
+			vim.g.undotree_WindowLayout = 2
+			vim.g.undotree_ShortIndicators = 1
+			vim.g.undotree_SetFocusWhenToggle = 1
+		end,
 	},
 }

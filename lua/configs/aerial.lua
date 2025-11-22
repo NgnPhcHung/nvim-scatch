@@ -1,24 +1,31 @@
 return {
-	expand_lines = false, -- Không mở rộng dòng để hiển thị toàn bộ nội dung
-	attach_mode = "window", -- Luôn mở trong một cửa sổ riêng (thay vì buffer)
-	autojump = false, -- Tắt tự động nhảy khi di chuyển trong cửa sổ Aerial
-	close_automatic_events = {}, -- Không tự động đóng (giữ mở cho đến khi đóng thủ công)
-	show_guides = true, -- Hiển thị đường dẫn kết nối
-	backends = { "lsp", "treesitter", "markdown", "man" }, -- Thứ tự ưu tiên backend
+	expand_lines = false,
+	attach_mode = "window",
+	autojump = false,
+	close_automatic_events = {},
+	show_guides = true,
+	backends = { "lsp", "treesitter", "markdown", "man" },
 	layout = {
-		resize_to_content = false, -- Không resize theo nội dung
-		min_width = 40, -- Chiều rộng tối thiểu
+		resize_to_content = false,
+		min_width = 40,
+		max_width = 40,
+		default_direction = "right",
+		placement = "edge",
+		preserve_equality = false,
 		win_opts = {
-			-- Tùy chỉnh highlight và cột dấu
 			winhl = "Normal:NormalFloat,FloatBorder:NormalFloat,SignColumn:SignColumnSB",
 			signcolumn = "yes",
 			statuscolumn = " ",
+			winfixwidth = true,
 		},
 	},
 	guides = {
 		mid_item = "├╴",
 		last_item = "└╴",
 		nested_top = "│ ",
-		whitespace = "  ", -- Sử dụng non-breaking space cho khoảng trắng
+		whitespace = "  ",
 	},
+	on_attach = function(bufnr)
+		vim.api.nvim_set_option_value("winfixwidth", true, { win = 0 })
+	end,
 }

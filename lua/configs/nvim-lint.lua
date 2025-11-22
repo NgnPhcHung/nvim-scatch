@@ -35,10 +35,7 @@ return function()
 		return {}
 	end
 
-	-- Don't set linters_by_ft statically - we'll handle it dynamically in the autocmd
-	lint.linters_by_ft = {
-		lua = { "luacheck" },
-	}
+	lint.linters_by_ft = {}
 
 	vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
 		group = vim.api.nvim_create_augroup("LintOnSave", { clear = true }),
@@ -46,7 +43,6 @@ return function()
 			local ft = vim.bo.filetype
 			local linters = {}
 
-			-- Dynamically determine linters based on filetype and project config
 			if
 				ft == "javascript"
 				or ft == "typescript"
@@ -60,13 +56,9 @@ return function()
 				local dirname = vim.fs.dirname(buf_path)
 				local biome_root = util.root_pattern("biome.json", "biome.jsonc")(dirname)
 				linters = biome_root and { "biomejs" } or {}
-			elseif ft == "lua" then
-				linters = { "luacheck" }
 			end
 
-			-- Only try to lint if we have linters configured
 			if #linters > 0 then
-				-- Temporarily set the linters for this filetype
 				lint.linters_by_ft[ft] = linters
 				require("lint").try_lint()
 			end

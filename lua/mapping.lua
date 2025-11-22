@@ -82,10 +82,10 @@ map("n", "|", ":vsplit<Return>", opts)
 map("n", "-", ":split<Return>", opts)
 
 --switch window
-map("n", "<leader>h", "<C-w>h", opts)
-map("n", "<leader>j", "<C-w>j", opts)
-map("n", "<leader>k", "<C-w>k", opts)
-map("n", "<leader>l", "<C-w>l", opts)
+map("n", "<C-h>", "<C-w>h", opts)
+map("n", "<C-j>", "<C-w>j", opts)
+map("n", "<C-k>", "<C-w>k", opts)
+map("n", "<C-l>", "<C-w>l", opts)
 
 --resize window
 map("n", "<leader><left>", ":vertical resize +2<CR>", opts)
