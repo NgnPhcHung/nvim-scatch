@@ -95,7 +95,20 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- *******************************************************
--- 2. TÙY CHỈNH THEO FILETYPE
+-- 2. AUTO-RELOAD EXTERNAL FILE CHANGES
+-- *******************************************************
+-- Aggressively check for external file changes (important for regenerated type files)
+autocmd({ "FocusGained", "TermClose", "TermLeave", "CursorHold" }, {
+	group = custom_group,
+	callback = function()
+		if vim.o.buftype == "" then
+			vim.cmd("checktime")
+		end
+	end,
+})
+
+-- *******************************************************
+-- 3. TÙY CHỈNH THEO FILETYPE
 -- *******************************************************
 autocmd("FileType", {
 	group = custom_group,

@@ -34,6 +34,7 @@ return {
 	routes = {
 		{ filter = { event = "msg_ruler" }, opts = { skip = true } },
 		{ filter = { event = "notify", find = "session loaded" }, opts = { skip = true } },
+		{ filter = { event = "notify", find = "No information available" }, opts = { skip = true } },
 		{ filter = { event = "msg_show", find = "%d+L, %d+B" }, opts = { skip = true } },
 		{
 			filter = {

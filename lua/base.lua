@@ -45,6 +45,10 @@ vim.o.swapfile = false
 vim.o.wrapscan = true
 vim.opt.list = false
 
+-- Auto-reload files when changed externally (important for regenerated type files)
+vim.o.autoread = true
+vim.o.updatetime = 300 -- Faster detection of external changes (default is 4000ms)
+
 -- Persistent Undo
 local undodir = vim.fn.stdpath("data") .. "/undo"
 if vim.fn.isdirectory(undodir) == 0 then

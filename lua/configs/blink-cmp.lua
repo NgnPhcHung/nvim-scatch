@@ -48,6 +48,11 @@ return function()
 					auto_insert = false, -- Don't auto-insert, only insert on explicit accept
 				},
 			},
+			accept = {
+				auto_brackets = {
+					enabled = false, -- Disable automatic parentheses/brackets completion
+				},
+			},
 		},
 		signature = { enabled = true },
 

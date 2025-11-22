@@ -1,6 +1,5 @@
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
-vim.keymap.set("i", "<CR>", "<CR>", { noremap = true })
 
 --Telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files inital_mode=normal <CR>", { noremap = true, silent = true })
