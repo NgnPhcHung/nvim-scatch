@@ -110,24 +110,6 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
 -- Delete word in insert mode
 map("i", "<C-BS>", "<C-W>", { noremap = true, silent = true })
 
---C Compile
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = "cpp",
--- 	callback = function()
--- 		vim.keymap.set("n", "<F5>", function()
--- 			local filepath = vim.fn.expand("%")
--- 			local file_without_ext = vim.fn.expand("%:r")
---
--- 			require("toggleterm").exec(
--- 				"g++ -std=c++17 " .. filepath .. " -o " .. file_without_ext .. " && ./" .. file_without_ext,
--- 				1,
--- 				nil,
--- 				"horizontal"
--- 			)
--- 		end, { desc = "Compile and run C++ file", buffer = true })
--- 	end,
--- })
-
 --gitactions
 map("n", "<leader>gh", ":Gitsigns preview_hunk<CR>", opts)
 map("n", "<leader>ng", ":Neogit<CR>", { noremap = true, silent = true, desc = "Open Neogit" })

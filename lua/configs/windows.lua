@@ -13,5 +13,6 @@ return function()
 			minwidth = 20,
 			width = 120,
 		},
+		ui = { winhighlight = true, curorline = true, cursorcolumn = true },
 	})
 end
