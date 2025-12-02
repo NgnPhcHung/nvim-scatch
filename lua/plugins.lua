@@ -7,6 +7,7 @@ return {
 	-- ✨ UI & Theme
 	------------------------------------------------------
 	{ "catppuccin.nvim", name = "catppuccin", priority = 1000, opts = {} },
+	{ "rebelot/kanagawa.nvim", lazy = true },
 
 	{
 		"nvim-lualine/lualine.nvim",

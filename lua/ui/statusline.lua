@@ -72,8 +72,8 @@ return function()
 
 	lualine.setup({
 		options = {
-			theme = "catppuccin-macchiato",
-			globalstatus = true, -- Hiển thị statusline ngay cả khi chỉ có 1 cửa sổ
+			theme = "auto",
+			globalstatus = true,
 			component_separators = { left = " ", right = " " },
 			section_separators = { left = " ", right = " " },
 			disabled_filetypes = { statusline = { "neo-tree", "lazy", "alpha", "fugitive", "vista", "dapui_stacks" } }, -- Thêm filetype nếu cần

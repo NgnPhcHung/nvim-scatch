@@ -11,11 +11,11 @@ return {
 	},
 	cmdline = {
 		enabled = true,
-		view = "cmdline_popup",
+		view = "cmdline",
 		format = {
 			cmdline = {
 				pattern = "^:",
-				icon = "", -- Kính lúp (Search)
+				icon = ">_",
 				lang = "vim",
 				title = "",
 			},
@@ -73,7 +73,7 @@ return {
 	},
 
 	presets = {
-		bottom_search = false,
+		bottom_search = true,
 		command_palette = false,
 		long_message_to_split = true,
 		inc_rename = true,
