@@ -11,6 +11,11 @@ return function()
 			return {}
 		end
 
+		local biome_root = util.root_pattern("biome.json", "biome.jsonc")(dirname)
+		if biome_root then
+			return { "biomejs" }
+		end
+
 		local eslint_root = util.root_pattern(
 			".eslintrc",
 			".eslintrc.js",
@@ -25,11 +30,6 @@ return function()
 
 		if eslint_root then
 			return { "eslint" }
-		end
-
-		local biome_root = util.root_pattern("biome.json", "biome.jsonc")(dirname)
-		if biome_root then
-			return { "biomejs" }
 		end
 
 		return {}

@@ -7,7 +7,11 @@ return function()
 		local bufname = vim.api.nvim_buf_get_name(bufnr)
 		local dirname = vim.fn.fnamemodify(bufname, ":h")
 
-		-- Check for ESLint config
+		local biome_config = util.root_pattern("biome.json", "biome.jsonc")(dirname)
+		if biome_config then
+			return { "biome" }
+		end
+
 		local eslint_config = util.root_pattern(
 			".eslintrc",
 			".eslintrc.js",
@@ -20,17 +24,10 @@ return function()
 			"eslint.config.cjs"
 		)(dirname)
 
-		-- Check for Biome config
-		local biome_config = util.root_pattern("biome.json", "biome.jsonc")(dirname)
-
-		-- Prefer ESLint + Prettier if both exist, otherwise use whichever is found
 		if eslint_config then
 			return { "eslint_d", "prettierd" }
-		elseif biome_config then
-			return { "biome" }
 		end
 
-		-- Fallback to prettier if no config found
 		return { "prettierd" }
 	end
 

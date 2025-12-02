@@ -36,7 +36,7 @@ return function()
 				"dockerls",
 				"jsonls",
 				"tailwindcss",
-				"eslint", -- Install but we manage startup manually
+				-- "eslint", -- Install but we manage startup manually
 				-- NOTE: typescript-tools handles TypeScript, so no tsserver here
 				-- NOTE: Biome NOT included - it conflicts with ESLint
 			},

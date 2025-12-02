@@ -33,8 +33,9 @@ return {
 		opts = require("configs.colorizer"),
 	},
 	{
-		"anuvyklack/windows.nvim",
-		event = "WinNew",
+		"nvim-focus/focus.nvim",
+		lazy = false,
+		priority = 100,
 		dependencies = {
 			"anuvyklack/middleclass",
 			"anuvyklack/animation.nvim",
@@ -97,6 +98,7 @@ return {
 			ts_tools.setup(config)
 		end,
 	},
+
 	------------------------------------------------------
 	-- 🔍 Completion & Snippets
 	------------------------------------------------------
