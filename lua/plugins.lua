@@ -19,11 +19,6 @@ return {
 	},
 
 	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = require("configs.noice"),
-	},
-	{
 		"rcarriga/nvim-notify",
 		event = "VeryLazy",
 		config = require("configs.notify"),
@@ -88,15 +83,8 @@ return {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-		config = function()
-			local status_ok, ts_tools = pcall(require, "typescript-tools")
-			if not status_ok then
-				vim.notify("Failed to load typescript-tools", vim.log.levels.ERROR)
-				return
-			end
-
-			local config = require("configs.typescript-tools")
-			ts_tools.setup(config)
+		opts = function()
+			return require("configs.typescript-tools")
 		end,
 	},
 
@@ -233,7 +221,6 @@ return {
 		config = function()
 			require("inc_rename").setup({
 				post_hook = function()
-					-- Save all modified buffers after rename
 					vim.cmd("silent! wall")
 				end,
 			})

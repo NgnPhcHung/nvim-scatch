@@ -2,16 +2,19 @@ local opts = {
 	autoresize = {
 		enable = true,
 		quickfixheight = 60,
-		width = 0, -- Force min width for unfocused windows
-		minwidth = 0, -- Minimum width for unfocused windows
-		maxwidth = 20, -- Maximum width for unfocused windows
-		height = 0, -- Force min height for unfocused windows
-		minheight = 0, -- Minimum height for unfocused windows
-		maxheight = 0, -- Maximum height for unfocused windows
+		width = 0,
+		minwidth = 0,
+		maxwidth = 20,
+		height = 0,
+		minheight = 0,
+		maxheight = 0,
 	},
 	excluded_buftypes = { "nofile", "prompt", "popup", "quickfix", "aerial" },
 	excluded_filetypes = { "harpoon", "dbui", "sql" },
 	compatible_filetrees = { "neo-tree" },
+	ui = {
+		signcolumn = false,
+	},
 }
 
 return {

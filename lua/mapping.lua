@@ -101,7 +101,7 @@ map("n", "<leader><down>", ":resize -2<CR>", opts)
 --file actions
 map("i", "<C-z>", "<C-o>u", opts)
 map("i", "<C-s>", "<C-o>:w<CR>", opts)
-map("n", "<C-a>", "gg<S-v>G", opts)
+map("n", "<leader>a", "gg<S-v>G", opts)
 
 -- Visual mode editing
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Moves Line Down" })
@@ -126,7 +126,10 @@ map("n", "<leader>yy", '"+yy', opts)
 
 map("n", "<A-.>", ":bn<cr>", opts) -- next buffer
 map("n", "<A-,>", ":bp<cr>", opts) -- prev buffer
-map("n", "<esc><esc>", ":nohlsearch<cr>", opts) -- no highlight
+map("n", "<esc><esc>", function()
+	vim.cmd("nohlsearch")
+	require("notify").dismiss({ silent = true, pending = true })
+end, { noremap = true, silent = true, desc = "Clear search highlight & notifications" })
 
 map("n", "n", "nzzzv", opts) -- focus highlight next
 map("n", "N", "Nzzzv", opts) -- focus hight prev
@@ -147,7 +150,4 @@ map(
 	"<cmd>lua require('kulala').run()<CR>",
 	{ noremap = true, silent = true, desc = "Execute the request" }
 )
-
-map("n", "<leader>un", function()
-	require("notify").dismiss({ silent = true, pending = true })
-end, opts)
+------------------------

@@ -12,25 +12,27 @@ return function()
 	}
 
 	nvim_notify.setup({
-		stages = "static", -- Hiệu ứng xuất hiện: static (không nhấp nháy), fade (mặc định)
-		timeout = 5000,
-		-- position = "top_right", -- Mặc định là 'top_right', bạn có thể bật lại nếu muốn
-		top_down = false, -- Xuất hiện từ dưới lên (kiểu stack)
+		stages = "fade",
+		timeout = 2000,
+		top_down = false,
 
-		-- Tính toán kích thước tự động (Rất tốt)
 		max_width = function()
-			return math.floor(vim.o.columns * 0.75)
+			return math.floor(vim.o.columns * 0.5)
 		end,
 		max_height = function()
-			return math.floor(vim.o.lines * 0.75)
+			return math.floor(vim.o.lines * 0.5)
 		end,
-
 		icons = notify_icons,
-		render = "compact", -- Hiển thị gọn gàng
-		-- Thêm tùy chọn để chỉnh màu nền cho các loại thông báo
-		-- background_colour = "#000000",
+		render = "compact",
 	})
 
-	-- Ghi đè vim.notify bằng nvim_notify sau khi setup
 	vim.notify = nvim_notify
+
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = "notify",
+		callback = function(event)
+			vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+			vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+		end,
+	})
 end
