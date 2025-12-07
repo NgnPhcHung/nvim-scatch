@@ -1,0 +1,34 @@
+-- return function()
+-- 	-- *******************************************************
+-- 	-- TÙY CHỈNH CHO TAILWIND/HTML/JSX
+-- 	-- *******************************************************
+--
+-- 	local function disable_spell_in_tailwind_classes()
+-- 		local win_id = vim.api.nvim_get_current_win()
+--
+-- 		-- Lấy tên vùng cú pháp dưới con trỏ
+-- 		local syntax_name = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 0), "name")
+--
+-- 		-- Nếu con trỏ đang ở trong một chuỗi (string) trong JSX, TSX, HTML...
+-- 		-- và string đó có khả năng chứa Tailwind classes
+-- 		if syntax_name:match("String") or syntax_name:match("Attribute") then
+-- 			-- Đây là lệnh Vimscript để tắt kiểm tra chính tả (nospell)
+-- 			vim.cmd([[setlocal nospell]])
+-- 		else
+-- 			-- Bật lại kiểm tra chính tả
+-- 			vim.cmd([[setlocal spell]])
+-- 		end
+-- 	end
+--
+-- 	-- Tạo Autogroup
+-- 	local spell_group = vim.api.nvim_create_augroup("TailwindSpellFix", { clear = true })
+-- 	-- *******************************************************
+-- 	-- SETUP CHÍNH CỦA SPELLWARN.NVIM
+-- 	-- *******************************************************
+-- 	vim.opt.spell = true
+-- 	vim.opt.spelllang = "en"
+-- 	require("spellwarn").setup({
+-- 		event = { "CursorHold", "InsertLeave", "TextChanged" },
+-- 		suggest = false,
+-- 	})
+-- end

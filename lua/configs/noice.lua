@@ -1,0 +1,95 @@
+-- return {
+-- 	messages = {
+-- 		enabled = true,
+-- 		view = "notify",
+-- 		opts = {},
+-- 	},
+-- 	notify = {
+-- 		enabled = true,
+-- 		view = "notify",
+-- 		position = "top,right",
+-- 	},
+-- 	cmdline = {
+-- 		enabled = true,
+-- 		view = "cmdline",
+-- 		format = {
+-- 			cmdline = {
+-- 				pattern = "^:",
+-- 				icon = ">_",
+-- 				lang = "vim",
+-- 				title = "",
+-- 			},
+-- 		},
+-- 	},
+-- 	lsp = {
+-- 		override = {
+-- 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+-- 			["vim.lsp.util.stylize_markdown"] = true,
+-- 			["cmp.entry.get_documentation"] = true,
+-- 		},
+-- 		signature = { enabled = true },
+-- 		messages = { enabled = false },
+-- 	},
+--
+-- 	routes = {
+-- 		{ filter = { event = "msg_ruler" }, opts = { skip = true } },
+-- 		{ filter = { event = "notify", find = "session loaded" }, opts = { skip = true } },
+-- 		{ filter = { event = "notify", find = "No information available" }, opts = { skip = true } },
+-- 		{ filter = { event = "msg_show", find = "%d+L, %d+B" }, opts = { skip = true } },
+-- 		{ filter = { event = "lsp", find = "Reloading TypeScript server" }, opts = { skip = true } },
+-- 		{ filter = { event = "lsp", find = "package%.json changed" }, opts = { skip = true } },
+-- 		{ filter = { event = "lsp", find = "tsconfig changed" }, opts = { skip = true } },
+-- 		{
+-- 			filter = {
+-- 				event = "msg_show",
+-- 				any = {
+-- 					{ find = "^%d+ changes?; after #" },
+-- 					{ find = "^%d+ changes?; before #" },
+-- 					{ find = "^Hunk %d+ of %d+$" },
+-- 					{ find = "^%d+ fewer lines" },
+-- 					{ find = "^%d+ more lines" },
+-- 					{ find = "^%d+ line less" },
+-- 					{ find = "^Already at newest change" },
+-- 					{ find = "written" },
+-- 					{ find = "bufwrite" },
+-- 					{ kind = "wmsg" },
+-- 					{ kind = "emsg", find = "E487" },
+-- 					{ kind = "quickfix" },
+-- 					{ find = "method textDocument/documentHighlight is not supported" },
+-- 					{ find = "bytes written" },
+-- 					{ kind = "list_cmd" },
+-- 				},
+-- 			},
+-- 			opts = { skip = true },
+-- 		},
+-- 		{
+-- 			filter = {
+-- 				event = "lsp",
+-- 				kind = "progress",
+-- 				cond = function(message)
+-- 					local client = vim.tbl_get(message.opts, "progress", "client")
+-- 					return client == "lua_ls"
+-- 				end,
+-- 			},
+-- 			opts = { skip = true },
+-- 		},
+-- 	},
+--
+-- 	presets = {
+-- 		bottom_search = true,
+-- 		command_palette = false,
+-- 		long_message_to_split = true,
+-- 		inc_rename = true,
+-- 		progress = false,
+-- 		smart_move = false,
+-- 	},
+--
+-- 	views = {
+-- 		hover = {
+-- 			border = { style = "rounded", padding = { 0, 1 } },
+-- 			position = { row = 2, col = 2 },
+-- 			size = { max_width = 80, max_height = 20 },
+-- 			win_options = { winblend = 0, winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder" },
+-- 		},
+-- 	},
+-- }
