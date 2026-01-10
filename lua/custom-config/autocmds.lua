@@ -93,9 +93,40 @@ autocmd("FileType", {
 })
 
 vim.api.nvim_create_user_command("TSReloadTypes", function()
-	vim.cmd("LspRestart typescript-tools")
-	vim.notify("TypeScript server restarted - types reloaded", vim.log.levels.INFO)
+	local bufnr = vim.api.nvim_get_current_buf()
+	local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "typescript-tools" })
+
+	if #clients == 0 then
+		vim.notify("No TypeScript server running", vim.log.levels.WARN)
+		return
+	end
+
+	for _, client in ipairs(clients) do
+		vim.lsp.stop_client(client.id, true)
+	end
+
+	vim.defer_fn(function()
+		vim.cmd("edit")
+		vim.notify("TypeScript server restarted - types reloaded", vim.log.levels.INFO)
+	end, 500)
 end, { desc = "Reload TypeScript types by restarting TS server" })
+
+vim.api.nvim_create_user_command("LspRestartTS", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "typescript-tools" })
+
+	if #clients > 0 then
+		for _, client in ipairs(clients) do
+			vim.lsp.stop_client(client.id, true)
+		end
+		vim.defer_fn(function()
+			vim.cmd("edit")
+			vim.notify("TypeScript server restarted", vim.log.levels.INFO)
+		end, 500)
+	else
+		vim.notify("No TypeScript server to restart", vim.log.levels.WARN)
+	end
+end, { desc = "Restart TypeScript LSP server" })
 
 vim.api.nvim_create_user_command("TSHealthCheck", function()
 	local bufnr = vim.api.nvim_get_current_buf()
@@ -118,44 +149,38 @@ vim.api.nvim_create_user_command("TSHealthCheck", function()
 	end
 end, { desc = "Check TypeScript LSP status" })
 
-local restart_in_progress = false
-local last_restart_time = 0
-local RESTART_COOLDOWN = 5000
-
-vim.api.nvim_create_autocmd("LspDetach", {
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if not client or client.name ~= "typescript-tools" then
-			return
-		end
-
-		local bufnr = args.buf
-		local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
-
-		if not vim.tbl_contains({ "typescript", "typescriptreact", "javascript", "javascriptreact" }, filetype) then
-			return
-		end
-
-		local current_time = vim.loop.now()
-		if restart_in_progress or (current_time - last_restart_time) < RESTART_COOLDOWN then
-			return
-		end
-
-		restart_in_progress = true
-		last_restart_time = current_time
-
-		vim.notify("TypeScript server disconnected, restarting...", vim.log.levels.WARN)
-
-		vim.defer_fn(function()
-			if vim.api.nvim_buf_is_valid(bufnr) then
-				local success = pcall(vim.cmd, "LspStart typescript-tools")
-				if success then
-					vim.notify("✅ TypeScript server restarted", vim.log.levels.INFO)
-				else
-					vim.notify("❌ Failed to restart TypeScript server", vim.log.levels.ERROR)
-				end
-			end
-			restart_in_progress = false
-		end, 1000)
-	end,
-})
+-- Disable auto-restart (causing restart loop)
+-- local restart_in_progress = false
+-- local last_restart_time = 0
+-- local RESTART_COOLDOWN = 5000
+--
+-- vim.api.nvim_create_autocmd("LspDetach", {
+-- 	callback = function(args)
+-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- 		if not client or client.name ~= "typescript-tools" then
+-- 			return
+-- 		end
+--
+-- 		local bufnr = args.buf
+-- 		local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+--
+-- 		if not vim.tbl_contains({ "typescript", "typescriptreact", "javascript", "javascriptreact" }, filetype) then
+-- 			return
+-- 		end
+--
+-- 		local current_time = vim.loop.now()
+-- 		if restart_in_progress or (current_time - last_restart_time) < RESTART_COOLDOWN then
+-- 			return
+-- 		end
+--
+-- 		restart_in_progress = true
+-- 		last_restart_time = current_time
+--
+-- 		vim.defer_fn(function()
+-- 			if vim.api.nvim_buf_is_valid(bufnr) then
+-- 				pcall(vim.cmd, "LspStart typescript-tools")
+-- 			end
+-- 			restart_in_progress = false
+-- 		end, 1000)
+-- 	end,
+-- })

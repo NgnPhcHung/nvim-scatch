@@ -108,9 +108,8 @@ return function()
 		default_format_opts = { lsp_format = "fallback" },
 
 		format_on_save = {
-			timeout_ms = 3000,
+			timeout_ms = 1000,
 			lsp_format = "fallback",
-			pattern = "*.{js,jsx,ts,tsx,lua,css,html,prisma,json}",
 		},
 	})
 end

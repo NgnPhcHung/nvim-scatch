@@ -1,7 +1,7 @@
 return {
-	{ "nvim-lua/plenary.nvim" },
-	{ "MunifTanjim/nui.nvim" },
-	{ "nvim-tree/nvim-web-devicons" },
+	{ "nvim-lua/plenary.nvim", lazy = true },
+	{ "MunifTanjim/nui.nvim", lazy = true },
+	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
 	------------------------------------------------------
 	-- ✨ UI & Theme
@@ -30,12 +30,7 @@ return {
 	},
 	{
 		"nvim-focus/focus.nvim",
-		lazy = false,
-		priority = 100,
-		dependencies = {
-			"anuvyklack/middleclass",
-			"anuvyklack/animation.nvim",
-		},
+		event = "WinNew",
 		config = require("configs.windows"),
 	},
 	{ "goolord/alpha-nvim", cmd = "Alpha", config = require("configs.alpha") },
@@ -83,9 +78,30 @@ return {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-		opts = function()
-			return require("configs.typescript-tools")
+		config = function()
+			require("typescript-tools").setup(require("configs.typescript-tools"))
 		end,
+	},
+
+	{
+		"j-hui/fidget.nvim",
+		event = "LspAttach",
+		opts = {
+			progress = {
+				display = {
+					render_limit = 5,
+					done_ttl = 2,
+					progress_icon = { pattern = "dots", period = 1 },
+				},
+			},
+			notification = {
+				window = {
+					winblend = 0,
+					align = "bottom",
+					relative = "editor",
+				},
+			},
+		},
 	},
 
 	------------------------------------------------------
@@ -95,12 +111,12 @@ return {
 		"saghen/blink.cmp",
 		event = "BufReadPre",
 		dependencies = {
-			"hrsh7th/nvim-cmp",
+			-- "hrsh7th/nvim-cmp",
+			-- "hrsh7th/cmp-nvim-lsp",
+			-- "saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 			"onsails/lspkind.nvim",
 			{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = require("configs.blink-cmp"),
 	},
@@ -120,7 +136,13 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = require("configs.conform"),
 	},
-	{ "mfussenegger/nvim-lint", event = { "BufReadPre", "BufNewFile" }, config = require("configs.nvim-lint") },
+	{
+		"mfussenegger/nvim-lint",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			require("configs.nvim-lint")()
+		end,
+	},
 
 	------------------------------------------------------
 	-- 🌲 Treesitter & Syntax
@@ -254,16 +276,14 @@ return {
 	-- 💡 Utility & Quality of Life
 	------------------------------------------------------
 	{
-		"echasnovski/mini.nvim",
+		"echasnovski/mini.indentscope",
 		version = "*",
-		-- Đặt event cho mini.nvim
-		event = "BufReadPre",
-		dependencies = {
-			"nvim-mini/mini.indentscope",
-		},
-		-- Sử dụng config để setup các module con (ví dụ: indentscope)
+		event = "BufReadPost",
 		config = function()
-			require("configs.indentscope")() -- Gọi hàm setup indentscope đã tạo
+			require("mini.indentscope").setup({
+				symbol = "│",
+				options = { try_as_border = true },
+			})
 		end,
 	},
 
@@ -279,11 +299,12 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-	{ "rachartier/tiny-inline-diagnostic.nvim", event = "VeryLazy", priority = 1000 },
+	-- tiny-inline-diagnostic disabled (conflicts with lsp diagnostic config)
+	-- { "rachartier/tiny-inline-diagnostic.nvim", event = "VeryLazy", priority = 1000 },
 
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" },
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		ft = { "md", "markdown" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
@@ -301,5 +322,17 @@ return {
 			vim.g.undotree_ShortIndicators = 1
 			vim.g.undotree_SetFocusWhenToggle = 1
 		end,
+	},
+
+	------------------------------------------------------
+	-- 🤖 AI Assistant
+	------------------------------------------------------
+	{
+		"greggh/claude-code.nvim",
+		cmd = { "ClaudeCode", "ClaudeCodeContinue", "ClaudeCodeResume", "ClaudeCodeVerbose" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = require("configs.claude-code"),
 	},
 }

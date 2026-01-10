@@ -1,16 +1,4 @@
-local function get_capabilities()
-	local status_ok, blink_cmp = pcall(require, "blink.cmp")
-	if status_ok then
-		return blink_cmp.get_lsp_capabilities()
-	else
-		local cmp_status, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-		if cmp_status then
-			return cmp_lsp.default_capabilities()
-		else
-			return vim.lsp.protocol.make_client_capabilities()
-		end
-	end
-end
+local capabilities = require("utils.lsp").capabilities
 
 local function ts_on_attach(client, bufnr)
 	local status_ok, illuminate = pcall(require, "illuminate")
@@ -22,8 +10,15 @@ local function ts_on_attach(client, bufnr)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
 	vim.keymap.set("n", "<leader>tr", function()
-		vim.cmd("LspRestart typescript-tools")
-		vim.notify("TypeScript server restarted", vim.log.levels.INFO)
+		local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "typescript-tools" })
+		if #clients > 0 then
+			for _, client in ipairs(clients) do
+				vim.lsp.stop_client(client.id, true)
+			end
+			vim.defer_fn(function()
+				vim.cmd("edit")
+			end, 300)
+		end
 	end, { buffer = bufnr, desc = "Restart TypeScript server" })
 end
 
@@ -59,12 +54,12 @@ return {
 	end,
 
 	on_attach = ts_on_attach,
-	capabilities = get_capabilities(),
+	capabilities = capabilities,
 	settings = {
-		tsserver_max_memory = 4096,
+		tsserver_max_memory = 8192,
 		tsserver_path = nil,
-		publish_diagnostic_on = "insert_leave",
-		separate_diagnostic_server = false,
+		publish_diagnostic_on = "change",
+		separate_diagnostic_server = true,
 		tsserver_logs = "off",
 
 		tsserver_file_preferences = {

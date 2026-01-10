@@ -1,6 +1,6 @@
 return function()
 	require("gitsigns").setup({
-		current_line_blame = true, -- Hiển thị blame cho dòng hiện tại
+		current_line_blame = false, -- Disable for performance (use <leader>hb instead)
 		on_attach = function(bufnr)
 			local gs = package.loaded.gitsigns
 

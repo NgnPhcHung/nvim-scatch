@@ -1,7 +1,6 @@
 local icon_status_ok, icon = pcall(require, "packages.icons")
 local failure_icon = icon_status_ok and icon.task.Failure or "❌"
 
-vim.cmd("syntax on")
 vim.g.loaded_matchparen = 1
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -56,7 +55,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 vim.o.spelllang = "en_us"
-vim.o.spell = true
+vim.o.spell = false
 
 vim.g.root_spec = { "cwd" }
 
@@ -70,20 +69,7 @@ vim.api.nvim_set_hl(0, "PmenuSel", { bg = "none" })
 vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
 vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "none" })
 
-vim.diagnostic.config({
-	virtual_text = {
-		prefix = failure_icon,
-		format = function(diagnostic)
-			local message = diagnostic.message
-			local max_width = 50
-			if #message > max_width then
-				return message:sub(1, max_width) .. "..."
-			end
-			return message
-		end,
-	},
-	signs = true,
-})
+-- Diagnostic config moved to lsp-setup.lua
 
 vim.keymap.set("n", "E", function()
 	vim.diagnostic.open_float(nil, {
@@ -91,3 +77,17 @@ vim.keymap.set("n", "E", function()
 		focus = false,
 	})
 end, { noremap = true, silent = true, desc = "Open diagnostic float" })
+
+-- Custom hover handler (no deprecated vim.lsp.with)
+vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+	config = config or {}
+	config.border = "rounded" -- border style
+	config.max_width = 80 -- constrain width
+	config.max_height = 30 -- constrain height
+	config.focusable = true
+
+	-- Padding via custom window options
+	config.title = " Hover " -- optional title
+
+	return vim.lsp.handlers.hover(err, result, ctx, config)
+end

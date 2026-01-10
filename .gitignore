@@ -3,3 +3,4 @@ shada/workxpaces/*
 .DS_Store
 package-lock.json
 node_modules
+.claude-edit-session

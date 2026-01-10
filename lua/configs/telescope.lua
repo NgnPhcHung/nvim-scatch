@@ -5,37 +5,45 @@ return function()
 	local builtin = require("telescope.builtin")
 
 	-- *******************************************************
-	-- 1. UTILS: Xác định thư mục gốc (Custom CWD logic)
+	-- 1. UTILS: Xác định thư mục gốc (Custom CWD logic) - CACHED
 	-- *******************************************************
 
+	local cached_root = nil
+	local cached_buf = nil
+
 	local function get_project_root()
+		local current_buf = vim.api.nvim_get_current_buf()
+		if cached_root and cached_buf == current_buf then
+			return cached_root
+		end
+
 		local buf_path = vim.fn.expand("%:p")
-		local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
 		local cwd = vim.fn.getcwd()
 
-		if not git_root or git_root == "" or vim.v.shell_error ~= 0 then
+		-- Use vim.fs.root instead of shell call
+		local git_root = vim.fs.root(buf_path, ".git")
+		if not git_root then
+			cached_root = cwd
+			cached_buf = current_buf
 			return cwd
 		end
 
-		local subprojects = {
-			"apps",
-			"packages",
-			"services",
-		}
+		local subprojects = { "apps", "packages", "services" }
 
 		for _, dir in ipairs(subprojects) do
 			local match = buf_path:match(git_root .. "/" .. dir .. "/([^/]+)/")
 			if match then
 				local possible_root = git_root .. "/" .. dir .. "/" .. match
-				if
-					vim.fn.isdirectory(possible_root .. "/src") == 1
-					or vim.fn.isdirectory(possible_root .. "/app") == 1
-				then
+				if vim.fn.isdirectory(possible_root .. "/src") == 1 or vim.fn.isdirectory(possible_root .. "/app") == 1 then
+					cached_root = possible_root
+					cached_buf = current_buf
 					return possible_root
 				end
 			end
 		end
 
+		cached_root = git_root
+		cached_buf = current_buf
 		return git_root
 	end
 

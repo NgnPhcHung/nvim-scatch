@@ -6,6 +6,10 @@ map("n", "<leader>ff", "<cmd>Telescope find_files initial_mode=normal <CR>", { n
 map("n", "<leader>fw", "<cmd>Telescope live_grep initial_mode=normal<CR>", { noremap = true, silent = true })
 map("n", "<leader>e", ":Neotree toggle reveal<CR>", { desc = "File explorer toggle" })
 
+map("n", "K", function()
+	vim.lsp.buf.hover({ border = "rounded" })
+end)
+
 map("n", "<leader>ti", function()
 	local clients = vim.lsp.get_clients({ bufnr = 0, name = "typescript-tools" })
 	if #clients == 0 then
@@ -43,36 +47,7 @@ map("i", "<C-s>", "<Esc>:w<CR>a", opts) -- Save file in insert mode
 map("i", "jk", "<Esc>", opts)
 
 map("n", ";a", ":BufferCloseAllButPinned<CR>", opts)
-map("n", ";w", function()
-	local current_buf = vim.api.nvim_get_current_buf()
-	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-	local normal_bufs = vim.tbl_filter(function(buf)
-		local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf.bufnr })
-		local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf.bufnr })
-		return buftype == "" and filetype ~= "alpha"
-	end, bufs)
-
-	-- If there are other buffers, switch to alternate/previous before deleting
-	if #normal_bufs > 1 then
-		-- Try alternate buffer first, then previous, then next
-		local alt_buf = vim.fn.bufnr("#")
-		if alt_buf ~= -1 and alt_buf ~= current_buf and vim.fn.buflisted(alt_buf) == 1 then
-			vim.cmd("buffer " .. alt_buf)
-		else
-			vim.cmd("bprevious")
-		end
-	end
-
-	-- Now delete the original buffer
-	vim.api.nvim_buf_delete(current_buf, { force = false })
-
-	-- If this was the last buffer, show Alpha
-	if #normal_bufs <= 1 then
-		vim.schedule(function()
-			vim.cmd("Alpha")
-		end)
-	end
-end, opts)
+map("n", ";w", ":bdelete<CR>", opts)
 
 map("n", "te", ":tabedit<CR>", opts)
 map("n", "tc", ":close<CR>", opts)
@@ -150,4 +125,12 @@ map(
 	"<cmd>lua require('kulala').run()<CR>",
 	{ noremap = true, silent = true, desc = "Execute the request" }
 )
+
+--claude-code
+map("n", "<leader>cc", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code" })
+map("t", "<C-,>", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code from terminal" })
+map("n", "<leader>ce", "<cmd>ClaudeCodeContinue<CR>", { desc = "Claude Code continue" })
+map("n", "<leader>cR", "<cmd>ClaudeCodeResume<CR>", { desc = "Claude Code resume" })
+map("n", "<leader>cV", "<cmd>ClaudeCodeVerbose<CR>", { desc = "Claude Code verbose" })
+
 ------------------------
