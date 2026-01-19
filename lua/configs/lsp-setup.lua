@@ -7,19 +7,11 @@ return function()
 	end
 
 	-- ============================================
-	-- 1. Capabilities (blink.cmp integration)
+	-- 1. Shared LSP utilities
 	-- ============================================
-	local capabilities = require("utils.lsp").capabilities
-
-	-- ============================================
-	-- 2. On Attach Function
-	-- ============================================
-	local function on_attach(client, bufnr)
-		local status_ok, illuminate = pcall(require, "illuminate")
-		if status_ok then
-			illuminate.on_attach(client)
-		end
-	end
+	local lsp_utils = require("utils.lsp")
+	local capabilities = lsp_utils.capabilities
+	local on_attach = lsp_utils.on_attach
 
 	-- ============================================
 	-- 3. Setup Mason-LSPConfig

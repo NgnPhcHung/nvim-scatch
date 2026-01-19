@@ -6,13 +6,23 @@ return function()
 	end
 
 	claude_code.setup({
-		split = "botright",
-		split_ratio = 0.35,
-		enter_insert = false,
-		show_line_numbers = false,
-		git_root = true,
-		auto_refresh = true,
-		refresh_interval = 500,
-		shell = "bash",
+		window = {
+			position = "vertical",
+			split_ratio = 0.35,
+			enter_insert = false,
+			hide_numbers = true,
+		},
+		git = {
+			use_git_root = true,
+		},
+		refresh = {
+			enable = true,
+			timer_interval = 500,
+		},
+		shell = {
+			separator = "&&",
+			pushd_cmd = "pushd",
+			popd_cmd = "popd",
+		},
 	})
 end

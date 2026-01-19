@@ -24,6 +24,15 @@ return {
 		config = require("configs.notify"),
 	},
 	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+		config = require("configs.noice"),
+	},
+	{
 		"catgoose/nvim-colorizer.lua",
 		event = "VeryLazy",
 		opts = require("configs.colorizer"),
@@ -73,7 +82,8 @@ return {
 
 	{
 		"pmizio/typescript-tools.nvim",
-		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+		lazy = false,
+		priority = 90,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
