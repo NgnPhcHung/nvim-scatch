@@ -4,7 +4,7 @@ return {
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
 	------------------------------------------------------
-	-- ✨ UI & Theme
+	-- UI & Theme
 	------------------------------------------------------
 	{ "catppuccin.nvim", name = "catppuccin", priority = 1000, opts = {} },
 	{ "rebelot/kanagawa.nvim", lazy = true },
@@ -32,11 +32,7 @@ return {
 		},
 		config = require("configs.noice"),
 	},
-	{
-		"catgoose/nvim-colorizer.lua",
-		event = "VeryLazy",
-		opts = require("configs.colorizer"),
-	},
+
 	{
 		"nvim-focus/focus.nvim",
 		event = "WinNew",
@@ -208,8 +204,6 @@ return {
 		config = require("configs.gitsigns"),
 	},
 
-	{ "tpope/vim-fugitive", cmd = { "Git", "G" } },
-	-- { "sindrets/diffview.nvim", cmd = "DiffviewOpen", config = true, lazy = true },
 	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
@@ -238,12 +232,6 @@ return {
 		"axkirillov/hbac.nvim",
 		event = "BufWinLeave",
 		opts = require("configs.hbac"),
-	},
-
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		opts = require("configs.flash"),
 	},
 
 	{ "mg979/vim-visual-multi", lazy = true, event = "VeryLazy" },
@@ -332,17 +320,5 @@ return {
 			vim.g.undotree_ShortIndicators = 1
 			vim.g.undotree_SetFocusWhenToggle = 1
 		end,
-	},
-
-	------------------------------------------------------
-	-- 🤖 AI Assistant
-	------------------------------------------------------
-	{
-		"greggh/claude-code.nvim",
-		cmd = { "ClaudeCode", "ClaudeCodeContinue", "ClaudeCodeResume", "ClaudeCodeVerbose" },
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-		config = require("configs.claude-code"),
 	},
 }

@@ -36,10 +36,6 @@ map("n", "<leader>to", function()
 	end
 end, { desc = "Organize import in .ts .tsx file" })
 
-map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<CR>", opts)
-map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<CR>", opts)
-map("n", "gD", "<cmd>Telescope lsp_type_definitions initial_mode=normal<CR>", opts)
-map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<CR>", opts)
 map("n", "<leader>ps", "<cmd>Telescope grep_string<CR>", opts)
 
 map("n", "<C-s>", ":w<CR>", opts) -- Save file in normal mode
@@ -67,11 +63,6 @@ map("n", "<leader><left>", ":vertical resize +2<CR>", opts)
 map("n", "<leader><right>", ":vertical resize -2<CR>", opts)
 map("n", "<leader><up>", ":resize +2<CR>", opts)
 map("n", "<leader><down>", ":resize -2<CR>", opts)
-
--- vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true })
--- vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true })
--- vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true })
--- vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true })
 
 --file actions
 map("i", "<C-z>", "<C-o>u", opts)
@@ -107,7 +98,7 @@ map("n", "<esc><esc>", function()
 end, { noremap = true, silent = true, desc = "Clear search highlight & notifications" })
 
 map("n", "n", "nzzzv", opts) -- focus highlight next
-map("n", "N", "Nzzzv", opts) -- focus hight prev
+map("n", "N", "Nzzzv", opts) -- focus highlight prev
 
 map("n", "<leader>ol", "<cmd>AerialToggle<CR>", opts)
 map("n", "[a", "<cmd>AerialPrev<CR>", opts)
@@ -125,12 +116,3 @@ map(
 	"<cmd>lua require('kulala').run()<CR>",
 	{ noremap = true, silent = true, desc = "Execute the request" }
 )
-
---claude-code
-map("n", "<leader>cc", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code" })
-map("t", "<C-,>", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code from terminal" })
-map("n", "<leader>ce", "<cmd>ClaudeCodeContinue<CR>", { desc = "Claude Code continue" })
-map("n", "<leader>cR", "<cmd>ClaudeCodeResume<CR>", { desc = "Claude Code resume" })
-map("n", "<leader>cV", "<cmd>ClaudeCodeVerbose<CR>", { desc = "Claude Code verbose" })
-
-------------------------

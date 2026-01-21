@@ -8,6 +8,16 @@ if blink_status then
 end
 
 function M.on_attach(client, bufnr)
+	-- Only set keymaps once per buffer (avoid duplicates when multiple LSP servers attach)
+	if not vim.b[bufnr].lsp_keymaps_set then
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+		vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+		vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+		vim.keymap.set("n", "gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+		vim.b[bufnr].lsp_keymaps_set = true
+	end
+
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if status_ok then
 		illuminate.on_attach(client)
@@ -16,9 +26,6 @@ end
 
 function M.ts_on_attach(client, bufnr)
 	M.on_attach(client, bufnr)
-
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
 	vim.keymap.set("n", "<leader>tr", function()
 		local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "typescript-tools" })

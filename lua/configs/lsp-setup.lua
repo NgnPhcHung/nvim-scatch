@@ -27,6 +27,14 @@ return function()
 			"tailwindcss",
 		},
 		automatic_installation = true,
+		handlers = {
+			function(server_name)
+				-- Skip ts_ls (use typescript-tools instead)
+				if server_name == "ts_ls" then
+					return
+				end
+			end,
+		},
 	})
 
 	-- ============================================
