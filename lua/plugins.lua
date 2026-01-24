@@ -6,8 +6,7 @@ return {
 	------------------------------------------------------
 	-- UI & Theme
 	------------------------------------------------------
-	{ "catppuccin.nvim", name = "catppuccin", priority = 1000, opts = {} },
-	{ "rebelot/kanagawa.nvim", lazy = true },
+	{ "rebelot/kanagawa.nvim", priority = 1000 },
 
 	{
 		"nvim-lualine/lualine.nvim",
@@ -124,7 +123,9 @@ return {
 			"onsails/lspkind.nvim",
 			{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
 		},
-		config = require("configs.blink-cmp"),
+		config = function()
+			require("configs.blink-cmp")
+		end,
 	},
 	{
 		"L3MON4D3/LuaSnip",
@@ -217,7 +218,7 @@ return {
 
 	{
 		"nvim-telescope/telescope.nvim",
-		event = "VimEnter",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",

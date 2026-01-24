@@ -13,8 +13,11 @@ return function()
 	local capabilities = lsp_utils.capabilities
 	local on_attach = lsp_utils.on_attach
 
+	-- Setup custom LSP handlers (hover, etc.)
+	lsp_utils.setup_handlers()
+
 	-- ============================================
-	-- 3. Setup Mason-LSPConfig
+	-- 2. Setup Mason-LSPConfig
 	-- ============================================
 	mason_lspconfig.setup({
 		ensure_installed = {
@@ -138,7 +141,9 @@ return function()
 		},
 	}
 
-	-- Only start ESLint if config file actually exists
+	-- ESLint config detection with caching
+	local eslint_cache = {}
+
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = {
 			"javascript",
@@ -153,19 +158,22 @@ return function()
 			local bufname = vim.api.nvim_buf_get_name(bufnr)
 			local dirname = vim.fn.fnamemodify(bufname, ":h")
 
-			local eslint_config = vim.fs.root(dirname, {
-				".eslintrc",
-				".eslintrc.js",
-				".eslintrc.cjs",
-				".eslintrc.json",
-				".eslintrc.yml",
-				".eslintrc.yaml",
-				"eslint.config.js",
-				"eslint.config.mjs",
-				"eslint.config.cjs",
-			})
+			-- Check cache first
+			if eslint_cache[dirname] == nil then
+				eslint_cache[dirname] = vim.fs.root(dirname, {
+					".eslintrc",
+					".eslintrc.js",
+					".eslintrc.cjs",
+					".eslintrc.json",
+					".eslintrc.yml",
+					".eslintrc.yaml",
+					"eslint.config.js",
+					"eslint.config.mjs",
+					"eslint.config.cjs",
+				})
+			end
 
-			if eslint_config then
+			if eslint_cache[dirname] then
 				vim.lsp.enable("eslint", bufnr)
 			end
 		end,
@@ -174,46 +182,5 @@ return function()
 	-- ============================================
 	-- 9. Diagnostic Configuration
 	-- ============================================
-	local icon_status_ok, icon = pcall(require, "packages.icons")
-
-	local signs = {
-		Error = (icon_status_ok and icon.diagnostics and icon.diagnostics.Error) or "✘",
-		Warn = (icon_status_ok and icon.diagnostics and icon.diagnostics.Warn) or "▲",
-		Hint = (icon_status_ok and icon.diagnostics and icon.diagnostics.Hint) or "⚑",
-		Info = (icon_status_ok and icon.diagnostics and icon.diagnostics.Info) or "»",
-	}
-
-	vim.diagnostic.config({
-		virtual_text = {
-			prefix = function(diagnostic)
-				local severity = vim.diagnostic.severity[diagnostic.severity]
-				return signs[severity] or "●"
-			end,
-			format = function(diagnostic)
-				local message = diagnostic.message
-				local max_width = 50
-				if #message > max_width then
-					return message:sub(1, max_width) .. "..."
-				end
-				return message
-			end,
-		},
-		signs = {
-			text = {
-				[vim.diagnostic.severity.ERROR] = signs.Error,
-				[vim.diagnostic.severity.WARN] = signs.Warn,
-				[vim.diagnostic.severity.HINT] = signs.Hint,
-				[vim.diagnostic.severity.INFO] = signs.Info,
-			},
-		},
-		underline = true,
-		update_in_insert = false,
-		severity_sort = true,
-		float = {
-			border = "rounded",
-			source = "always",
-			header = "",
-			prefix = "",
-		},
-	})
+	require("configs.diagnostic")()
 end

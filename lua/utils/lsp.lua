@@ -7,6 +7,19 @@ if blink_status then
 	M.capabilities = blink.get_lsp_capabilities(M.capabilities)
 end
 
+-- Setup custom LSP handlers
+function M.setup_handlers()
+	vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+		config = config or {}
+		config.border = "rounded"
+		config.max_width = 80
+		config.max_height = 30
+		config.focusable = true
+		config.title = " Hover "
+		return vim.lsp.handlers.hover(err, result, ctx, config)
+	end
+end
+
 function M.on_attach(client, bufnr)
 	-- Only set keymaps once per buffer (avoid duplicates when multiple LSP servers attach)
 	if not vim.b[bufnr].lsp_keymaps_set then

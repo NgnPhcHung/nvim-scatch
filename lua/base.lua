@@ -78,16 +78,4 @@ vim.keymap.set("n", "E", function()
 	})
 end, { noremap = true, silent = true, desc = "Open diagnostic float" })
 
--- Custom hover handler (no deprecated vim.lsp.with)
-vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
-	config = config or {}
-	config.border = "rounded" -- border style
-	config.max_width = 80 -- constrain width
-	config.max_height = 30 -- constrain height
-	config.focusable = true
-
-	-- Padding via custom window options
-	config.title = " Hover " -- optional title
-
-	return vim.lsp.handlers.hover(err, result, ctx, config)
-end
+-- LSP handlers are now configured in utils/lsp.lua
