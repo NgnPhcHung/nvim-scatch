@@ -34,12 +34,23 @@ function M.smart_close()
 	end
 
 	-- Switch to alternate buffer before deleting
-	if alternate and alternate ~= bufnr then
+	if alternate and alternate > 0 and alternate ~= bufnr and vim.api.nvim_buf_is_valid(alternate) then
 		vim.api.nvim_set_current_buf(alternate)
+		vim.api.nvim_buf_delete(bufnr, { force = false })
+		return
 	end
 
-	-- Delete the buffer (preserves windows)
-	vim.api.nvim_buf_delete(bufnr, { force = false })
+	-- No valid alternate: show Alpha or quit
+	local has_alpha, _ = pcall(require, "alpha")
+	if has_alpha then
+		vim.cmd("Alpha")
+		if vim.api.nvim_buf_is_valid(bufnr) and bufnr ~= vim.api.nvim_get_current_buf() then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	else
+		vim.cmd("enew")
+		vim.api.nvim_buf_delete(bufnr, { force = true })
+	end
 end
 
 return M
