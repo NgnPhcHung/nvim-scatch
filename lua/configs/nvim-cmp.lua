@@ -86,6 +86,7 @@ cmp.setup({
 			end,
 		},
 		{ name = "luasnip", priority = 750 },
+		{ name = "99", priority = 600 },
 		{ name = "path", priority = 500 },
 	}, {
 		{ name = "buffer", priority = 250, keyword_length = 3, max_item_count = 5 },

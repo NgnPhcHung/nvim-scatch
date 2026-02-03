@@ -323,4 +323,41 @@ return {
 			vim.g.undotree_SetFocusWhenToggle = 1
 		end,
 	},
+
+	------------------------------------------------------
+	-- AI
+	------------------------------------------------------
+	{
+		"ThePrimeagen/99",
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"hrsh7th/nvim-cmp",
+		},
+		config = function()
+			local _99 = require("99")
+			local cwd = vim.uv.cwd()
+			local basename = vim.fs.basename(cwd)
+
+			_99.setup({
+				provider = _99.Providers.ClaudeCodeProvider,
+				model = "claude-sonnet-4-5",
+				logger = {
+					level = _99.DEBUG,
+					path = "/tmp/" .. basename .. ".99.debug",
+					print_on_error = true,
+				},
+				completion = {
+					source = "cmp",
+					custom_rules = {
+						vim.fn.stdpath("config") .. "/skills/",
+					},
+				},
+				md_files = { "AGENT.md" },
+			})
+
+			require("mappings.ai")
+		end,
+	},
 }
