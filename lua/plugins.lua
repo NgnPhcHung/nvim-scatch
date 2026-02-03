@@ -110,21 +110,22 @@ return {
 	},
 
 	------------------------------------------------------
-	-- 🔍 Completion & Snippets
+	-- Completion & Snippets
 	------------------------------------------------------
 	{
-		"saghen/blink.cmp",
-		event = "BufReadPre",
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
 		dependencies = {
-			-- "hrsh7th/nvim-cmp",
-			-- "hrsh7th/cmp-nvim-lsp",
-			-- "saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 			"onsails/lspkind.nvim",
 			{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
 		},
 		config = function()
-			require("configs.blink-cmp")
+			require("configs.nvim-cmp")
 		end,
 	},
 	{

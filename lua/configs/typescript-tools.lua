@@ -3,6 +3,9 @@ local lsp_utils = require("utils.lsp")
 return {
 	on_attach = lsp_utils.ts_on_attach,
 	capabilities = lsp_utils.capabilities,
+	handlers = {
+		["$/progress"] = function() end,
+	},
 	settings = {
 		tsserver_max_memory = 8192,
 		publish_diagnostic_on = "change",
