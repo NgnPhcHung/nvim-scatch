@@ -15,7 +15,7 @@ map("n", "<leader>rn", function()
 end, { noremap = true, silent = true, expr = true, desc = "Incremental rename" })
 
 -- TypeScript Tools
-map("n", "<leader>ti", function()
+map("n", "ti", function()
 	local clients = vim.lsp.get_clients({ bufnr = 0, name = "typescript-tools" })
 	if #clients == 0 then
 		vim.notify("TypeScript Tools is not running. Starting now...", vim.log.levels.WARN)
@@ -28,6 +28,15 @@ map("n", "<leader>ti", function()
 	end
 end, { desc = "Add missing import in .ts .tsx file" })
 
-map("n", "<leader>to", function()
-	require("utils.imports").organize_imports()
-end, { desc = "Organize imports (biome-aware)" })
+map("n", "to", function()
+	local clients = vim.lsp.get_clients({ bufnr = 0, name = "typescript-tools" })
+	if #clients == 0 then
+		vim.notify("TypeScript Tools is not running. Starting now...", vim.log.levels.WARN)
+		vim.cmd("LspStart typescript-tools")
+		vim.defer_fn(function()
+			vim.cmd("TSToolsOrganizeImports")
+		end, 1000)
+	else
+		vim.cmd("TSToolsOrganizeImports")
+	end
+end, { desc = "Organize imports" })

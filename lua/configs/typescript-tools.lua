@@ -10,7 +10,7 @@ return {
 		tsserver_logs = "off",
 		complete_function_calls = false,
 		expose_as_code_action = "all",
-		filter_out_diagnostics_by_code = { 80007, 80006 },
+		filter_out_diagnostics_by_code = { 80007, 80006, 71007 },
 
 		tsserver_file_preferences = {
 			includeInlayParameterNameHints = "all",

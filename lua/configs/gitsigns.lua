@@ -1,6 +1,11 @@
 return function()
 	require("gitsigns").setup({
-		current_line_blame = false, -- Disable for performance (use <leader>hb instead)
+		current_line_blame = true,
+		current_line_blame_opts = {
+			virt_text = true,
+			virt_text_pos = "eol",
+			delay = 300,
+		},
 		on_attach = function(bufnr)
 			local gs = package.loaded.gitsigns
 
