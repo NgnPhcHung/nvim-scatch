@@ -144,6 +144,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
 					{ name = "buffer", keyword_length = 2, max_item_count = 5 },
 				}),
 			})
+		else
+			cmp.setup.buffer({})
 		end
 	end,
 })

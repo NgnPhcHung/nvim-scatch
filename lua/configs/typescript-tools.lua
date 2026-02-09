@@ -25,6 +25,7 @@ return {
 			includeInlayPropertyDeclarationTypeHints = true,
 			includeInlayFunctionLikeReturnTypeHints = true,
 			includeInlayEnumMemberValueHints = true,
+			preferTypeOnlyAutoImports = true,
 		},
 
 		tsserver_format_options = {
