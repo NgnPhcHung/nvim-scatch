@@ -1,37 +1,29 @@
-local lsp_utils = require("utils.lsp")
-
-return {
-	on_attach = lsp_utils.ts_on_attach,
-	capabilities = lsp_utils.capabilities,
-	handlers = {
-		["$/progress"] = function() end,
-	},
+require("typescript-tools").setup({
 	settings = {
-		tsserver_max_memory = 8192,
-		publish_diagnostic_on = "change",
 		separate_diagnostic_server = true,
-		tsserver_logs = "off",
+		publish_diagnostic_on = "insert_leave",
+		tsserver_max_memory = "auto",
 		complete_function_calls = false,
-		expose_as_code_action = "all",
-		filter_out_diagnostics_by_code = { 80007, 80006, 71007 },
-
+		include_completions_with_insert_text = true,
+		code_lens = "off",
 		tsserver_file_preferences = {
-			includeInlayParameterNameHints = "all",
-			includeCompletionsForModuleExports = true,
-			includeCompletionsWithSnippetText = true,
-			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-			includeInlayFunctionParameterTypeHints = true,
-			includeInlayVariableTypeHints = true,
-			includeInlayPropertyDeclarationTypeHints = true,
-			includeInlayFunctionLikeReturnTypeHints = true,
-			includeInlayEnumMemberValueHints = true,
-			preferTypeOnlyAutoImports = true,
+			importModuleSpecifierEnding = "minimal",
 		},
-
-		tsserver_format_options = {
-			insertSpaceAfterCommaDelimiter = true,
-			insertSpaceAfterFunctionKeywordForAnonymousFunctions = true,
-			insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true,
+		disable_member_code_lens = true,
+		expose_as_code_action = {
+			"fix_all",
+			"add_missing_imports",
+			"remove_unused",
+			"remove_unused_imports",
+			"organize_imports",
 		},
 	},
-}
+	on_attach = function(_, bufnr)
+		local opts = { buffer = bufnr, silent = true }
+		vim.keymap.set("n", "<leader>to", ":TSToolsOrganizeImports<CR>", vim.tbl_extend("force", opts, { desc = "Organize imports" }))
+		vim.keymap.set("n", "<leader>ti", ":TSToolsAddMissingImports<CR>", vim.tbl_extend("force", opts, { desc = "Add missing imports" }))
+		vim.keymap.set("n", "<leader>ru", ":TSToolsRemoveUnused<CR>", vim.tbl_extend("force", opts, { desc = "Remove unused" }))
+		vim.keymap.set("n", "<leader>ri", ":TSToolsRemoveUnusedImports<CR>", vim.tbl_extend("force", opts, { desc = "Remove unused imports" }))
+		vim.keymap.set("n", "<leader>fa", ":TSToolsFixAll<CR>", vim.tbl_extend("force", opts, { desc = "Fix all" }))
+	end,
+})

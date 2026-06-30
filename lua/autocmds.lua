@@ -1,0 +1,97 @@
+local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = augroup,
+	pattern = {
+		"*.lua",
+		"*.py",
+		"*.go",
+		"*.js",
+		"*.jsx",
+		"*.ts",
+		"*.tsx",
+		"*.json",
+		"*.css",
+		"*.scss",
+		"*.html",
+		"*.sh",
+		"*.bash",
+		"*.zsh",
+		"*.c",
+		"*.cpp",
+		"*.h",
+		"*.hpp",
+	},
+	callback = function(args)
+		if vim.bo[args.buf].buftype ~= "" then
+			return
+		end
+		if not vim.bo[args.buf].modifiable then
+			return
+		end
+		if vim.api.nvim_buf_get_name(args.buf) == "" then
+			return
+		end
+
+		local biome_client, efm_client = nil, nil
+		for _, c in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
+			if c.name == "biome" then
+				biome_client = c
+			elseif c.name == "efm" then
+				efm_client = c
+			end
+		end
+
+		if biome_client then
+			pcall(vim.lsp.buf.format, {
+				bufnr = args.buf,
+				timeout_ms = 2000,
+				filter = function(c)
+					return c.name == "biome"
+				end,
+			})
+			return
+		end
+
+		if efm_client then
+			pcall(vim.lsp.buf.format, {
+				bufnr = args.buf,
+				timeout_ms = 2000,
+				filter = function(c)
+					return c.name == "efm"
+				end,
+			})
+		end
+	end,
+})
+
+-- highlight yanked text
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = augroup,
+	callback = function()
+		vim.hl.on_yank()
+	end,
+})
+
+-- auto highlight text under cursor position
+vim.api.nvim_create_autocmd("LspAttach", {
+
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client.supports_method("textDocument/documentHighlight") then
+			local group = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+
+			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+				group = group,
+				buffer = args.buf,
+				callback = vim.lsp.buf.document_highlight,
+			})
+
+			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+				group = group,
+				buffer = args.buf,
+				callback = vim.lsp.buf.clear_references,
+			})
+		end
+	end,
+})

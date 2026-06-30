@@ -1,13 +1,9 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.opt.termguicolors = true
 
-require("init_lazy")
-
-require("base")
-require("mapping")
-
-require("theme")
-
-require("custom-config.autocmds")
-require("custom-config.custom-snippet")
-require("custom-config.persist-workspace")
+require("options")
+require("statusline")
+require("keymap")
+require("autocmds")
+require("plugins")
+require("configs.session")
+require("configs.transparent")

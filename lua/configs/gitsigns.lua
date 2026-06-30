@@ -1,52 +1,38 @@
-return function()
-	require("gitsigns").setup({
-		current_line_blame = true,
-		current_line_blame_opts = {
-			virt_text = true,
-			virt_text_pos = "eol",
-			delay = 300,
-		},
-		on_attach = function(bufnr)
-			local gs = package.loaded.gitsigns
 
-			-- Keymaps
-			local function map(mode, l, r, opts)
-				opts = opts or {}
-				opts.buffer = bufnr
-				vim.keymap.set(mode, l, r, opts)
-			end
+require("gitsigns").setup({
+	signs = {
+		add = { text = "\u{2590}" }, -- ▏
+		change = { text = "\u{2590}" }, -- ▐
+		delete = { text = "\u{2590}" }, -- ◦
+		topdelete = { text = "\u{25e6}" }, -- ◦
+		changedelete = { text = "\u{25cf}" }, -- ●
+		untracked = { text = "\u{25cb}" }, -- ○
+	},
+	signcolumn = true,
+	current_line_blame = true,
+})
 
-			-- Điều hướng giữa các hunk: Bắt buộc dùng {expr = true} để điều kiện (vim.wo.diff) hoạt động
-			map("n", "]c", function()
-				if vim.wo.diff then
-					return "]c"
-				end
-				vim.schedule(function()
-					gs.next_hunk()
-				end)
-				return "<Ignore>"
-			end, { expr = true, desc = "Next Hunk" })
-
-			map("n", "[c", function()
-				if vim.wo.diff then
-					return "[c"
-				end
-				vim.schedule(function()
-					gs.prev_hunk()
-				end)
-				return "<Ignore>"
-			end, { expr = true, desc = "Prev Hunk" })
-
-			-- Hành động trên các hunk
-			map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
-			map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
-			map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview Hunk" })
-			map("n", "<leader>hb", function()
-				gs.blame_line({ full = true })
-			end, { desc = "Git Blame Line" })
-			-- Thêm keymaps hữu ích khác
-			map("n", "<leader>gd", gs.diffthis, { desc = "Diff Current File" })
-			map({ "n", "v" }, "<leader>gS", ":Gitsigns stage_buffer<CR>", { desc = "Stage Buffer" })
-		end,
-	})
-end
+vim.keymap.set("n", "]h", function()
+	require("gitsigns").next_hunk()
+end, { desc = "Next git hunk" })
+vim.keymap.set("n", "[h", function()
+	require("gitsigns").prev_hunk()
+end, { desc = "Previous git hunk" })
+vim.keymap.set("n", "<leader>hs", function()
+	require("gitsigns").stage_hunk()
+end, { desc = "Stage hunk" })
+vim.keymap.set("n", "<leader>hr", function()
+	require("gitsigns").reset_hunk()
+end, { desc = "Reset hunk" })
+vim.keymap.set("n", "<leader>hp", function()
+	require("gitsigns").preview_hunk()
+end, { desc = "Preview hunk" })
+vim.keymap.set("n", "<leader>hb", function()
+	require("gitsigns").blame_line({ full = true })
+end, { desc = "Blame line" })
+vim.keymap.set("n", "<leader>hB", function()
+	require("gitsigns").toggle_current_line_blame()
+end, { desc = "Toggle inline blame" })
+vim.keymap.set("n", "<leader>hd", function()
+	require("gitsigns").diffthis()
+end, { desc = "Diff this" })
