@@ -95,3 +95,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
+
+-- Reopen dashboard when the last real buffer is closed
+vim.api.nvim_create_autocmd("BufDelete", {
+	group = augroup,
+	callback = function(args)
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			if buf ~= args.buf and vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= "" then
+				return
+			end
+		end
+		vim.schedule(function()
+			require("mini.starter").open()
+		end)
+	end,
+})
