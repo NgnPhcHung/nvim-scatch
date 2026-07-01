@@ -3,13 +3,13 @@ local starter = require("mini.starter")
 starter.setup({
 	evaluate_single = true,
 	items = {
-		{
-			name = "Load workspace",
-			action = function()
-				require("configs.session").load()
-			end,
-			section = "Commands",
-		},
+		-- {
+		-- 	name = "Load workspace",
+		-- 	action = function()
+		-- 		require("configs.session").load()
+		-- 	end,
+		-- 	section = "Commands",
+		-- },
 		{
 			name = "Find file",
 			action = function()

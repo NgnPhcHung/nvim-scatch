@@ -1,34 +1,34 @@
-local sessions_dir = vim.fn.expand("~/.local/share/nvim/sessions")
-if vim.fn.isdirectory(sessions_dir) == 0 then
-	vim.fn.mkdir(sessions_dir, "p")
-end
-
-local M = {}
-
-local function session_file()
-	local cwd = vim.fn.getcwd()
-	local name = cwd:gsub("[/\\]", "%%")
-	return sessions_dir .. "/" .. name .. ".vim"
-end
-
-vim.opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-local augroup = vim.api.nvim_create_augroup("Session", { clear = true })
-
-vim.api.nvim_create_autocmd("VimLeave", {
-	group = augroup,
-	callback = function()
-		vim.cmd("mksession! " .. vim.fn.fnameescape(session_file()))
-	end,
-})
-
-function M.load()
-	local sf = session_file()
-	if vim.fn.filereadable(sf) == 1 then
-		vim.cmd("silent! source " .. vim.fn.fnameescape(sf))
-	else
-		vim.notify("No saved workspace for " .. vim.fn.getcwd(), vim.log.levels.WARN)
-	end
-end
-
-return M
+-- local sessions_dir = vim.fn.expand("~/.local/share/nvim/sessions")
+-- if vim.fn.isdirectory(sessions_dir) == 0 then
+-- 	vim.fn.mkdir(sessions_dir, "p")
+-- end
+--
+-- local M = {}
+--
+-- local function session_file()
+-- 	local cwd = vim.fn.getcwd()
+-- 	local name = cwd:gsub("[/\\]", "%%")
+-- 	return sessions_dir .. "/" .. name .. ".vim"
+-- end
+--
+-- vim.opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+--
+-- local augroup = vim.api.nvim_create_augroup("Session", { clear = true })
+--
+-- vim.api.nvim_create_autocmd("VimLeave", {
+-- 	group = augroup,
+-- 	callback = function()
+-- 		vim.cmd("mksession! " .. vim.fn.fnameescape(session_file()))
+-- 	end,
+-- })
+--
+-- function M.load()
+-- 	local sf = session_file()
+-- 	if vim.fn.filereadable(sf) == 1 then
+-- 		vim.cmd("silent! source " .. vim.fn.fnameescape(sf))
+-- 	else
+-- 		vim.notify("No saved workspace for " .. vim.fn.getcwd(), vim.log.levels.WARN)
+-- 	end
+-- end
+--
+-- return M
