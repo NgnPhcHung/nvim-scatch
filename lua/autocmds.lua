@@ -123,3 +123,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		})
 	end,
 })
+
+--auto ignore format makrdown filter
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = lsp_augroup,
+	callback = function(ev)
+		if vim.bo[ev.buf].filetype == "markdown" then
+			return
+		end
+		local clients = vim.lsp.get_clients({ bufnr = ev.buf, name = "efm" })
+		if #clients > 0 then
+			vim.lsp.buf.format({ bufnr = ev.buf, name = "efm", timeout_ms = 3000 })
+		end
+	end,
+})

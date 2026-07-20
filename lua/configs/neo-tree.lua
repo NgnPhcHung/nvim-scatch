@@ -11,9 +11,9 @@ require("neo-tree").setup({
 		follow_current_file = { enabled = true },
 		filtered_items = {
 			-- show dotfiles (.env) and gitignored files
-			visible = true,
-			hide_dotfiles = false,
-			hide_gitignored = false,
+			visible = false,
+			hide_dotfiles = true,
+			hide_gitignored = true,
 		},
 	},
 })

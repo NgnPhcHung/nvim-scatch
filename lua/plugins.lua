@@ -49,10 +49,10 @@ require("lazy").setup({
 			require("configs.neo-tree")
 		end,
 	},
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
-  },
+	{
+		"nvim-telescope/telescope.nvim",
+	},
+
 	-- Git
 	{
 		"lewis6991/gitsigns.nvim",
@@ -76,12 +76,12 @@ require("lazy").setup({
 	},
 
 	-- Mini
-	{
-		"echasnovski/mini.nvim",
-		config = function()
-			require("configs.mini")
-		end,
-	},
+	-- {
+	-- 	"echasnovski/mini.nvim",
+	-- 	config = function()
+	-- 		require("configs.mini")
+	-- 	end,
+	-- },
 
 	-- Fuzzy finder
 	{
@@ -94,13 +94,6 @@ require("lazy").setup({
 	-- LSP + Completion
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			"mason-org/mason.nvim",
-			"creativenull/efmls-configs-nvim",
-			"saghen/blink.cmp",
-			"L3MON4D3/LuaSnip",
-			"ibhagwan/fzf-lua",
-		},
 		config = function()
 			require("configs.lsp")
 		end,
@@ -111,25 +104,23 @@ require("lazy").setup({
 			require("configs.mason")
 		end,
 	},
-	{ "creativenull/efmls-configs-nvim", lazy = true },
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
-		dependencies = { "L3MON4D3/LuaSnip" },
 	},
+
 	{ "L3MON4D3/LuaSnip", lazy = true },
 
-  {
-    'stevearc/conform.nvim',
-    config = function()
-      require("configs.formatter")
-    end
-  },
+	{
+		"stevearc/conform.nvim",
+		config = function()
+			require("configs.formatter")
+		end,
+	},
 
 	-- TypeScript
 	{
 		"pmizio/typescript-tools.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("configs.typescript-tools")
 		end,
@@ -151,26 +142,6 @@ require("lazy").setup({
 
 	-- Markdown
 	{ "MeanderingProgrammer/render-markdown.nvim" },
-
-	-- Smooth scroll
-	{
-		"karb94/neoscroll.nvim",
-		config = function()
-			require("configs.scroll")
-		end,
-	},
-
-	-- Windows management
-	{
-		"anuvyklack/windows.nvim",
-		dependencies = {
-			"anuvyklack/middleclass",
-			"anuvyklack/animation.nvim",
-		},
-		config = function()
-			require("configs.animations")
-		end,
-	},
 
 	-- comments
 	{
