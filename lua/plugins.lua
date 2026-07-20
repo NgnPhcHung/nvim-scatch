@@ -49,7 +49,10 @@ require("lazy").setup({
 			require("configs.neo-tree")
 		end,
 	},
-
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+  },
 	-- Git
 	{
 		"lewis6991/gitsigns.nvim",
@@ -115,6 +118,13 @@ require("lazy").setup({
 		dependencies = { "L3MON4D3/LuaSnip" },
 	},
 	{ "L3MON4D3/LuaSnip", lazy = true },
+
+  {
+    'stevearc/conform.nvim',
+    config = function()
+      require("configs.formatter")
+    end
+  },
 
 	-- TypeScript
 	{

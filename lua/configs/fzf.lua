@@ -18,7 +18,7 @@ fzf.setup({
 	},
 	-- ivy: bottom panel, no preview
 	files = {
-		fd_opts = "--color=never --type f --hidden --follow --no-ignore --exclude .git --exclude node_modules --exclude dist",
+		fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude dist --exclude .99",
 		winopts = {
 			height = 0.4,
 			width = 1.0,
@@ -61,7 +61,19 @@ fzf.setup({
 })
 
 vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "FZF Files" })
-vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "FZF Live Grep" })
+-- respects .gitignore
+local grep_rg_respect =
+	"--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -g '!node_modules' -g '!.git' -g '!dist' -e"
+-- ignores .gitignore (searches ignored files too)
+local grep_rg_all =
+	"--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --no-ignore --hidden -g '!node_modules' -g '!.git' -g '!dist' -e"
+
+vim.keymap.set("n", "<leader>fg", function()
+	fzf.live_grep({ rg_opts = grep_rg_respect })
+end, { desc = "FZF Live Grep (respect .gitignore)" })
+vim.keymap.set("n", "<leader>fw", function()
+	fzf.live_grep({ rg_opts = grep_rg_all })
+end, { desc = "FZF Live Grep (ignore .gitignore)" })
 vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FZF Buffers" })
 vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "FZF Help Tags" })
 vim.keymap.set("n", "<leader>fx", fzf.diagnostics_document, { desc = "FZF Diagnostics Document" })

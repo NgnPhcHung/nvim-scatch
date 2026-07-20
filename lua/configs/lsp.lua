@@ -90,6 +90,7 @@ require("blink.cmp").setup({
 	},
 	appearance = { nerd_font_variant = "mono" },
 	completion = {
+		accept = { auto_brackets = { enabled = false } },
 		menu = {
 			auto_show = true,
 			draw = {
@@ -267,7 +268,6 @@ vim.lsp.enable({
 	"bashls",
 	"efm",
 	"biome",
-	"harper-ls",
 	"tailwindcss",
 })
 

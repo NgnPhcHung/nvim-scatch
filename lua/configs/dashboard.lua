@@ -3,21 +3,13 @@ local starter = require("mini.starter")
 starter.setup({
 	evaluate_single = true,
 	items = {
-		-- {
-		-- 	name = "Load workspace",
-		-- 	action = function()
-		-- 		require("configs.session").load()
-		-- 	end,
-		-- 	section = "Commands",
-		-- },
 		{
-			name = "Find file",
+			name = "File explorer",
 			action = function()
-				require("fzf-lua").files()
+        	require("telescope").extensions.file_browser.file_browser()
 			end,
 			section = "Commands",
 		},
-		-- { name = "Tree (neo-tree)", action = function() vim.cmd("Neotree toggle reveal=false dir=" .. vim.fn.getcwd()) end, section = "Commands" },
 		{
 			name = "Git",
 			action = function()

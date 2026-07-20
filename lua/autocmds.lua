@@ -110,3 +110,16 @@ vim.api.nvim_create_autocmd("BufDelete", {
 		end)
 	end,
 })
+
+--format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = "*",
+	callback = function(args)
+		require("conform").format({
+			bufnr = args.buf,
+			filter = function(client)
+				return client.name ~= "ts_ls" -- prevent ts_ls from handling format
+			end,
+		})
+	end,
+})

@@ -25,7 +25,6 @@ vim.keymap.set("n", ";w", function()
 	if vim.api.nvim_get_current_buf() == cur then
 		vim.cmd("enew")
 		vim.cmd("bdelete " .. cur)
-		vim.cmd("intro")
 	else
 		vim.cmd("bdelete " .. cur)
 	end
@@ -47,8 +46,8 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 vim.keymap.set("n", "|", ":vsplit<CR>", { desc = "Split window vertically" })
 vim.keymap.set("n", "tc", ":close<CR>", { desc = "Close splitted window" })
 
-vim.keymap.set("v", "<S-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.keymap.set("v", "<S-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+vim.keymap.set("v", "<S-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 
 vim.keymap.set("n", "<leader>pa", function() -- show file path
 	local path = vim.fn.expand("%:p")
@@ -61,6 +60,6 @@ vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
 
-vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Toggle file tree", silent = true })
+vim.keymap.set("n", "<leader>e", ":Neotree position=current<CR>", { desc = "Toggle file tree", silent = true })
 
 vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select all" })

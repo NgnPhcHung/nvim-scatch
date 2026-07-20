@@ -4,7 +4,8 @@
 vim.opt.number = true -- line number
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.cursorline = true -- highlight current line
-vim.opt.wrap = false -- do not wrap lines by default
+vim.opt.wrap = true -- do not wrap lines by default
+vim.opt.linebreak = true
 vim.opt.smoothscroll = true -- smooth scrolling when screen moves
 vim.opt.scrolloff = 10 -- keep 10 lines above/below cursor
 vim.opt.sidescrolloff = 10 -- keep 10 lines to left/right of cursor
@@ -23,7 +24,7 @@ vim.opt.incsearch = true -- show matches as you type
 
 vim.opt.signcolumn = "yes" -- always show a sign column
 vim.opt.colorcolumn = "100" -- show a column at 100 position chars
-vim.opt.showmatch = true -- highlights matching brackets
+vim.opt.showmatch = false -- no cursor jump to matching bracket on insert
 vim.opt.cmdheight = 1 -- single line command line
 vim.opt.completeopt = "menuone,noinsert,noselect" -- completion options
 vim.opt.showmode = false -- do not show the mode, instead have it in statusline
