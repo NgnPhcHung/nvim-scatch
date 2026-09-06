@@ -20,7 +20,7 @@ vim.diagnostic.config({
 	severity_sort = true,
 	float = {
 		border = "rounded",
-		source = "always",
+		source = true,
 		header = "",
 		prefix = "",
 		focusable = false,
@@ -28,14 +28,7 @@ vim.diagnostic.config({
 	},
 })
 
-do
-	local orig = vim.lsp.util.open_floating_preview
-	function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-		opts = opts or {}
-		opts.border = opts.border or "rounded"
-		return orig(contents, syntax, opts, ...)
-	end
-end
+vim.o.winborder = "rounded"
 
 local lsp_augroup = vim.api.nvim_create_augroup("LspConfig", { clear = true })
 
@@ -44,7 +37,7 @@ local function lsp_on_attach(ev)
 	local fzf = require("fzf-lua")
 
 	vim.keymap.set("n", "gd", function()
-		fzf.lsp_definitions({ jump_to_single_result = true })
+		fzf.lsp_definitions({})
 	end, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
 	vim.keymap.set("n", "gD", function()
 		fzf.lsp_declarations({ jump_to_single_result = true })
@@ -73,6 +66,15 @@ local function lsp_on_attach(ev)
 	vim.keymap.set({ "n", "v" }, "<leader>ca", function()
 		fzf.lsp_code_actions()
 	end, vim.tbl_extend("force", opts, { desc = "Code action" }))
+
+	local function source_action(kind)
+		return function()
+			vim.lsp.buf.code_action({ context = { only = { kind }, diagnostics = {} }, apply = true })
+		end
+	end
+	vim.keymap.set("n", "<leader>to", source_action("source.organizeImports"), vim.tbl_extend("force", opts, { desc = "Organize imports" }))
+	vim.keymap.set("n", "<leader>ri", source_action("source.removeUnusedImports"), vim.tbl_extend("force", opts, { desc = "Remove unused imports" }))
+	vim.keymap.set("n", "<leader>fa", source_action("source.fixAll"), vim.tbl_extend("force", opts, { desc = "Fix all" }))
 end
 
 vim.api.nvim_create_autocmd("LspAttach", { group = lsp_augroup, callback = lsp_on_attach })
@@ -81,58 +83,6 @@ vim.keymap.set("n", "<leader>q", function()
 	vim.diagnostic.setloclist({ open = true })
 end, { desc = "Open diagnostic list" })
 vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
-
-require("blink.cmp").setup({
-	keymap = {
-		preset = "none",
-		["<C-Space>"] = { "show", "hide" },
-		["<C-.>"] = { "show", "fallback" },
-		["<CR>"] = { "accept", "fallback" },
-		["<C-j>"] = { "select_next", "fallback" },
-		["<C-k>"] = { "select_prev", "fallback" },
-		["<C-l>"] = { "scroll_documentation_down", "fallback" },
-		["<C-h>"] = { "scroll_documentation_up", "fallback" },
-		["<Tab>"] = { "snippet_forward", "fallback" },
-		["<S-Tab>"] = { "snippet_backward", "fallback" },
-	},
-	appearance = { nerd_font_variant = "mono" },
-	completion = {
-		accept = { auto_brackets = { enabled = false } },
-		menu = {
-			auto_show = true,
-			draw = {
-				columns = {
-					{ "kind_icon" },
-					{ "label", "label_description", gap = 1 },
-					{ "source_name" },
-				},
-			},
-		},
-		documentation = {
-			auto_show = true,
-			auto_show_delay_ms = 100,
-		},
-	},
-	sources = {
-		default = { "lsp", "path", "snippets", "buffer" },
-		per_filetype = {
-			typescript = { "lsp", "buffer", "snippets" },
-			typescriptreact = { "lsp", "buffer", "snippets" },
-			javascript = { "lsp", "buffer", "snippets" },
-			javascriptreact = { "lsp", "buffer", "snippets" },
-		},
-	},
-	snippets = {
-		expand = function(snippet)
-			require("luasnip").lsp_expand(snippet)
-		end,
-	},
-
-	fuzzy = {
-		implementation = "prefer_rust_with_warning",
-		prebuilt_binaries = { download = true },
-	},
-})
 
 local capabilities = {
 	textDocument = {
@@ -149,14 +99,19 @@ vim.lsp.config["*"] = {
 
 vim.lsp.config("tailwindcss", {
 	cmd = { "tailwindcss-language-server", "--stdio" },
-	root_markers = {
-		"tailwind.config.js",
-		"tailwind.config.ts",
-		"tailwind.config.cjs",
-		"postcss.config.js",
-		"package.json",
-		".git",
-	},
+	-- ponytail: gate on a real tailwind config; not calling on_dir keeps the server from starting.
+	-- Without this it attaches root-less to any buffer and its ":" completion trigger fights the TS server.
+	root_dir = function(bufnr, on_dir)
+		local found = vim.fs.find({
+			"tailwind.config.js",
+			"tailwind.config.ts",
+			"tailwind.config.cjs",
+			"postcss.config.js",
+		}, { upward = true, path = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)) })[1]
+		if found then
+			on_dir(vim.fs.dirname(found))
+		end
+	end,
 	filetypes = {
 		"html",
 		"css",
@@ -164,14 +119,13 @@ vim.lsp.config("tailwindcss", {
 		"javascriptreact",
 		"typescript",
 		"typescriptreact",
-		"vue",
-		"svelte",
 	},
 })
 
-vim.lsp.config("biome", {})
-
 vim.lsp.config("lua_ls", {
+	cmd = { "lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = { ".luarc.json", ".luarc.jsonc", ".stylua.toml", "stylua.toml", ".git" },
 	settings = {
 		Lua = {
 			diagnostics = { globals = { "vim" } },
@@ -179,12 +133,137 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.config("bashls", {})
+
+vim.lsp.config("bashls", {
+	cmd = { "bash-language-server", "start" },
+	filetypes = { "bash", "sh" },
+	root_markers = { ".git" },
+})
+
+vim.lsp.config("clangd", {
+	cmd = { "clangd" },
+	filetypes = { "c" },
+	root_markers = { ".clangd", "compile_commands.json", "compile_flags.txt", ".git" },
+	capabilities = { offsetEncoding = { "utf-16" } },
+	handlers = {
+		["textDocument/hover"] = function(err, result, ctx, cfg)
+			local contents = result and result.contents
+			if type(contents) == "table" and type(contents.value) == "string" then
+				contents.value = contents.value:gsub("```[%w%-]*cpp", "```c")
+			end
+			return vim.lsp.handlers.hover(err, result, ctx, cfg)
+		end,
+	},
+})
+
+-- ponytail: tls resolves the workspace's own typescript first; this only covers projects without one.
+-- Follows the `tsc` on PATH so an nvm node bump doesn't break it.
+local function global_ts_lib()
+	local tsc = vim.fn.exepath("tsc")
+	if tsc == "" then
+		return nil
+	end
+	local real = vim.uv.fs_realpath(tsc)
+	return real and vim.fs.joinpath(vim.fs.dirname(vim.fs.dirname(real)), "lib") or nil
+end
+
+vim.lsp.config("ts_ls", {
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+	init_options = {
+		maxTsServerMemory = 4096,
+		tsserver = { fallbackPath = global_ts_lib() },
+	},
+})
+
+vim.lsp.config("biome", {
+	cmd = { "biome", "lsp-proxy" },
+	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc", "css" },
+	root_markers = { "biome.json", "biome.jsonc" },
+})
 
 vim.lsp.enable({
 	"lua_ls",
-	"bashls",
-	"efm",
-	"biome",
 	"tailwindcss",
+	"bashls",
+	"clangd",
+	"ts_ls",
+	"biome",
+})
+
+-- -- LSP progress toast (top-right) --
+-- ponytail: track tokens from the event, not vim.lsp.status() — that one drains the
+-- progress ring and reports `end` messages as if still active, so the toast never closes.
+local progress_win, progress_buf
+local pending = {}
+
+local function render_progress()
+	local msg = nil
+	for _, title in pairs(pending) do
+		msg = title
+		break
+	end
+
+	if not msg then
+		if progress_win and vim.api.nvim_win_is_valid(progress_win) then
+			vim.api.nvim_win_close(progress_win, true)
+		end
+		progress_win = nil
+		return
+	end
+
+	msg = " " .. msg:gsub("%s+", " ") .. " "
+	if not (progress_buf and vim.api.nvim_buf_is_valid(progress_buf)) then
+		progress_buf = vim.api.nvim_create_buf(false, true)
+	end
+	vim.api.nvim_buf_set_lines(progress_buf, 0, -1, false, { msg })
+
+	local cfg = {
+		relative = "editor",
+		anchor = "NE",
+		row = 0,
+		col = vim.o.columns,
+		width = vim.fn.strdisplaywidth(msg),
+		height = 1,
+		style = "minimal",
+		border = "rounded",
+		focusable = false,
+		noautocmd = true,
+	}
+	if progress_win and vim.api.nvim_win_is_valid(progress_win) then
+		vim.api.nvim_win_set_config(progress_win, cfg)
+	else
+		progress_win = vim.api.nvim_open_win(progress_buf, false, cfg)
+	end
+end
+
+vim.api.nvim_create_autocmd("LspProgress", {
+	group = lsp_augroup,
+	callback = function(ev)
+		local params = ev.data.params
+		local value = params.value
+		local key = ev.data.client_id .. ":" .. tostring(params.token)
+
+		if type(value) ~= "table" or value.kind == "end" then
+			pending[key] = nil
+		else
+			local title = value.title or pending[key] or ""
+			pending[key] = value.message and (title .. ": " .. value.message) or title
+		end
+		render_progress()
+	end,
+})
+
+-- a client that dies mid-progress would leave the toast up forever
+vim.api.nvim_create_autocmd("LspDetach", {
+	group = lsp_augroup,
+	callback = function(ev)
+		for key in pairs(pending) do
+			if key:match("^" .. ev.data.client_id .. ":") then
+				pending[key] = nil
+			end
+		end
+		render_progress()
+	end,
 })

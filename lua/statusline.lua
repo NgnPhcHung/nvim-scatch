@@ -39,7 +39,6 @@ local function file_type()
 		rust = "\u{e7a8} ", -- nf-dev-rust
 		go = "\u{e724} ", -- nf-dev-go
 		c = "\u{e61e} ", -- nf-dev-c
-		cpp = "\u{e61d} ", -- nf-dev-cplusplus
 		java = "\u{e738} ", -- nf-dev-java
 		php = "\u{e73d} ", -- nf-dev-php
 		ruby = "\u{e739} ", -- nf-dev-ruby

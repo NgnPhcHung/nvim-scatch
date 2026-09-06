@@ -18,7 +18,7 @@ fzf.setup({
 	},
 	-- ivy: bottom panel, no preview
 	files = {
-		fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude dist --exclude .99",
+		fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude dist",
 		winopts = {
 			height = 0.4,
 			width = 1.0,
@@ -78,6 +78,10 @@ vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FZF Buffers" })
 vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "FZF Help Tags" })
 vim.keymap.set("n", "<leader>fx", fzf.diagnostics_document, { desc = "FZF Diagnostics Document" })
 vim.keymap.set("n", "<leader>fX", fzf.diagnostics_workspace, { desc = "FZF Diagnostics Workspace" })
+
+-- git: <leader>gg/gc/gp/gl belong to neogit (configs/neogit.lua)
+vim.keymap.set("n", "<leader>gb", fzf.git_branches, { desc = "Git branches" })
+vim.keymap.set("n", "<leader>gL", fzf.git_commits, { desc = "Git log" })
 
 vim.keymap.set("n", "<S-h>", function()
 	fzf.buffers({

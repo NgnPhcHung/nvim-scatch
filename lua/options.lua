@@ -1,6 +1,8 @@
 -- ============================================================================
 -- OPTIONS
 -- ============================================================================
+vim.g.c_syntax_for_h = 1 -- *.h is C, not C++
+
 vim.opt.number = true -- line number
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.cursorline = true -- highlight current line
@@ -53,7 +55,7 @@ vim.opt.updatetime = 300 -- faster completion
 vim.opt.timeoutlen = 500 -- timeout duration
 vim.opt.ttimeoutlen = 0 -- key code timeout
 vim.opt.autoread = true -- auto-reload changes if outside of neovim
-vim.opt.autowrite = false -- do not auto-save
+vim.opt.autowrite = true -- do not auto-save
 
 vim.opt.hidden = true -- allow hidden buffers
 vim.opt.errorbells = false -- no error sounds
@@ -62,13 +64,12 @@ vim.opt.autochdir = false -- do not autochange directories
 vim.opt.iskeyword:append("-") -- include - in words
 vim.opt.path:append("**") -- include subdirs in search
 vim.opt.selection = "inclusive" -- include last char in selection
-vim.opt.mouse = "a" -- enable mouse support
+vim.opt.mouse = "" -- disable mouse interaction
 -- clipboard separated: y/p = neovim internal, <leader>y/<leader>p = system
 vim.opt.modifiable = true -- allow buffer modifications
 vim.opt.encoding = "utf-8" -- set encoding
 
-vim.opt.guicursor =
-	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
 
 -- Folding: requires treesitter available at runtime; safe fallback if not
 vim.opt.foldmethod = "expr" -- use expression for folding

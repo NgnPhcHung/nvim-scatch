@@ -11,9 +11,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
-
 require("lazy").setup({
+
 	-- Theme
 	{
 		"sainnhe/everforest",
@@ -22,19 +21,45 @@ require("lazy").setup({
 			require("configs.theme")
 		end,
 	},
+  {
+    "wtfox/luna.nvim",
+    lazy = false,
+    priority= 1000,
+    opts= {}
+  },
 
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
 		config = function()
 			require("configs.treesitter")
 		end,
 	},
 
-	-- UI
-	{ "MunifTanjim/nui.nvim", lazy = true },
+	-- Git
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("configs.gitsigns")
+		end,
+	},
+	{
+		"NeogitOrg/neogit",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("configs.neogit")
+		end,
+	},
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
+		config = function()
+			require("configs.git-conflict")
+		end,
+	},
 
 	-- File explorer
 	{
@@ -45,43 +70,11 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 			"MunifTanjim/nui.nvim",
 		},
+		lazy = false, -- must load at startup for hijack_netrw_behavior
 		config = function()
 			require("configs.neo-tree")
 		end,
 	},
-	{
-		"nvim-telescope/telescope.nvim",
-	},
-
-	-- Git
-	{
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("configs.gitsigns")
-		end,
-	},
-	{ "nvim-lua/plenary.nvim", lazy = true },
-	{
-		"NeogitOrg/neogit",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("configs.neogit")
-		end,
-	},
-	{
-		"akinsho/git-conflict.nvim",
-		config = function()
-			require("configs.git-conflict")
-		end,
-	},
-
-	-- Mini
-	-- {
-	-- 	"echasnovski/mini.nvim",
-	-- 	config = function()
-	-- 		require("configs.mini")
-	-- 	end,
-	-- },
 
 	-- Fuzzy finder
 	{
@@ -93,42 +86,17 @@ require("lazy").setup({
 
 	-- LSP + Completion
 	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			require("configs.lsp")
-		end,
-	},
-	{
-		"mason-org/mason.nvim",
-		config = function()
-			require("configs.mason")
-		end,
-	},
-	{
 		"saghen/blink.cmp",
 		version = "1.*",
+		config = function()
+			require("configs.blink")
+		end,
 	},
-
-	{ "L3MON4D3/LuaSnip", lazy = true },
 
 	{
 		"stevearc/conform.nvim",
 		config = function()
 			require("configs.formatter")
-		end,
-	},
-
-	-- TypeScript
-	{
-		"pmizio/typescript-tools.nvim",
-		config = function()
-			require("configs.typescript-tools")
-		end,
-	},
-	{
-		"ThePrimeagen/99",
-		config = function()
-			require("configs.99")
 		end,
 	},
 
@@ -143,14 +111,28 @@ require("lazy").setup({
 	-- Markdown
 	{ "MeanderingProgrammer/render-markdown.nvim" },
 
-	-- comments
+	-- Indent scope
 	{
-		"numToStr/Comment.nvim",
-		dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
-		config = function()
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-			})
-		end,
+		"nvim-mini/mini.indentscope",
+		version = "*",
+		opts = {
+			symbol = "│",
+			options = { try_as_border = true },
+		},
+	},
+
+	-- AI region generation
+	{
+		"NgnPhcHung/shaerk.nvim",
+		keys = {
+			{ "<leader>ss", function() require("shaerk").run() end, desc = "shaerk generate" },
+			{ "<leader>sa", function() require("shaerk").run({ ask = true }) end, desc = "shaerk generate (ask)" },
+			{ "<leader>sx", function() require("shaerk").cancel() end, desc = "shaerk cancel" },
+			{ "<leader>ss", mode = "v", function()
+				vim.cmd("normal! \27")
+				require("shaerk").visual()
+			end, desc = "shaerk visual" },
+		},
+		opts = {},
 	},
 })
