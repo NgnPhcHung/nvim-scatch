@@ -5,6 +5,7 @@ end
 
 local M = {}
 
+-- Session keyed by workspace (cwd), not git branch
 local function session_file()
 	local cwd = vim.fn.getcwd()
 	local name = cwd:gsub("[/\\]", "%%")
@@ -18,7 +19,26 @@ local augroup = vim.api.nvim_create_augroup("Session", { clear = true })
 vim.api.nvim_create_autocmd("VimLeave", {
 	group = augroup,
 	callback = function()
-		vim.cmd("mksession! " .. vim.fn.fnameescape(session_file()))
+		-- only save when a real file buffer exists, otherwise quitting from
+		-- the dashboard overwrites the session with an empty one
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= "" then
+				vim.cmd("mksession! " .. vim.fn.fnameescape(session_file()))
+				return
+			end
+		end
+	end,
+})
+
+-- autoload session on start (only when nvim opened without file args)
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = augroup,
+	nested = true,
+	callback = function()
+		local sf = session_file()
+		if vim.fn.argc() == 0 and vim.fn.filereadable(sf) == 1 then
+			vim.cmd("silent! source " .. vim.fn.fnameescape(sf))
+		end
 	end,
 })
 

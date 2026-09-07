@@ -1,51 +1,45 @@
-local setup_treesitter = function()
-	local treesitter = require("nvim-treesitter")
-	treesitter.setup({})
-	local ensure_installed = {
+-- nvim-treesitter `main` branch: no setup() options, features are enabled per-buffer
+local parsers = {
+	"vim",
+	"vimdoc",
+	"html",
+	"css",
+	"javascript",
+	"json",
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"python",
+	"typescript",
+	"tsx",
+	"bash",
+	"c",
+}
+
+-- No-op when already installed; runs async
+require("nvim-treesitter").install(parsers)
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("Treesitter", { clear = true }),
+	pattern = {
 		"vim",
-		"vimdoc",
-		"rust",
-		"go",
+		"help",
 		"html",
 		"css",
 		"javascript",
+		"javascriptreact",
 		"json",
 		"lua",
 		"markdown",
 		"python",
 		"typescript",
-		"vue",
-		"svelte",
+		"typescriptreact",
+		"sh",
 		"bash",
-		"lua",
-		"python",
-	}
-
-	local config = require("nvim-treesitter.config")
-
-	local already_installed = config.get_installed()
-	local parsers_to_install = {}
-
-	for _, parser in ipairs(ensure_installed) do
-		if not vim.tbl_contains(already_installed, parser) then
-			table.insert(parsers_to_install, parser)
-		end
-	end
-
-	if #parsers_to_install > 0 then
-		treesitter.install(parsers_to_install)
-	end
-
-	local group = vim.api.nvim_create_augroup("TreeSitterConfig", { clear = true })
-	vim.api.nvim_create_autocmd("FileType", {
-		group = group,
-		callback = function(args)
-			if vim.list_contains(treesitter.get_installed(), vim.treesitter.language.get_lang(args.match)) then
-				vim.treesitter.start(args.buf)
-			end
-		end,
-	})
-end
-
-setup_treesitter()
-
+		"c",
+	},
+	callback = function(ev)
+		vim.treesitter.start(ev.buf)
+		vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	end,
+})

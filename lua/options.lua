@@ -1,10 +1,13 @@
 -- ============================================================================
 -- OPTIONS
 -- ============================================================================
+vim.g.c_syntax_for_h = 1 -- *.h is C, not C++
+
 vim.opt.number = true -- line number
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.cursorline = true -- highlight current line
-vim.opt.wrap = false -- do not wrap lines by default
+vim.opt.wrap = true -- do not wrap lines by default
+vim.opt.linebreak = true
 vim.opt.smoothscroll = true -- smooth scrolling when screen moves
 vim.opt.scrolloff = 10 -- keep 10 lines above/below cursor
 vim.opt.sidescrolloff = 10 -- keep 10 lines to left/right of cursor
@@ -23,7 +26,7 @@ vim.opt.incsearch = true -- show matches as you type
 
 vim.opt.signcolumn = "yes" -- always show a sign column
 vim.opt.colorcolumn = "100" -- show a column at 100 position chars
-vim.opt.showmatch = true -- highlights matching brackets
+vim.opt.showmatch = false -- no cursor jump to matching bracket on insert
 vim.opt.cmdheight = 1 -- single line command line
 vim.opt.completeopt = "menuone,noinsert,noselect" -- completion options
 vim.opt.showmode = false -- do not show the mode, instead have it in statusline
@@ -52,7 +55,7 @@ vim.opt.updatetime = 300 -- faster completion
 vim.opt.timeoutlen = 500 -- timeout duration
 vim.opt.ttimeoutlen = 0 -- key code timeout
 vim.opt.autoread = true -- auto-reload changes if outside of neovim
-vim.opt.autowrite = false -- do not auto-save
+vim.opt.autowrite = true -- do not auto-save
 
 vim.opt.hidden = true -- allow hidden buffers
 vim.opt.errorbells = false -- no error sounds
@@ -61,13 +64,12 @@ vim.opt.autochdir = false -- do not autochange directories
 vim.opt.iskeyword:append("-") -- include - in words
 vim.opt.path:append("**") -- include subdirs in search
 vim.opt.selection = "inclusive" -- include last char in selection
-vim.opt.mouse = "a" -- enable mouse support
+vim.opt.mouse = "" -- disable mouse interaction
 -- clipboard separated: y/p = neovim internal, <leader>y/<leader>p = system
 vim.opt.modifiable = true -- allow buffer modifications
 vim.opt.encoding = "utf-8" -- set encoding
 
-vim.opt.guicursor =
-	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
 
 -- Folding: requires treesitter available at runtime; safe fallback if not
 vim.opt.foldmethod = "expr" -- use expression for folding
