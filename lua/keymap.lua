@@ -4,7 +4,13 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "<esc><esc>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Escape edit mode" })
 
-vim.keymap.set("n", ";w", ":bdelete<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", ";w", function()
+	local is_last = #vim.fn.getbufinfo({ buflisted = 1 }) == 1
+	vim.cmd("bdelete")
+	if is_last then
+		vim.cmd("intro")
+	end
+end, { desc = "Close buffer" })
 
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
