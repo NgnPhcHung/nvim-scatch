@@ -21,12 +21,12 @@ require("lazy").setup({
 			require("configs.theme")
 		end,
 	},
-  {
-    "wtfox/luna.nvim",
-    lazy = false,
-    priority= 1000,
-    opts= {}
-  },
+	{
+		"wtfox/luna.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
 
 	-- Treesitter
 	{
@@ -125,14 +125,58 @@ require("lazy").setup({
 	{
 		"NgnPhcHung/shaerk.nvim",
 		keys = {
-			{ "<leader>ss", function() require("shaerk").run() end, desc = "shaerk generate" },
-			{ "<leader>sa", function() require("shaerk").run({ ask = true }) end, desc = "shaerk generate (ask)" },
-			{ "<leader>sx", function() require("shaerk").cancel() end, desc = "shaerk cancel" },
-			{ "<leader>ss", mode = "v", function()
-				vim.cmd("normal! \27")
-				require("shaerk").visual()
-			end, desc = "shaerk visual" },
+			{
+				"<leader>ss",
+				function()
+					require("shaerk").run()
+				end,
+				desc = "shaerk generate",
+			},
+			{
+				"<leader>sa",
+				function()
+					require("shaerk").run({ ask = true })
+				end,
+				desc = "shaerk generate (ask)",
+			},
+			{
+				"<leader>sx",
+				function()
+					require("shaerk").cancel()
+				end,
+				desc = "shaerk cancel",
+			},
+			{
+				"<leader>ss",
+				mode = "v",
+				function()
+					vim.cmd("normal! \27")
+					require("shaerk").visual()
+				end,
+				desc = "shaerk visual",
+			},
 		},
 		opts = {},
+	},
+
+	-- Debugs
+	{
+
+		"mfussenegger/nvim-dap",
+		keys = { { "s", desc = "debugger prefix" } },
+		configs = function()
+			require("configs.nvim-dap")
+		end,
+		dependencies = {
+			{
+				"rcarriga/nvim-dap-ui",
+				config = function()
+					require("conifgs.nvim-dap-ui")
+				end,
+			},
+			{ "nvim-neotest/nvim-nio" },
+			{ "theHamsta/nvim-dap-virtual-text" },
+			{ "jbyuki/one-small-step-for-vimkind" },
+		},
 	},
 })
